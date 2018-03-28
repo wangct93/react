@@ -1,0 +1,151 @@
+
+/*颜色区域*/
+@activeColor:#00a4ff;
+@headerBgColor:#2a303c;
+@white:#fff;
+@borderColor:#ccc;
+
+
+
+.container {
+    overflow: auto;
+}
+.header {
+    height: 50px;
+    .flex-box;
+    align-items: center;
+    justify-content: center;
+    background-color: @headerBgColor;
+}
+
+
+.footer-box{
+    height: 50px;
+    .text-center;
+    .pd20;
+    background-color: @headerBgColor;
+    color: @white;
+}
+
+.paging-box{
+    .pdtb20;
+}
+
+img{
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+}
+
+a{
+    color: inherit;
+}
+
+.center-area{
+    width: 1000px;
+}
+
+.b-btn{
+    .inline;
+    .pdlr20;
+    .cur-pointer;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    background-color: @activeColor;
+    color: @white;
+    &:hover{
+        background-color: desaturate(@activeColor,20%);
+    }
+}
+
+.inline{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.flex-box {
+    display: flex;
+}
+.cur-pointer {
+    cursor: pointer;
+}
+.text-center {
+    text-align: center;
+}
+.pos-rel {
+    position: relative;
+}
+.pos-abs {
+    position: absolute;
+}
+.bold{
+    font-weight: bold;
+}
+.overflow-hide{
+    overflow: hidden;
+}
+.border-box{
+    box-sizing: border-box;
+}
+
+.border-bottom{
+    border-bottom:1px solid @borderColor;
+}
+
+.mglr10 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.mgtb10{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.mgb20{
+    margin-bottom: 20px;
+}
+.mgt20{
+    margin-top: 20px;
+}
+.mglr20 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.mgl20{
+    margin-left: 20px;
+}
+
+.pdlr10{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.pdb20{
+    padding-bottom: 20px;
+}
+.pdlr20{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.pdtb20{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.pd20 {
+    padding: 20px;
+}
+
+
+
+.font14 {
+    font-size: 14px;
+}
+.font16 {
+    font-size: 16px;
+}
+
+.font20{
+    font-size: 20px;
+}
+
+

@@ -1,0 +1,110 @@
+/*颜色区域*/
+.container {
+  overflow: auto;
+}
+.container .header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a303c;
+}
+.container .header .nav-list > li {
+  transition: color .4s;
+  color: #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.container .header .nav-list > li:hover,
+.container .header .nav-list > li.active {
+  color: #00a4ff;
+}
+img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+.center-area {
+  width: 1000px;
+}
+.b-btn {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  background-color: #00a4ff;
+  color: #fff;
+}
+.b-btn:hover {
+  background-color: #00a4ff;
+}
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+.flex-box {
+  display: flex;
+}
+.cur-pointer {
+  cursor: pointer;
+}
+.text-center {
+  text-align: center;
+}
+.pos-rel {
+  position: relative;
+}
+.pos-abs {
+  position: absolute;
+}
+.bold {
+  font-weight: bold;
+}
+.overflow-hide {
+  overflow: hidden;
+}
+.border-box {
+  box-sizing: border-box;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+.mglr10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.mgtb10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.mgb20 {
+  margin-bottom: 20px;
+}
+.mglr20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.pdlr10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.pdlr20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.pd20 {
+  padding: 20px;
+}
+.font14 {
+  font-size: 14px;
+}
+.font16 {
+  font-size: 16px;
+}

@@ -1,0 +1,225 @@
+/*颜色区域*/
+.container {
+  overflow: auto;
+}
+.header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a303c;
+}
+.footer-box {
+  height: 50px;
+  text-align: center;
+  padding: 20px;
+  background-color: #2a303c;
+  color: #fff;
+}
+.paging-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+.center-area {
+  width: 1000px;
+}
+.b-btn {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  background-color: #00a4ff;
+  color: #fff;
+}
+.b-btn:hover {
+  background-color: #199de6;
+}
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+.flex-box {
+  display: flex;
+}
+.cur-pointer {
+  cursor: pointer;
+}
+.text-center {
+  text-align: center;
+}
+.pos-rel {
+  position: relative;
+}
+.pos-abs {
+  position: absolute;
+}
+.bold {
+  font-weight: bold;
+}
+.overflow-hide {
+  overflow: hidden;
+}
+.border-box {
+  box-sizing: border-box;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+.mglr10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.mgtb10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.mgb20 {
+  margin-bottom: 20px;
+}
+.mgt20 {
+  margin-top: 20px;
+}
+.mglr20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.mgl20 {
+  margin-left: 20px;
+}
+.pdlr10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.pdb20 {
+  padding-bottom: 20px;
+}
+.pdlr20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.pdtb20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.pd20 {
+  padding: 20px;
+}
+.font14 {
+  font-size: 14px;
+}
+.font16 {
+  font-size: 16px;
+}
+.font20 {
+  font-size: 20px;
+}
+.body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.fit {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.info-container {
+  display: flex;
+}
+.info-container .imgbox {
+  width: 150px;
+  height: 200px;
+}
+.info-container .imgbox img {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.info-container .info-box {
+  flex: 1 auto;
+  margin-left: 20px;
+}
+.info-container h2 {
+  font-size: 32px;
+}
+.info-container h2 small {
+  font-weight: normal;
+  font-size: 14px;
+  margin-left: 20px;
+  vertical-align: text-bottom;
+}
+.info-container .btn-box {
+  display: flex;
+  justify-content: space-between;
+}
+.type-box {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.type-item {
+  border: 1px solid #a6b1cc;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 15px;
+  border-radius: 10px;
+  color: #a6b1cc;
+  margin-right: 10px;
+}
+.info-state {
+  line-height: 20px;
+  margin: 10px 0;
+}
+.nav-list {
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  padding-bottom: 1px;
+  border-bottom: 1px solid #ccc;
+}
+.nav-list > li {
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100%;
+  border-bottom: 2px solid transparent;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  color: #999;
+}
+.nav-list > li:hover,
+.nav-list > li.active {
+  border-bottom-color: #00a4ff;
+  color: #00a4ff;
+}
+.intro-box {
+  line-height: 30px;
+  white-space: normal;
+  font-size: 16px;
+  padding: 20px;
+}
+.chapter-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+.chapter-list > li {
+  width: 25%;
+  line-height: 40px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chapter-list .text-btn {
+  color: #333;
+}

@@ -1,0 +1,351 @@
+/*颜色区域*/
+.container {
+  overflow: auto;
+}
+.header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a303c;
+}
+.footer-box {
+  height: 50px;
+  text-align: center;
+  padding: 20px;
+  background-color: #2a303c;
+  color: #fff;
+}
+.paging-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+a {
+  color: inherit;
+}
+.center-area {
+  width: 1000px;
+}
+.b-btn {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  background-color: #00a4ff;
+  color: #fff;
+}
+.b-btn:hover {
+  background-color: #199de6;
+}
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+.flex-box {
+  display: flex;
+}
+.cur-pointer {
+  cursor: pointer;
+}
+.text-center {
+  text-align: center;
+}
+.pos-rel {
+  position: relative;
+}
+.pos-abs {
+  position: absolute;
+}
+.bold {
+  font-weight: bold;
+}
+.overflow-hide {
+  overflow: hidden;
+}
+.border-box {
+  box-sizing: border-box;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+.mglr10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.mgtb10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.mgb20 {
+  margin-bottom: 20px;
+}
+.mgt20 {
+  margin-top: 20px;
+}
+.mglr20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.mgl20 {
+  margin-left: 20px;
+}
+.pdlr10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.pdb20 {
+  padding-bottom: 20px;
+}
+.pdlr20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.pdtb20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.pd20 {
+  padding: 20px;
+}
+.font14 {
+  font-size: 14px;
+}
+.font16 {
+  font-size: 16px;
+}
+.font20 {
+  font-size: 20px;
+}
+.nav-list > a {
+  transition: color .4s;
+  color: #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.nav-list > a:hover,
+.nav-list > a.active {
+  color: #00a4ff;
+}
+.home-box .explain-box {
+  height: 300px;
+  background-color: #1f2431;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+}
+.home-box .nav-bg-list {
+  display: flex;
+  justify-content: center;
+}
+.home-box .nav-bg-list > li {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px 0 35px;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.home-box .nav-bg-list > li:hover,
+.home-box .nav-bg-list > li.active {
+  background-color: #00a4ff;
+  color: #fff;
+}
+.home-box .nav-bg-list > li:hover .iconfont,
+.home-box .nav-bg-list > li.active .iconfont {
+  color: #fff;
+}
+.home-box .nav-bg-list .iconfont {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  margin-top: -8px;
+  line-height: 16px;
+  font-size: 16px;
+}
+.home-box .home-content {
+  min-height: 200px;
+}
+.home-box .home-content .home-list {
+  padding-top: 20px;
+  column-count: 3;
+  column-gap: 0;
+}
+.home-box .home-content .home-list > li {
+  box-sizing: border-box;
+  padding: 0 20px 30px 20px;
+  -webkit-column-break-inside: avoid;
+}
+.home-box .home-content .home-item {
+  border: 1px solid #ccc;
+}
+.home-box .home-content .story-item h2 small {
+  margin-left: 10px;
+  font-weight: normal;
+  vertical-align: -2px;
+}
+.home-box .home-content .img-box img {
+  width: 100%;
+}
+.home-box .home-content .text-box {
+  padding: 20px;
+  white-space: normal;
+}
+.home-box .home-content .text-box h2 {
+  line-height: 30px;
+}
+.home-box .home-content .text-box .home-intro {
+  white-space: normal;
+  line-height: 24px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.story-box .search-wrap {
+  padding: 20px;
+}
+.story-box .story-content {
+  min-height: 300px;
+  position: relative;
+}
+.story-box .story-content .story-list-head {
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  font-size: 14px;
+}
+.story-box .story-control-box {
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+.story-box .story-control-box h2 {
+  padding: 0 15px;
+}
+.story-box .story-control-box .view-btn-list {
+  display: flex;
+  align-self: center;
+}
+.story-box .story-control-box .view-btn-list > a {
+  margin-left: 10px;
+  padding: 4px;
+  cursor: pointer;
+}
+.story-box .story-control-box .view-btn-list > a:hover {
+  background-color: #ddd;
+}
+.story-box .story-control-box .view-btn-list > a.active {
+  background-color: transparent;
+  cursor: auto;
+}
+.story-box .story-control-box .view-btn-list > a.active .iconfont {
+  color: #00a4ff;
+}
+.story-box .story-control-box .view-btn-list .iconfont {
+  font-size: 20px;
+  line-height: 20px;
+  display: block;
+}
+.story-list > li {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+.story-list .img-box {
+  width: 120px;
+  height: 160px;
+  flex: 0 0 auto;
+}
+.story-list .story-info-box {
+  margin: 0 15px;
+  white-space: normal;
+  font-size: 14px;
+}
+.story-list .story-info-text {
+  vertical-align: middle;
+  color: grey;
+}
+.story-list .story-info-text .iconfont {
+  margin-right: 5px;
+}
+.story-list .story-sep {
+  height: 14px;
+  background-color: #ccc;
+  width: 2px;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0 10px;
+}
+.story-list .story-info {
+  margin-bottom: 10px;
+}
+.story-list .story-intro {
+  line-height: 24px;
+}
+.story-list .story-op-box {
+  width: 100px;
+  align-self: flex-end;
+  flex: 0 0 auto;
+  text-align: right;
+}
+.story-list h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+.story-btn {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px;
+  color: #fff;
+  background-color: #00a4ff;
+  cursor: pointer;
+}
+.story-btn:hover {
+  background-color: #0083cc;
+  color: #fff;
+}
+.sort-list {
+  flex: 1;
+  display: flex;
+  padding-left: 30px;
+}
+.sort-list > li {
+  margin: 0 10px;
+  position: relative;
+}
+.sort-list > li > a {
+  cursor: pointer;
+}
+.sort-list > li.active {
+  color: #00a4ff;
+}
+.sort-list > li.active:before,
+.sort-list > li.active:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #ccc;
+  margin-left: -8px;
+}
+.sort-list > li.active:after {
+  bottom: -3px;
+  border-bottom-color: #fff;
+}
