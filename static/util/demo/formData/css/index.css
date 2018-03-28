@@ -1,0 +1,12 @@
+
+
+.box{
+    width: 300px;
+    margin: 50px auto;
+}
+
+.td-name{
+    width: 80px;
+    text-align: right;
+    padding: 10px;
+}

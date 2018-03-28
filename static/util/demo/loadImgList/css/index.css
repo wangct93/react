@@ -1,0 +1,12 @@
+
+.container{
+    white-space: normal;
+}
+.imgbox{
+    width: 100px;
+    height: 80px;
+    margin:10px;
+    position: relative;
+    border: 1px solid #ccc;
+    display: inline-block;
+}

@@ -1,0 +1,39 @@
+
+
+
+
+
+.list{
+    font-size: 0;
+    padding: 20px 0 0 20px;
+    width: 300px;
+    white-space: normal;
+}
+.dragsort-elem{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 40px;
+    line-height: 40px;
+    width: 40px;
+    text-align: center;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 20px;
+    margin: 0 20px 20px 0;
+    cursor: move;
+}
+
+.drag-active:after,
+.drag-active-left:after{
+    content:'';
+    position: absolute;
+    background-color: #1e88e5;
+    height: 100%;
+    width: 2px;
+    top: 0;
+    right: -10px;
+}
+.drag-active-left:after{
+    left:-10px;
+}

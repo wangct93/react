@@ -1,0 +1,15 @@
+.w-e-text-container,
+.w-e-toolbar{
+    white-space: normal;
+}
+.w-e-toolbar{
+    flex-flow:wrap;
+    justify-content: flex-start;
+}
+.w-e-droplist{
+    z-index: 1002;
+}
+.w-e-text img{
+    width: auto;
+    height: auto;
+}

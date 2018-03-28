@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link href="../../css/common.css" rel="stylesheet">
+    <link href="font/iconfont.css" rel="stylesheet">
+    <script src="../../js/util.js"></script>
+    <style>
+        .box{
+            padding: 20px;
+        }
+        .box > div{
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            var ary = [
+                ['icon-duihao'],
+                ['icon-cha2'],
+                ['icon-zhcc_jiahao','icon--jiahao','icon-022caozuo_jiahao','icon-jiahao5','icon-jiahao4','icon-jiahao3','icon-jiahao2','icon-jiahaocu','icon-jiahao1','icon-jiahao','icon-iconfonticon02','icon-iconfontadd']
+            ]
+            var html = '';
+            ary.forEach(function(temp){
+                html += '<div>';
+                temp.forEach(function(iconCls){
+                    html += '<a class="w-btn">' +
+                        '<i class="iconfont '+ iconCls +'"></i>' +
+                        '测试</a>';
+                });
+                html += '</div>';
+            });
+
+            $('#box').html(html);
+        }
+    </script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="box" id="box"></div>
+</div>
+</body>
+</html>

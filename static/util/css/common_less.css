@@ -1,0 +1,903 @@
+body {
+  font: 12px Microsoft YaHei, arial, '宋体', sans-serif;
+  white-space: nowrap;
+  word-break: break-all;
+}
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+blockquote {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style-type: none;
+}
+textarea,
+input {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #ccc;
+  outline: none;
+  padding-left: 5px;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+textarea {
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+}
+input[type=checkbox],
+input[type=radio] {
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  outline: none;
+}
+img,
+label {
+  vertical-align: middle;
+}
+img,
+iframe,
+object,
+video,
+audio {
+  width: 100%;
+  height: 100%;
+}
+.object-iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+iframe {
+  display: block;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+.inline-m {
+  display: inline-block;
+  vertical-align: middle;
+}
+.clearfix:after {
+  display: block;
+  content: '';
+  clear: both;
+  height: 0;
+}
+.v-mid {
+  vertical-align: middle;
+}
+.v-mid-box:after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.v-top {
+  vertical-align: top;
+}
+.mid-text {
+  font-size: 12px;
+  vertical-align: middle;
+}
+.container {
+  box-sizing: border-box;
+  position: relative;
+  background-color: #fff;
+}
+.center-area {
+  width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+hr {
+  background-color: #ccc;
+  height: 1px;
+  border-width: 0;
+  margin: 10px 0;
+}
+.copyright {
+  font: 12px 'Microsoft YaHei';
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑初始化样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/******************************重要结构***************************************/
+.w-panel {
+  display: none;
+}
+.w-panel.active {
+  display: block;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑重要结构↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/***************通用按钮***************************/
+.w-btn {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 10px 0 30px;
+  cursor: pointer;
+  font-size: 12px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  margin-left: 10px;
+}
+.w-btn:first-child {
+  margin-left: 0;
+}
+.w-btn:hover {
+  background-color: #e6e6e6;
+  border-color: #b3b3b3;
+}
+.w-btn.w-btn-noicon {
+  padding-left: 10px;
+  background-image: none !important;
+}
+.w-btn.w-btn-notext {
+  padding: 0 10px;
+  background-position: center;
+  font-size: 0;
+}
+.w-btn .iconfont {
+  color: #00a4ff;
+  position: absolute;
+  line-height: 16px;
+  height: 16px;
+  top: 50%;
+  margin-top: -8px;
+  left: 10px;
+}
+.w-btn-blue {
+  background-color: #00a4ff;
+  border-width: 0;
+  color: #fff;
+}
+.w-btn-blue:hover {
+  background-color: #0083cc;
+}
+.text-btn {
+  cursor: pointer;
+  font-size: 12px;
+  color: #00a4ff;
+}
+.text-btn:hover {
+  text-decoration: underline;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑通用按钮↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/**************************带图标的文字***************************/
+.img-text {
+  padding-left: 20px;
+  background: left center no-repeat;
+  font-size: 12px;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑带图标的文字↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/**************************自适应高度布局***************************/
+.fit,
+.fit-height,
+.fit-width {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.fit-height {
+  width: auto;
+}
+.fit-width {
+  height: auto;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑自适应高度布局↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/***************************弹性布局*******************************/
+.flex-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑弹性布局↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/***************************表单样式*******************************/
+.info-table {
+  width: 100%;
+  table-layout: fixed;
+}
+.info-table td {
+  height: 30px;
+}
+.info-table .td-name {
+  width: 80px;
+  text-align: right;
+}
+.tr-hidden > td {
+  height: 0 !important;
+  border-width: 0 1px !important;
+  padding: 0 !important;
+  font-size: 0;
+}
+.table-input {
+  width: 100%;
+  height: 26px;
+  line-height: 24px;
+}
+.table-textarea {
+  width: 100%;
+  height: 60px;
+}
+.mutil-name {
+  vertical-align: top;
+  line-height: 30px;
+}
+.mutil-value {
+  padding: 5px 0;
+  box-sizing: border-box;
+  min-height: 30px;
+  line-height: 20px;
+  white-space: normal;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑表单样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/***************************列表table************************/
+.list-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+.list-table-td {
+  height: 34px;
+  padding: 0 10px;
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-table-head .list-table-td {
+  font-weight: bold;
+  font-size: 14px;
+}
+.list-table-body .list-table-tr:hover {
+  background-color: #f1f1f1;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑列表table↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*************************item默认样式*****************************/
+.item-list {
+  padding: 10px 0 0 10px;
+}
+.item {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px 10px 0;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑item默认样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*************************下拉菜单*****************************/
+.combo-box {
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 80;
+  user-select: none;
+}
+.combo-input {
+  border-width: 0;
+  padding-right: 20px;
+}
+.combo-right-icon {
+  position: absolute;
+  height: 100%;
+  width: 18px;
+  right: 0;
+  top: 0;
+  background-color: #eee;
+  opacity: .6;
+  cursor: pointer;
+}
+.combo-right-icon:hover {
+  opacity: 1;
+}
+.combo-right-icon > .iconfont {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -8px 0 0 -8px;
+}
+.combo-content {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  width: 100%;
+}
+.combo-list {
+  border: 1px solid #ccc;
+  overflow: auto;
+  background-color: #fff;
+}
+.combo-list > li {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 10px;
+}
+.combo-list > li:hover {
+  background-color: #e6e6e6;
+}
+.combo-list > li.active {
+  background-color: #00a4ff;
+  color: #fff;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑下拉菜单↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/******************************图片下方说明*************************/
+.img-explain-box {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 26px;
+  line-height: 26px;
+}
+.img-explain {
+  position: relative;
+  z-index: 20;
+  color: #fff;
+  padding: 0 10px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑图片下方说明↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/**************************三角形********************************/
+.triangle {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.triangle:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 8px solid transparent;
+}
+.triangle-top:before {
+  margin: -5px 0 0 -8px;
+  border-width: 0 8px 10px 8px;
+  border-bottom-color: #aaa;
+}
+.triangle-bottom:before {
+  margin: -5px 0 0 -8px;
+  border-width: 10px 8px 0 8px;
+  border-top-color: #aaa;
+}
+.triangle-left:before {
+  margin: -8px 0 0 -5px;
+  border-width: 8px 10px 8px 0;
+  border-right-color: #aaa;
+}
+.triangle-right:before {
+  margin: -8px 0 0 -5px;
+  border-width: 8px 0 8px 10px;
+  border-left-color: #aaa;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑三角形↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/**************************自定义提示弹窗********************************/
+.mask-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+}
+.mask-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: #000;
+  opacity: .3;
+  filter: alpha(opacity=30);
+}
+.prompt-box {
+  position: absolute;
+  width: 300px;
+  border: 1px solid #d3d3d3;
+  background-color: #f3f3f3;
+  left: 50%;
+  top: 50%;
+  z-index: 20;
+  overflow: visible;
+}
+.prompt-header {
+  height: 34px;
+  line-height: 34px;
+  border-bottom: 1px solid #d3d3d3;
+  position: relative;
+  padding-left: 15px;
+  color: #888989;
+  font-weight: bold;
+  cursor: move;
+}
+.prompt-toolbox {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  height: 16px;
+  margin-top: -8px;
+  line-height: normal;
+}
+.prompt-tool {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  background: center no-repeat;
+  opacity: .6;
+  filter: alpha(opacity=60);
+  cursor: pointer;
+  border-radius: 3px;
+}
+.prompt-tool:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  background-color: #e2e2e2;
+}
+.icon-win-close {
+  background: url('../img/panel_tools.png') no-repeat -16px 0;
+}
+.prompt-btnbox {
+  padding: 10px;
+  border-top: 1px solid #d3d3d3;
+  text-align: right;
+  background-color: #f9f9f9;
+}
+.prompt-body {
+  padding-bottom: 82px;
+  margin-bottom: -82px;
+  background-color: #fff;
+}
+.prompt-content {
+  background-color: #fff;
+  padding: 20px;
+  font-size: 0;
+}
+.prompt-icon,
+.prompt-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+.prompt-icon {
+  width: 34px;
+  height: 34px;
+  background: url("../img/question.png") center no-repeat;
+}
+.prompt-text {
+  padding: 0 34px 0 20px;
+  font-size: 12px;
+  white-space: normal;
+  word-break: break-all;
+}
+.icon-ok {
+  background-image: url("../img/ok.png");
+}
+.icon-close {
+  background-image: url('../img/delete.png');
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑自定义提示弹窗↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*******************************分页************************/
+.paging-box {
+  font-size: 0;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.paging-box-center {
+  text-align: center;
+}
+.paging-box-right {
+  text-align: right;
+}
+.paging-pagebox {
+  display: inline-block;
+  vertical-align: top;
+}
+.paging-message,
+.paging-item,
+.paging-btn,
+.paging-input {
+  display: inline-block;
+  vertical-align: middle;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  border: 1px solid #ddd;
+  margin-left: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.paging-message {
+  border-width: 0;
+  cursor: auto;
+}
+.paging-item {
+  width: 34px;
+}
+.paging-btn {
+  padding: 0 15px;
+}
+.paging-btn:first-child {
+  margin-left: 0;
+}
+.paging-item:hover,
+.paging-btn:hover {
+  background-color: #eee;
+}
+.active.paging-item {
+  background-color: #7bb4fb;
+  border-color: #7bb4fb;
+  color: #fff;
+  cursor: auto;
+}
+.paging-diasbaled.paging-btn {
+  background-color: #f1f1f1;
+  color: #ccc;
+  cursor: not-allowed;
+}
+.paging-input {
+  width: 30px;
+  cursor: auto;
+  padding: 0;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑分页↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/****************************放大镜******************************/
+.magnify-slider {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+.magnify-view,
+.magnify-img {
+  position: absolute;
+  z-index: 100;
+  overflow: hidden;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑放大镜↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/***************************tabs选项卡*******************************/
+.tab-box {
+  height: 40px;
+  line-height: 40px;
+  font-size: 0;
+  border-bottom: 1px solid #ccc;
+  padding-left: 15px;
+}
+.tab-item {
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+  border: 1px solid #ccc;
+  margin: -1px -1px 0 0;
+  font-size: 12px;
+  padding: 0 20px;
+  cursor: pointer;
+}
+.tab-item:hover {
+  background-color: #f1f1f1;
+}
+.active.tab-item {
+  border-bottom-color: #fff;
+  background-color: #fff;
+  cursor: auto;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑tabs选项卡↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*****************************文字提示***********************/
+.text-tip {
+  position: absolute;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 10px;
+  color: #fff;
+  font-size: 12px;
+  background-color: #303030;
+  border-radius: 5px;
+  visibility: hidden;
+}
+.text-tip:before {
+  content: '';
+  position: absolute;
+  border-color: transparent;
+  border-style: solid;
+}
+.text-tip-left {
+  right: 100%;
+  top: 50%;
+  margin: -17px 20px 0 0;
+}
+.text-tip-left:before {
+  right: -6px;
+  top: 50%;
+  margin-top: -6px;
+  border-width: 6px 0 6px 6px;
+  border-left-color: #303030;
+}
+.text-tip-right {
+  left: 100%;
+  top: 50%;
+  margin: -17px 0 0 20px;
+}
+.text-tip-right:before {
+  left: -6px;
+  top: 50%;
+  margin-top: -6px;
+  border-width: 6px 6px 6px 0;
+  border-right-color: #303030;
+}
+.text-tip-top {
+  left: 50%;
+  bottom: 100%;
+  margin: 0 0 20px -35px;
+}
+.text-tip-top:before {
+  left: 50%;
+  bottom: -6px;
+  margin-left: -6px;
+  border-width: 6px 6px 0 6px;
+  border-top-color: #303030;
+}
+.text-tip-bottom {
+  left: 50%;
+  top: 100%;
+  margin: 20px 0 0 -35px;
+}
+.text-tip-bottom:before {
+  left: 50%;
+  top: -6px;
+  margin-left: -6px;
+  border-width: 0 6px 6px 6px;
+  border-bottom-color: #303030;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑文字提示↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/******************查询输入框***********************/
+.search-box {
+  width: 450px;
+  height: 40px;
+  margin: 0 auto;
+  position: relative;
+}
+.search-input {
+  padding-left: 15px;
+  border-radius: 6px;
+}
+.search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  line-height: 24px;
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: -12px;
+  opacity: .6;
+}
+.search-btn:hover {
+  opacity: 1;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑查询输入框↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/******************************框选样式*************************************/
+.rect-box {
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 1;
+  border: 2px solid #00a4ff;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑框选样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*****************************操作处理中文字样式***********************/
+.loading-wrap {
+  left: 0;
+  top: 0;
+  z-index: 100;
+  background-color: #fff;
+}
+.process-text {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 15px 10px 15px 50px;
+  font-size: 12px;
+  line-height: 20px;
+  background: #fff url('../img/loading.gif') 10px center no-repeat;
+  z-index: 10;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑操作处理中文字样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*******************************图标样式************************/
+.w-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑图标样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*******************************其他************************/
+.item-text {
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  padding-left: 100%;
+  font-size: 400px;
+  opacity: 0;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑其他↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+/*******************************通用样式************************/
+.pd0 {
+  padding: 0 !important;
+}
+.pdlr0 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.pd2 {
+  padding: 2px !important;
+}
+.pdlr2 {
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+.pdlr8 {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+.pdlr10 {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.pdt10 {
+  padding-top: 10px !important;
+}
+.pdl10 {
+  padding-left: 10px !important;
+}
+.pd20 {
+  padding: 20px !important;
+}
+.pdt20 {
+  padding-top: 20px!important;
+}
+.mg0 {
+  margin: 0 !important;
+}
+.mgr5 {
+  margin-right: 5px !important;
+}
+.mgl0 {
+  margin-left: 0 !important;
+}
+.mgb5 {
+  margin-bottom: 5px !important;
+}
+.mgl10 {
+  margin-left: 10px !important;
+}
+.mglr10 {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+}
+.mgb10 {
+  margin-bottom: 10px !important;
+}
+.mglr20 {
+  margin-right: 20px !important;
+  margin-left: 20px !important;
+}
+.mgt20 {
+  margin-top: 20px !important;
+}
+.mgb25 {
+  margin-bottom: 25px !important;
+}
+.font0 {
+  font-size: 0;
+}
+.font12 {
+  font-size: 12px;
+}
+.font14 {
+  font-size: 14px;
+}
+.font16 {
+  font-size: 16px;
+}
+.font18 {
+  font-size: 18px;
+}
+.font30 {
+  font-size: 30px;
+}
+.bold {
+  font-weight: bold;
+}
+.ws-normal {
+  white-space: normal;
+}
+.ws-nowrap {
+  white-space: nowrap;
+}
+.text-center {
+  text-align: center;
+}
+.hide {
+  display: none;
+}
+.vis-hide {
+  visibility: hidden;
+}
+.pos-abs {
+  position: absolute;
+}
+.pos-rel {
+  position: relative;
+}
+.pos-fixed {
+  position: fixed;
+}
+.oflow-hide {
+  overflow: hidden;
+}
+.oflow-auto {
+  overflow: auto;
+}
+.cur-pointer {
+  cursor: pointer;
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+.lt0 {
+  left: 0;
+  top: 0;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.border {
+  border: 1px solid #ccc;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑通用样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/

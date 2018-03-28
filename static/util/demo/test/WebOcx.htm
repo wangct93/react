@@ -1,0 +1,433 @@
+<html>
+<head>
+    <title>视频监控</title>
+</head>
+<script language="javascript">
+    function loadXML(xmlString) {
+        var xmlDoc = null;
+        if (!window.DOMParser && window.ActiveXObject) {   //window.DOMParser 判断是否是非ie浏览器
+            var xmlDomVersions = ['MSXML.2.DOMDocument.6.0', 'MSXML.2.DOMDocument.3.0', 'Microsoft.XMLDOM'];
+            for (var i = 0; i < xmlDomVersions.length; i++) {
+                try {
+                    xmlDoc = new ActiveXObject(xmlDomVersions[i]);
+                    xmlDoc.async = false;
+                    xmlDoc.loadXML(xmlString); //loadXML方法载入xml字符串
+                    break;
+                } catch (e) {
+                }
+            }
+        }
+        else if (window.DOMParser && document.implementation && document.implementation.createDocument) {//支持Mozilla浏览器
+            try {
+                /* DOMParser 对象解析 XML 文本并返回一个 XML Document 对象。
+                 * 要使用 DOMParser，使用不带参数的构造函数来实例化它，然后调用其 parseFromString() 方法
+                 * parseFromString(text, contentType) 参数text:要解析的 XML 标记 参数contentType文本的内容类型
+                 * 可能是 "text/xml" 、"application/xml" 或 "application/xhtml+xml" 中的一个。注意，不支持 "text/html"。
+                 */
+                domParser = new DOMParser();
+                xmlDoc = domParser.parseFromString(xmlString, 'text/xml');
+            } catch (e) {
+            }
+        }
+        else {
+            return null;
+        }
+
+        return xmlDoc;
+    }
+
+    /**
+       * 把时间字符串转换成绝对时间
+      *
+       * @param datastr 时间格式为：2012-12-26 16:46:46
+       * @return
+       */
+    function timeExchange(datastr) {
+        var date = new Date();
+        var perfex = datastr.split(" ")[0];
+        var surfex = datastr.split(" ")[1]
+        if (perfex) {
+            var y = perfex.split("-")[0] / 1;
+            //因为月是从0开始的，所以减一
+            var m = perfex.split("-")[1] / 1 - 1;
+            var d = perfex.split("-")[2] / 1;
+            date.setFullYear(y, m, d);
+        }
+        if (surfex) {
+            var h = surfex.split(":")[0] / 1;
+            var m = surfex.split(":")[1] / 1;
+            var s = surfex.split(":")[2] / 1;
+            date.setHours(h, m, s, 0);
+        }
+        return date.getTime() / 1000;
+    }
+
+    function login() {
+        webocx.Initialize(1, 1, 1, 65535);
+        var addr = document.getElementById("uasAddress").value;
+        var user = document.getElementById("user").value;
+        var pwd = document.getElementById("pwd").value;
+        webocx.LoginUAS(addr, 5555, user, pwd, 0, 0, 0, 0);
+    }
+
+    function Relogin() {
+        webocx.ReLoginUAS();
+    }
+
+    function logout() {
+        webocx.LogoutUAS();
+    }
+
+    function SetConfigParam() {
+        var name = document.getElementById("name").value;
+        var value = document.getElementById("value").value;
+        webocx.SetConfigParam(name, value);
+    }
+
+    function GetConfigParam() {
+        var name = document.getElementById("name").value;
+        document.getElementById("value").value = webocx.GetConfigParam(name);
+    }
+
+    function StartMonitor() {
+        var cameraID = document.getElementById("cameraID").value;
+        webocx.StartMonitor(cameraID, 0, 0, 0, 0, 0);
+    }
+
+    function StopMonitor() {
+        var cameraID = document.getElementById("cameraID").value;
+        webocx.StopMonitor(cameraID, 1);
+    }
+
+
+    function Snapshot() {
+    //    webocx.DeleteOldFile("C:\\Users\\huhon\\Documents\\GlobalEye\\Picture", "*.jpg", "2017-09-27 12:00:00");
+        var cameraID = document.getElementById("cameraID").value;
+        var filePath = webocx.Snapshot(cameraID, "d:\\snap.jpg");
+    }
+    function LocalRecord() {
+        var cameraID = document.getElementById("cameraID").value;
+        var filePath = webocx.StartLocalRecord(cameraID, "d:\\1.nsf", 5000);
+    }
+    function StopLocalRecord() {
+        var cameraID = document.getElementById("cameraID").value;
+        var filePath = webocx.StopLocalRecord(cameraID);
+    }
+    function ShowRecordInfoDlg() {
+        var cameraID = document.getElementById("cameraID").value;
+        var filePath = webocx.ShowRecordInfoDlgEx("200000-200000001200011881-0001-0001:0:0;\
+        200000-200000000100011801-0001-0003:1:0;\
+        200000-200000000100011801-0001-0004:2:0;\
+        200000-200000001200011882-0001-0001:3:0;\
+        200000-200000001200011890-0001-0001:4:0;\
+        200000-200000000100011811-0001-0001:5:0;\
+        200000-200000000100011811-0001-0002:6:0;\
+        200000-200000000100011811-0001-0003:7:0;\
+        200000-200000000100011811-0001-0004:8:0;\
+        200000-200000001200011884-0001-0001:9:0;\
+        200000-200000001200011891-0001-0001:10:0;\
+        ", "www.baidu.com", "123");
+        //var filePath = webocx.ShowRecordInfoDlgEx("200000-200000000100011801-0001-0003:1:1450195200", "", "123");
+    }
+
+    function QueryRecord() {
+        var cameraID = document.getElementById("cameraID").value;
+        var begin = document.getElementById("startTime").value;
+        var end = document.getElementById("endTime").value;
+        webocx.QueryRecordList(cameraID, 1, 1, 1, timeExchange(begin), timeExchange(end), 0);
+    }
+
+    function PlaybackRecord(idx) {
+        alert("PlaybackRecord item" + idx);
+
+        webocx.SVPlayback(document.getElementById("rec" + idx + "_1").innerHTML,
+        document.getElementById("rec" + idx + "_2").innerHTML,
+        document.getElementById("rec" + idx + "_3").innerHTML,
+        document.getElementById("rec" + idx + "_4").innerHTML,
+        document.getElementById("rec" + idx + "_5").innerHTML,
+        document.getElementById("rec" + idx + "_6").innerHTML,
+        document.getElementById("rec" + idx + "_7").innerHTML,
+        document.getElementById("rec" + idx + "_8").innerHTML,
+        document.getElementById("rec" + idx + "_9").innerHTML,
+        document.getElementById("rec" + idx + "_10").innerHTML);
+    }
+
+    function DownloadRecord(idx) {
+        alert("DownloadRecord item" + idx);
+
+        webocx.RequestDownloadURL(document.getElementById("rec" + idx + "_1").innerHTML,
+        document.getElementById("rec" + idx + "_2").innerHTML,
+        document.getElementById("rec" + idx + "_3").innerHTML,
+        document.getElementById("rec" + idx + "_4").innerHTML,
+        document.getElementById("rec" + idx + "_5").innerHTML,
+        document.getElementById("rec" + idx + "_6").innerHTML,
+        document.getElementById("rec" + idx + "_7").innerHTML,
+        document.getElementById("rec" + idx + "_8").innerHTML,
+        document.getElementById("rec" + idx + "_9").innerHTML);
+    }
+</script>
+
+<script language="javascript" for="webocx" event="OnLoginUAS1(result,errorInfo,redirectAddress);">
+    if (result < 0) {
+        alert("登陆失败：" + errorInfo);
+    }
+</script>
+
+<script language="javascript" for="webocx" event="OnLoginUAS2(result,errorInfo, deviceList);">
+    alert("错误信息：" + errorInfo + "； 设备列表：" + deviceList);
+</script>
+
+<script language="javascript" for="webocx" event="OnLogoutUAS(result, errorInfo);">
+    alert("LogoutUAS");
+</script>
+
+<script language="javascript" for="webocx" event="OnStartMonitor(result,errorInfo,cameraId,pContext);">
+    if (result < 0) {
+        alert("连接视频失败：" + errorInfo);
+    }
+</script>
+
+<script language="javascript" for="webocx" event="OnCapture(result,errorInfo,cameraId, fileName, pContext);">
+    if (result < 0) {
+        alert("抓拍失败：" + errorInfo);
+    }
+    alert(fileName);
+</script>
+<script language="javascript" for="webocx" event="OnMouseClick(cameraId, longitude, latitude);">
+//    showView();
+//    alert("OnMouseClick:");
+</script>
+<script language="javascript" for="webocx" event="OnLocateEMap(cameraId, longitude, latitude);">
+    alert("cameraId:" + cameraId + "longitude:" + longitude + "latitude:" + latitude);
+</script>
+<script language="javascript" for="webocx" event="OnRequestDownloadURL(nResult, bstrErrorInfo, bstrURLList, pContext);">
+    if (nResult < 0) {
+        alert("下载失败：" + bstrErrorInfo);
+    }
+//    alert(bstrURLList);
+</script>
+<script language="javascript" for="webocx" event="OnQueryRecordList(result,errorInfo,recordList, pContext);">
+    if (result < 0) {
+        alert("查询录像：" + errorInfo);
+    }
+    alert(recordList);
+    var xmlDoc = loadXML(recordList);
+    var elements = xmlDoc.getElementsByTagName("record");
+
+    for (var i = 0; i < elements.length; i++) {
+        document.getElementById("rec" + i + "_1").innerHTML = elements[i].getAttribute("fdId").substring(0, 6) + "-" + elements[i].getAttribute("fdId") + "-0001-000" + elements[i].getAttribute("channelId");
+        document.getElementById("rec" + i + "_2").innerHTML = 1;
+        document.getElementById("rec" + i + "_3").innerHTML = elements[i].getAttribute("flag");
+        document.getElementById("rec" + i + "_4").innerHTML = elements[i].getAttribute("fileName");
+        document.getElementById("rec" + i + "_5").innerHTML = elements[i].getAttribute("startTime");
+        document.getElementById("rec" + i + "_6").innerHTML = elements[i].getAttribute("endTime");
+        document.getElementById("rec" + i + "_7").innerHTML = elements[i].getAttribute("version");
+        document.getElementById("rec" + i + "_8").innerHTML = elements[i].getAttribute("area");
+        document.getElementById("rec" + i + "_9").innerHTML = 1;
+        document.getElementById("rec" + i + "_10").innerHTML = elements[i].getAttribute("qos");
+
+    }
+
+</script>
+<script>
+    function getStyle(obj,name) 		//获取元素样式属性值
+    {
+        if(obj.currentStyle)
+        {
+            return obj.currentStyle[name];
+        }
+        else
+        {
+            return getComputedStyle(obj,false)[name];
+        }
+    }
+    function showView(){
+        var list = document.querySelectorAll('.imgbox iframe');
+        for(var i = 0,len = list.length;i < len;i++){
+            var iframe = list[i];
+            var pdb = parseInt(getStyle(iframe,'paddingBottom'));
+            pdb = isNaN(pdb) ? 0 : pdb;
+            pdb = pdb ? 0 : 1;
+            iframe.style.paddingBottom = pdb + 'px';
+        }
+    }
+</script>
+<style type='text/css'>
+    table {
+        width: 760px;
+        height: 100px;
+    }
+
+    table td {
+        width: 750px;
+        height: 30px;
+    }
+
+    table td input {
+        font-size: 12px;
+    }
+
+    .imgbox{
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        width: 200px;
+        height: 100px;
+        z-index: 1;
+        overflow: hidden;
+        background-color: #fff;
+        padding: 20px;
+        text-align:center;
+    }
+    .imgbox2{
+        top: 200px;
+    }
+
+    img{
+        width: 100%;
+        height: 100%;
+    }
+    .object-iframe{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        filter:alpha(opacity=0);
+        background-color: transparent;
+    }
+
+    .input{
+        height: 24px;
+        line-height: 24px;
+        padding-left: 10px;
+        width: 140px;
+        border: 1px solid #ccc;
+    }
+    .btn-box{
+        text-align: center;
+        padding: 10px;
+    }
+    .btn{
+        display: inline-block;
+        vertical-align: top;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        padding: 0 10px;
+        font-size: 12px;
+    }
+    .box{
+        width: 360px;
+        white-space: nowrap;
+        top:170px;
+        overflow: hidden;
+    }
+    ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .inline{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .list{
+        width: 100px;
+        height: 100%;
+    }
+    .view{
+        width: 100%;
+        height: 100%;
+        padding-right: 100px;
+        box-sizing: border-box;
+    }
+</style>
+<body>
+    <div style='float:left;width:500px;position: relative'>
+        <object id="webocx" classid="CLSID:C1D39A04-BB4A-4324-9F27-00F8D5E1CD38" height="440" width="440"></object>
+        <div class="imgbox">
+            <iframe class="object-iframe" src="a.html"></iframe>
+            <div>
+                <input class="input" type="text">
+            </div>
+            <div class="btn-box">
+                <a class="btn">搜索</a>
+            </div>
+        </div>
+        <div class="imgbox box">
+            <iframe class="object-iframe" src="a.html"></iframe>
+            <div class="list inline">
+                <ul>
+                    <li>列表1</li>
+                    <li>列表1</li>
+                    <li>列表1</li>
+                    <li>列表1</li>
+                </ul>
+            </div>
+            <div class="view inline">
+                <object id="webocx222" classid="CLSID:C1D39A04-BB4A-4324-9F27-00F8D5E1CD38" style="width: 100%;height: 100%"></object>
+            </div>
+        </div>
+    </div>
+    <div style='float:left;width:600px;'>
+        <table style='border:1px solid red;'>
+            <tr>
+                <td>
+                    平台地址：<input id="uasAddress" value="172.16.62.121" style='width:120px;' type="text" />
+                    帐号：<input id="user" type="text" style='width:140px;' value="admin001@zjtek.com" />
+                    密码：<input id="pwd" type="text" style='width:80px;' value="1234" />
+                    <input type="button" style='WIDTH:65PX;' id="btnLogin" onclick="login()" value="登录" />
+                    <input type="button" style='WIDTH:65PX;' id="btnReLogin" onclick="Relogin()" value="重新登录" />
+                    <input type="button" style='WIDTH:65PX;' id="btnLogout" onclick="logout()" value="登出" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    名：<input id="name" value="" type="text" />
+                    值：<input id="value" value="" type="text" />
+                    <input type="button" style='WIDTH:65PX;' id="btnSetConfigParam" onclick="SetConfigParam()" value="设置配置" />
+                    <input type="button" style='WIDTH:65PX;' id="btnGetConfigParam" onclick="GetConfigParam()" value="获取配置" />
+                    <input type="button" style='WIDTH:65PX;' id="btnShowRecordInfoDlg" onclick="ShowRecordInfoDlg()" value="录像回放" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    摄像头编号：<input id="cameraID" value="200000-200000000100011825-0001-0001" maxlength="38" style='width:260px;' type="text" />
+                    <input type="button" style='WIDTH:65PX;' id="btnStartMonitor" onclick="StartMonitor()" value="启动监控" />
+                    <input type="button" style='WIDTH:65PX;' id="btnStopMonitor" onclick="StopMonitor()" value="停止监控" />
+                    <input type="button" style='WIDTH:65PX;' id="btnSnapshot" onclick="Snapshot()" value="抓图" />
+                    <input type="button" style='WIDTH:65PX;' id="btnLocalRecord" onclick="LocalRecord()" value="本地录像" />
+                    <input type="button" style='WIDTH:65PX;' id="btnStopLocalRecord" onclick="StopLocalRecord()" value="停止录像" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    开始时间：<input id="startTime" value="2016-01-13 00:00:00" maxlength="38" style='width:140px;' type="text" />
+                    结束时间：<input id="endTime" value="2016-01-13 23:59:59" maxlength="38" style='width:140px;' type="text" />
+                    <input type="button" style='WIDTH:65PX;' id="btnQueryRecord" onclick="QueryRecord()" value="查询录像" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div style='float:left;width:600px;'>
+        <table id='recordlist' border='1' align='left'>
+            <tr><td>操作</td><td></td><td>cameraID</td><td>center</td><td>nType</td><td>filename</td><td>beginTime</td><td>endTime</td><td>nVersion</td><td>bstrArea</td><td>nNetType</td><td>nQOS</td></tr>
+            <tr><td onclick='PlaybackRecord(0)'>回放</td><td onclick='DownloadRecord(0)'>下载</td><td id="rec0_1"></td><td id="rec0_2"></td><td id="rec0_3"></td><td id="rec0_4"></td><td id="rec0_5"></td><td id="rec0_6"></td><td id="rec0_7"></td><td id="rec0_8"></td><td id="rec0_9"></td><td id="rec0_10"></td></tr>
+            <tr><td onclick='PlaybackRecord(1)'>回放</td><td onclick='DownloadRecord(1)'>下载</td><td id="rec1_1"></td><td id="rec1_2"></td><td id="rec1_3"></td><td id="rec1_4"></td><td id="rec1_6"></td><td id="rec1_6"></td><td id="rec1_7"></td><td id="rec1_8"></td><td id="rec1_9"></td><td id="rec1_10"></td></tr>
+            <tr><td onclick='PlaybackRecord(2)'>回放</td><td onclick='DownloadRecord(2)'>下载</td><td id="rec2_1"></td><td id="rec2_2"></td><td id="rec2_3"></td><td id="rec2_4"></td><td id="rec2_6"></td><td id="rec2_6"></td><td id="rec2_7"></td><td id="rec2_8"></td><td id="rec2_9"></td><td id="rec2_10"></td></tr>
+            <tr><td onclick='PlaybackRecord(3)'>回放</td><td onclick='DownloadRecord(3)'>下载</td><td id="rec3_1"></td><td id="rec3_2"></td><td id="rec3_3"></td><td id="rec3_4"></td><td id="rec3_6"></td><td id="rec3_6"></td><td id="rec3_7"></td><td id="rec3_8"></td><td id="rec3_9"></td><td id="rec3_10"></td></tr>
+            <tr><td onclick='PlaybackRecord(4)'>回放</td><td onclick='DownloadRecord(4)'>下载</td><td id="rec4_1"></td><td id="rec4_2"></td><td id="rec4_3"></td><td id="rec4_4"></td><td id="rec4_6"></td><td id="rec4_6"></td><td id="rec4_7"></td><td id="rec4_8"></td><td id="rec4_9"></td><td id="rec4_10"></td></tr>
+        </table>
+    </div>
+<script>
+    var player = document.getElementsByTagName('object')[0];
+    player.onfocus = function(){
+        showView();
+    }
+</script>
+</body>
+</html>

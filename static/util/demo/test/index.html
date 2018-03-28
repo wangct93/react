@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <title>练习</title>
+    <link href="css/index.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="box">
+        <object id="player" classid="CLSID:62CB3B7B-E727-4FEF-95CF-F51ABF0179A3"></object>
+        <div class="imgbox" id="imgBox">
+            <iframe class="object-iframe" src="a.html"></iframe>
+            <img src="18.gif">
+            <!--<img src="http://172.16.70.251:80/casematerial/A/330421/510000/201714/01/36/7653060911.jpg">-->
+        </div>
+    </div>
+    <input type="text" id="input">
+    <a class="w-btn" id="btn">www</a>
+</div>
+<script for="player" event="OnSnapPic(lHandle, bstrFilePath, lSnapTime)">
+    alert(333);
+    showView();
+</script>
+<script src="js/index.js"></script>
+</body>
+</html>

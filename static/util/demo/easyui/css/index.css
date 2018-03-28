@@ -1,0 +1,60 @@
+
+.wdc-dropdown ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.wdc-dropdown{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    height: 26px;
+    box-sizing: border-box;
+    padding: 0 30px 0 10px;
+    border: 1px solid #ccc;
+}
+.wdc-show{
+    height: 20px;
+    width: 20px;
+    margin-top: 2px;
+    background-color: red;
+}
+.wdc-icon-box{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 24px;
+    background-color: #f3f3f3;
+}
+.wdc-icon-box .textbox-icon{
+    height: 24px;
+    width: 18px;
+}
+.wdc-dropdown-box{
+    position: absolute;
+    display: none;
+    top: 24px;
+    left: -1px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+.active.wdc-dropdown .wdc-dropdown-box{
+    display: block;
+}
+.wdc-dropdown-list > li{
+    border-top:1px solid #ccc;
+    position: relative;
+    padding: 3px;
+    cursor: pointer;
+}
+.wdc-color{
+    height: 16px;
+    width: 30px;
+    margin: 0 auto;
+}
+.wdc-dropdown-list > li:first-child{
+    border-top-width: 0;
+}
+.wdc-dropdown-list > li:hover{
+    background-color: #f1f1f1;
+}
