@@ -1,0 +1,8 @@
+{
+  "client":{
+    "path":["./modules/lib/client/client.js"],
+    "fileName":"util.js",
+    "dest":"./static/util/js",
+    "compress":false
+  }
+}
