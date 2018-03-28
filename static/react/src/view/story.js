@@ -8,6 +8,7 @@ import {Provider, connect} from 'react-redux';
 import SeachBox from '../component/search';
 import LoadingBox from '../component/loading';
 import Paging from "../component/paging";
+import Combobox from '../component/combobox';
 import {StoryTableView,StoryListView} from '../component/list';
 
 import {HashRouter,Switch,Route,NavLink,withRouter,Redirect} from 'react-router-dom';
@@ -17,42 +18,28 @@ import * as actionObj from '../store/story/action';
 
 import {getPaging} from '../compute/compute';
 
-class Story extends Component{
+export class Story extends Component{
     render(){
-        let {search,isLoading,turnPage,sortList,viewList,match} = this.props;
+        let {search,isLoading,turnPage,sortList,viewList,match,changeSort,Content = StoryContent} = this.props;
         return <div className="story-box">
-            <div className="center-area">
-                <div className="search-wrap">
-                    <SeachBox search={search}/>
+            <HashRouter basename={match.url}>
+                <div className="center-area">
+                    <div className="search-wrap">
+                        <SeachBox search={search}/>
+                    </div>
+                    <div className="story-control-box">
+                        <h2>列表</h2>
+                        <div>排序：</div>
+                        <Combobox data={sortList} width="120" height="30" onSelect={changeSort} />
+                        <ViewNav list={viewList} />
+                    </div>
+                    <div className="story-content">
+                        <Content />
+                        <LoadingBox show={isLoading}/>
+                    </div>
+                    <Paging onSelect={turnPage.bind(this)} option={getPaging(this.props)}/>
                 </div>
-                <div className="story-control-box">
-                    <h2>列表</h2>
-                    <ul className="sort-list">
-                        {
-                            sortList.map(({desc,text,selected},i) => {
-                                return <li key={i} className={selected ? 'active' : ''}>
-                                    <a onClick={this.props.changeSort.bind(this,i)}>
-                                        <span>{text}</span>
-                                        <i className={`iconfont ${desc ? 'icon-arrow-bottom' : 'icon-arrow-top'}`}></i>
-                                    </a>
-                                </li>
-                            })
-                        }
-                    </ul>
-                    <ViewNav list={viewList} />
-                </div>
-                <div className="story-content">
-                    <HashRouter basename={match.url}>
-                        <Switch>
-                            <Route path="/table" component={TableView}/>
-                            <Route path="/list" component={ListView}/>
-                            <Redirect to="/table"/>
-                        </Switch>
-                    </HashRouter>
-                    <LoadingBox show={isLoading}/>
-                </div>
-                <Paging onSelect={turnPage.bind(this)} option={getPaging(this.props)}/>
-            </div>
+            </HashRouter>
         </div>
     }
     componentDidMount(){
@@ -60,19 +47,23 @@ class Story extends Component{
     }
 }
 
-const ViewNav = withRouter(({match,list}) => {
-    let basePath = match.url;
-    if(basePath === '/'){
-        basePath = '';
-    }
+const StoryContent = () => {
+    return <Switch>
+        <Route path="/table" component={TableView}/>
+        <Route path="/list" component={ListView}/>
+        <Redirect to="/table"/>
+    </Switch>;
+};
+
+const ViewNav = ({list}) => {
     return <nav className="view-btn-list">
         {
             list.map(({path,iconCls},i) => {
-                return <NavLink key={i} to={basePath + path}><i className={`iconfont ${iconCls}`}></i></NavLink>
+                return <NavLink key={i} to={path}><i className={`iconfont ${iconCls}`}></i></NavLink>
             })
         }
     </nav>
-});
+};
 
 
 

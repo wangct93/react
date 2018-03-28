@@ -230,11 +230,13 @@ a {
   display: flex;
   height: 40px;
   line-height: 40px;
+  align-items: center;
   margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
 }
 .story-box .story-control-box h2 {
   padding: 0 15px;
+  flex: 1;
 }
 .story-box .story-control-box .view-btn-list {
   display: flex;

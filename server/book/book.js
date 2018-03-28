@@ -13,10 +13,7 @@ module.exports = {
     getList
 };
 function getListAndTotal(params,cb,eb){
-    let {start,limit,keyword,num = 1,size = 10} = params;
-    limit = limit || size;
-    start = start ? start.toNum() : (num - 1) * limit;
-
+    let {keyword} = params;
     let totalPromise = new Promise((cb,eb) => {
         mysql.query(`select count(id) total from book ${keyword ? `where name like "%${keyword}%"` : ''}`,cb,eb);
     });

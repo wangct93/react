@@ -10,6 +10,10 @@ let defaultState = {
         {
             title:'收藏',
             path:'/story'
+        },
+        {
+            title:'博客',
+            path:'/blog'
         }
     ]
 };

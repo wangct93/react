@@ -32,9 +32,11 @@ export default class Combobox extends Component{
             width:width == null ? '100%' : width + 'px',
             height:height == null ? '100%' : height + 'px'
         }}>
-            <input value={valueList.join(',')} onChange={()=>{}} type="text" className="combo-input fit"/>
+            <input value={valueList.join(',')} disabled style={{
+                cursor:'pointer'
+            }} onChange={()=>{}} type="text" className="combo-input fit"/>
             <div className="combo-right-icon">
-                <i className="iconfont icon-duihao"></i>
+                <i className="iconfont icon-xiangxiajiantou3"></i>
             </div>
             <div className="combo-content" style={{
                 left:'-1px',

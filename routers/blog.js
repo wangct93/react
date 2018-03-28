@@ -25,7 +25,7 @@ router.get('/getHomeViewList',(req,res) => {
     let promiseAry = [];
     if(!type || type === 'blog'){
         promiseAry[promiseAry.length] = new Promise((cb,eb) => {
-            blogObj.getBlogList({
+            blogObj.getList({
                 start:0,
                 limit:30
             },cb,eb);
@@ -58,6 +58,14 @@ router.get('/getBlogInfo',(req,res) => {
 
 router.get('/getStoryList',(req,res) => {
     book.getListAndTotal(req.query,(data) => {
+        res.send(data);
+    },(err) => {
+        sendError(res,err);
+    });
+});
+
+router.get('/getBlogList',(req,res) => {
+    blogObj.getListAndTotal(req.query,(data) => {
         res.send(data);
     },(err) => {
         sendError(res,err);

@@ -7,7 +7,8 @@ import * as nav from './nav/reducer';
 import * as dialog from './dialog/reducer';
 import * as home from './home/reducer';
 import * as story from './story/reducer';
-let fn = combineReducers(wt.extend({},nav,dialog,home,story));
+import * as blog from './blog/reducer';
+let fn = combineReducers(wt.extend({},nav,dialog,home,story,blog));
 export let store = createStore((state,action) => {
     console.log('store接收操作：' + action.type);
     return fn(state,action);

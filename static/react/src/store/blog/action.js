@@ -6,21 +6,27 @@
 
 export let requestData = (params) => {
     return {
-        type:'requestStoryData',
+        type:'requestBlogData',
         params
     }
 };
 
 export let turnPage = (num,size) => {
     return {
-        type:'storyTurnPage',
+        type:'blogTurnPage',
         num,
         size
     }
 };
 export let search = (keyword) => {
     return {
-        type:'searchStory',
-        keyword,
+        type:'searchBlog',
+        keyword
+    }
+};
+export let changeSort = (data) => {
+    return {
+        type:'changeBlogSort',
+        data
     }
 };

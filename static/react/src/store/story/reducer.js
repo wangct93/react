@@ -54,24 +54,10 @@ let reducer = {
             num:1
         });
     },
-    changeStorySort(state,{index}){
-        let {sortList} = state;
-        sortList.forEach((item,i) => {
-            if(i === index){
-                if(item.selected){
-                    item.desc = !item.desc;
-                    return false;
-                }else{
-                    item.selected = true;
-                }
-            }else{
-                item.selected = false;
-            }
-        });
-        let sortData = sortList[index];
+    changeStorySort(state,{data}){
         requestData(state,{
-            sortField:sortData.field,
-            sortDesc:sortData.desc || ''
+            sortField:data.field,
+            sortDesc:true
         });
     }
 };
@@ -79,10 +65,10 @@ let reducer = {
 const requestData = (state,newParams) => {
     let {params} = state;
     if(!params.sortField){
-        let {field,desc} = state.sortList.filter(item => item.selected)[0];
+        let {field} = state.sortList.filter(item => item.selected)[0];
         wt.extend(params,{
             sortField:field,
-            sortDesc:desc || ''
+            sortDesc:true
         })
     }
     requestDataByParams(wt.extend(params,newParams));

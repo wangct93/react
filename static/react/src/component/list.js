@@ -180,3 +180,76 @@ export class StoryListView extends Component{
     }
 }
 
+
+export class BlogTableView extends Component{
+    constructor(){
+        super();
+        this.state = {
+            tableOption:{
+                columns:[
+                    {
+                        title:'序号',
+                        width:60,
+                        field:'orderNum'
+                    },
+                    {
+                        title:'标题',
+                        field:'name',
+                        fit:true,
+                        align:'left'
+                    },
+                    {
+                        title:'作者',
+                        width:120,
+                        field:'author',
+                        align:'left'
+                    },
+                    {
+                        title:'上传时间',
+                        width:160,
+                        field:'time'
+                    },
+                    {
+                        title:'原文地址',
+                        width:80,
+                        field:'source',
+                        fit:true,
+                        formatter:(value,index,row) => {
+                            return <a className="text-btn" href={value} target="_blank" title={value}>{value}</a>
+                        }
+                    },
+                    {
+                        title:'操作',
+                        width:40,
+                        elemList:[
+                            {
+                                iconCls:'text-btn',
+                                text:'详情',
+                                handler:({id},i) => {
+                                    window.open('./pages/novel/index.html?bookId=' + id);
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+    render(){
+        return <Table option={this.state.tableOption} data={this.props.data}/>
+    }
+}
+
+
+export class BlogListView extends Component{
+    render(){
+        return <ul className="blog-list">
+            {
+                this.props.data.map((item,i) => {
+                    return <BlogItem key={i} data={item}/>
+                })
+            }
+        </ul>
+    }
+}
+

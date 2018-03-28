@@ -24,9 +24,9 @@ export let search = (keyword) => {
         keyword
     }
 };
-export let changeSort = (index) => {
+export let changeSort = (data) => {
     return {
         type:'changeStorySort',
-        index
+        data
     }
 };
