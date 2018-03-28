@@ -7,8 +7,7 @@
     "restart": "supervisor node express/enter ",
     "start": "node express/enter ",
     "inspect": "node --inspect express/enter",
-    "getBook": "node server/book/copyData",
-    "move": "node server/seed/move"
+    "getBook": "node server/book/copyData"
   },
   "author": "wangct",
   "license": "ISC",

@@ -15,7 +15,6 @@ var plumber = require('gulp-plumber');
 var fs = require('fs');
 var path = require('path');
 var minifyCss = require('gulp-minify-css');
-var imageMin = require('gulp-imagemin');
 
 
 var utilConfig = require('./config/utilConfig.json');
