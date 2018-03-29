@@ -19,7 +19,7 @@ function getList(params,cb,eb){
     let {start,limit,keyword,sortField,sortDesc,num = 1,size = 10} = params;
     limit = limit || size;
     start = start ? start.toNum() : (num - 1) * limit;
-    mysql.query(`select id,name,author,sourceType blogType,source,"blog" sourceType,date_format(createTime,"%Y-%m-%d %H:%i:%s") time from blog ${keyword ? `where name like '%${keyword}%'` : ''} ${sortField ? `order by ${sortField} ${sortDesc ? 'desc' : ''}` : ''} limit ${start},${limit}`,cb,eb);
+    mysql.query(`select id,name,author,content,fmImg,sourceType blogType,source,"blog" sourceType,date_format(createTime,"%Y-%m-%d %H:%i:%s") time from blog ${keyword ? `where name like '%${keyword}%'` : ''} ${sortField ? `order by ${sortField} ${sortDesc ? 'desc' : ''}` : ''} limit ${start},${limit}`,cb,eb);
 }
 
 function getListAndTotal(params,cb,eb){

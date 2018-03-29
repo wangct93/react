@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   background-color: #2a303c;
+  background: url('../img/logo.png');
 }
 .footer-box {
   height: 50px;
@@ -72,8 +73,15 @@ a {
 .overflow-hide {
   overflow: hidden;
 }
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .border-box {
   box-sizing: border-box;
+}
+.border {
+  border: 1px solid #ccc;
 }
 .border-bottom {
   border-bottom: 1px solid #ccc;
@@ -241,9 +249,10 @@ a {
 .story-box .story-control-box .view-btn-list {
   display: flex;
   align-self: center;
+  margin-left: 10px;
 }
 .story-box .story-control-box .view-btn-list > a {
-  margin-left: 10px;
+  margin-left: 2px;
   padding: 4px;
   cursor: pointer;
 }
@@ -276,6 +285,7 @@ a {
   margin: 0 15px;
   white-space: normal;
   font-size: 14px;
+  flex: 1;
 }
 .story-list .story-info-text {
   vertical-align: middle;
@@ -350,4 +360,42 @@ a {
 .sort-list > li.active:after {
   bottom: -3px;
   border-bottom-color: #fff;
+}
+.text-btn-wrap {
+  color: #00a4ff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.blog-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.blog-list > li {
+  width: 230px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+}
+.blog-list .img-box {
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+.blog-list h2 {
+  overflow: hidden;
+}
+.blog-list .text-box {
+  padding: 10px;
+}
+.blog-list .home-intro {
+  height: 50px;
+  line-height: 26px;
+  font-size: 14px;
+  margin: 10px 0;
+  white-space: normal;
+  overflow: hidden;
+}
+.blog-list .home-btn-box {
+  text-align: right;
 }

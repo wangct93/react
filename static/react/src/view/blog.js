@@ -12,15 +12,13 @@ import {Story} from './story';
 
 import {BlogListView,BlogTableView} from '../component/list';
 
-class Content extends Component{
-    render(){
-        return <Switch>
-            <Route path="/table" component={TableView}/>
-            <Route path="/list" component={ListView}/>
-            <Redirect to="/table"/>
-        </Switch>;
-    }
-}
+const Content = () => {
+    return <Switch>
+        <Route path="/table" component={TableView}/>
+        <Route path="/list" component={ListView}/>
+        <Redirect to="/table"/>
+    </Switch>;
+};
 
 const TableView = connect(state => state.blogData)((props) => {
     let {data,params = {}} = props;

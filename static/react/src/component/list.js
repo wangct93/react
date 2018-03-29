@@ -215,7 +215,7 @@ export class BlogTableView extends Component{
                         field:'source',
                         fit:true,
                         formatter:(value,index,row) => {
-                            return <a className="text-btn" href={value} target="_blank" title={value}>{value}</a>
+                            return <div className="text-btn-wrap text-ellipsis"><a className="text-btn" href={value} target="_blank" title={value}>{value}</a></div>
                         }
                     },
                     {
@@ -226,7 +226,7 @@ export class BlogTableView extends Component{
                                 iconCls:'text-btn',
                                 text:'详情',
                                 handler:({id},i) => {
-                                    window.open('./pages/novel/index.html?bookId=' + id);
+                                    window.open('./pages/blog/index.html?blogId=' + id);
                                 }
                             }
                         ]

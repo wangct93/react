@@ -104,7 +104,7 @@ gulp.task('minCss',function(){
 
 
 
-let lessPath = ['./static/react/less/*.less']
+let lessPath = ['./static/react/less/*.less'];
 
 gulp.task('less',() => {
     return gulp.src(lessPath)

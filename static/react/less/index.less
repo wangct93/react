@@ -129,8 +129,9 @@
         .view-btn-list{
             display: flex;
             align-self: center;
+            margin-left: 10px;
             > a{
-                margin-left: 10px;
+                margin-left: 2px;
                 padding: 4px;
                 cursor: pointer;
                 &:hover{
@@ -167,6 +168,7 @@
         margin: 0 15px;
         white-space: normal;
         font-size: 14px;
+        flex:1;
     }
     .story-info-text{
         .iconfont{
@@ -243,6 +245,45 @@
                 border-bottom-color: @white;
             }
         }
+    }
+}
+
+.text-btn-wrap{
+    color: @activeColor;
+    .text-ellipsis;
+}
+
+.blog-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    > li{
+        width: 230px;
+        margin: 10px 0;
+        .border;
+    }
+    .img-box{
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+        .border-bottom;
+    }
+    h2{
+        overflow: hidden;
+    }
+    .text-box{
+        padding: 10px;
+    }
+    .home-intro{
+        height: 50px;
+        line-height: 26px;
+        font-size: 14px;
+        margin: 10px 0;
+        white-space: normal;
+        overflow: hidden;
+    }
+    .home-btn-box{
+        text-align: right;
     }
 }
 
