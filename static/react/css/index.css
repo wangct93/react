@@ -3,12 +3,11 @@
   overflow: auto;
 }
 .header {
-  height: 50px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #2a303c;
-  background: url('../img/logo.png');
+  background: #2a303c url('../img/logo.png') 20px center no-repeat;
 }
 .footer-box {
   height: 50px;

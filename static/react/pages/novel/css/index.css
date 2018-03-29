@@ -3,11 +3,11 @@
   overflow: auto;
 }
 .header {
-  height: 50px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #2a303c;
+  background: #2a303c url('../img/logo.png') 20px center no-repeat;
 }
 .footer-box {
   height: 50px;
@@ -25,6 +25,9 @@ img {
   max-width: 100%;
   width: auto;
   height: auto;
+}
+a {
+  color: inherit;
 }
 .center-area {
   width: 1000px;
@@ -69,8 +72,15 @@ img {
 .overflow-hide {
   overflow: hidden;
 }
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .border-box {
   box-sizing: border-box;
+}
+.border {
+  border: 1px solid #ccc;
 }
 .border-bottom {
   border-bottom: 1px solid #ccc;
@@ -126,6 +136,9 @@ img {
 .body {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+.header {
+  background-image: url('../../../img/logo.png');
 }
 .fit {
   width: 100%;
