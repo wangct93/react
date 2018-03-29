@@ -1,8 +1,8 @@
 /**
  * Created by Administrator on 2017/2/28.
  */
-var path = require('path');
-var webpack = require('webpack');
+let path = require('path');
+let webpack = require('webpack');
 
 
 let src = 'react/src/index.js';

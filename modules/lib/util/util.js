@@ -235,7 +235,7 @@ Queue.prototype = {
         }else{
             this.runCount--;
             if(this.runCount == 0){
-                execFunc(this.success);
+                execFunc.call(this,this.success);
             }
         }
     },

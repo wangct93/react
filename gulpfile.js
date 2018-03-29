@@ -4,20 +4,20 @@
 
 
 
-var gulp = require('gulp');
-var rename = require('gulp-rename');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var browserify = require('gulp-browserify');
-var babelify = require('babelify');
-var babel = require('gulp-babel');
-var plumber = require('gulp-plumber');
-var fs = require('fs');
-var path = require('path');
-var minifyCss = require('gulp-minify-css');
+let gulp = require('gulp');
+let rename = require('gulp-rename');
+let concat = require('gulp-concat');
+let uglify = require('gulp-uglify');
+let browserify = require('gulp-browserify');
+let babelify = require('babelify');
+let babel = require('gulp-babel');
+let plumber = require('gulp-plumber');
+let fs = require('fs');
+let path = require('path');
+let minifyCss = require('gulp-minify-css');
 
 
-var utilConfig = require('./config/utilConfig.json');
+let utilConfig = require('./config/utilConfig.json');
 
 
 let less = require('gulp-less');
@@ -28,21 +28,22 @@ let plumnber = require('gulp-plumber');
 /**
  * 生成浏览器util
  */
+let {client} = utilConfig;
 gulp.task('clientUtil',() => {
-    var m = utilConfig.client;
-    var promise = gulp.src(m.path);
-    promise = promise.pipe(browserify());
-    promise = promise.pipe(concat(m.fileName || 'util.js'));
-    if(m.compress){
+    let promise = gulp.src(client.path).pipe(plumnber());
+    promise = promise.pipe(browserify()).pipe(babel({
+        presets:['es2015']
+    }));
+    promise = promise.pipe(concat(client.fileName || 'util.js'));
+    if(client.compress){
         promise = promise.pipe(uglify({
             ie8:true
         }));
     }
-    promise = promise.pipe(gulp.dest(m.dest));
-    return promise;
+    return promise.pipe(gulp.dest(client.dest));
 });
-// gulp.watch(['./modules/**/*.js'],['clientUtil']);
-// gulp.task('default',['clientUtil']);
+gulp.watch(['./modules/**'],['clientUtil']);
+gulp.task('default',['clientUtil']);
 
 gulp.task('minCss',function(){
     gulp.src(['./static/util/css/common.css','./static/zjb/css/index.css'])

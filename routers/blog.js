@@ -3,16 +3,17 @@
  */
 
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 
 module.exports = router;
 
 let book = require('../server/book/book');
 let sendError = require('./sendError');
-var wt = require('../modules/util');
+let wt = require('../modules/util');
 let blogObj = require('../server/blog/blog');
+let commentObj = require('../server/comment/comment');
 
 
 router.get('/',(req,res) => {
@@ -72,4 +73,12 @@ router.get('/getBlogList',(req,res) => {
     });
 });
 
+
+router.get('/getCommentList',(req,res) => {
+    commentObj.getListAndTotal(req.query,(result) => {
+        res.send(result);
+    },(err) => {
+        sendError(res,err);
+    });
+});
 

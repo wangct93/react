@@ -717,6 +717,53 @@ DomElement.prototype = {
             $body.on('mousemove',render);
             $this.on('mouseleave',mouseleave);
         });
+    },
+    paste(option){
+        this.off('paste').on('paste',e => {
+            let {clipboardData,target} = e;
+            let item = clipboardData.items[0];
+            let {success} = $(target).data('pasteOption') || {};
+            if(item && item.type.indexOf('image') !== -1){
+                let reader = new FileReader();
+                let file = item.getAsFile();
+                reader.onload = (e)=>{
+                    wt.execFunc.call(target,success,e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }else{
+                wt.execFunc.call(target,success,clipboardData.getData('text'));
+            }
+        }).data('pasteOption',option);
+    },
+    fileDrop(option){
+        this.off('drop').on('drop',e => {
+            e.preventDefault();
+            let {dataTransfer,target} = e;
+            let {files} = dataTransfer;
+            let {success} = $(target).data('fileDropOption') || {};
+            let q = new wt.Queue({
+                list:Array.from(files),
+                execFunc(file,cb){
+                    let reader = new FileReader();
+                    reader.onload = (e)=>{
+                        let {result} = this;
+                        if(!result){
+                            result = [];
+                            this.result = result;
+                        }
+                        result.push(e.target.result);
+                        cb();
+                    };
+                    reader.readAsDataURL(file);
+                },
+                success(){
+                    wt.execFunc.call(target,success,this.result);
+                }
+            });
+            q.start();
+        }).data('fileDropOption',option).on('dragover',e => {
+            e.preventDefault();
+        });
     }
 };
 
