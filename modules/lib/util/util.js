@@ -99,41 +99,34 @@ function isEmpty(obj){
  * @returns {*|{}}
  */
 function extend() {
-    var deep = false;
-    var target = arguments[0];
-    var length = arguments.length;
-    var i = 1;
-    var options,name,src,copy,copyIsArray,clone,temp;
+    let deep = false;
+    let target = arguments[0];
+    let length = arguments.length;
+    let i = 1;
     if(isBoolean(target)){
         deep = target;
         target = arguments[i++] || {};
     }
-    if(typeof target != 'object' && !isFunction(target)){
+    if(!(isPlainObj(target) || isArray(target))){
         target = {};
     }
     for(;i < length;i++){
-        options = arguments[i];
-        if(options){
-            for(name in options){
-                if(options.hasOwnProperty(name)){
-                    src = target[name];
-                    copy = options[name];
-                    if ( target === copy ) {
-                        continue;
+        let pData = arguments[i];
+        if(isPlainObj(pData) || isArray(pData)){
+            for(let name in pData){
+                let selfValue = target[name];
+                let pValue = pData[name];
+                if(deep && (isPlainObj(pValue) || isArray(pValue))){
+                    let subTarget;
+                    if(isPlainObj(pValue)){
+                        subTarget = isPlainObj(selfValue) ? selfValue : {};
+                    }else{
+                        subTarget = isArray(selfValue) ? selfValue : [];
                     }
-                    var isObj = isObject(copy);
-                    var isLikeAry = isLikeArray(copy);
-                    if(deep && (isObj || isLikeAry)){
-                        if(isObj){
-                            clone = isObject(src) ? src : {};
-                        }else{
-                            clone = isLikeArray(src) ? src : [];
-                        }
-                        copy = extend(true,clone,copy);
-                    }
-                    if(copy != null){
-                        target[name] = copy;
-                    }
+                    pValue = extend(true,subTarget,pValue);
+                }
+                if(pValue != null){
+                    target[name] = pValue;
                 }
             }
         }
@@ -147,47 +140,49 @@ function extend() {
  * @param bol   是否深度克隆，默认为true
  */
 function clone(obj,bol){
-    bol = bol == null ? true : bol;
-    let target = isArray(obj) ? [] : {};
-    for(let name in obj){
-        let value = obj[name];
-        if(bol && (isObject(value) || isArray(value))){
-            value = clone(value,true);
+    let target;
+    if(isPlainObj(obj) || isArray(obj)){
+        bol = bol !== false;
+        target = isArray(obj) ? [] : {};
+        for(let name in obj){
+            let value = obj[name];
+            if(bol && (isPlainObj(value) || isArray(value))){
+                value = clone(value,true);
+            }
+            target[name] = value;
         }
-        target[name] = value;
     }
     return target;
 }
 
 
 /**
- * 比较对象值是否相等（不需要同一对象）
+ * 比较对象值是否相等（必须是同一类型，不需要同一对象）
  * @param first
  * @param second
  * @returns {boolean}
  */
 function equal(first,second){
-    if(first == second){
-        return true;
-    }
-    if(!first || !second || first.nodeType == 1 || first.nodeType == 9 || second.nodeType == 1 || second.nodeType == 9 || !isObject(first) && !isArray(first) || !isObject(second) && !isArray(second)){
-        return isFunction(first) && isFunction(second) ?  first.toString() == second.toString() : first == second;
-    }
-    var temp = [];
-    for(var name in first){
-        if(!equal(first[name],second[name])){
-            return false;
-        }
-        temp.push(name);
-    }
-    for(name in second){
-        if(temp.indexOf(name) == -1){
-            if(!equal(first[name],second[name])){
-                return false;
+    if(typeof first === typeof second){
+        if(isPlainObj(first) || isArray(first)){
+            let fieldData = {};
+            for(let name in first){
+                if(!equal(first[name],second[name])){
+                    return false;
+                }
+                fieldData[name] = 1;
             }
+            for(let name in second){
+                if(!fieldData[name] && !equal(first[name],second[name])){
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            return first === second;
         }
     }
-    return true;
+    return false;
 }
 
 
@@ -196,66 +191,54 @@ function equal(first,second){
  * @param opt       配置项有：       list execFunc limit check success
  * @constructor
  */
-function Queue(opt){
-    this.init(opt);
-}
-Queue.prototype = {
-    init:function(options){
-        var default_options = {
-            list:[],
+
+
+class Queue{
+    constructor(option){
+        this.init(option);
+    }
+    init(option){
+        let defaultOption = {
             limit:1,
             interval:10,
-            runCount:0,
-            getItem:function(){
-                var list = this.list;
-                return list && list.shift();
+            _runCount:0,
+            result:[],
+            getItem(){
+                let {list = []} = this;
+                return list.shift();
             },
-            check:function(item){
-                return !isUndefined(item);
-            },
-            next:function(){}
+            check(item){
+                return item != null;
+            }
         };
-        extend(this,default_options,options);
-    },
-    start:function(){
-        for(var i = this.runCount;i < this.limit;i++){
-            this.runCount++;
+        extend(this,defaultOption,option);
+    }
+    start(){
+        for(let i = this._runCount;i < this.limit;i++){
+            this._runCount++;
             this._exec();
         }
-    },
-    _exec:function(){
-        if(this.used){
-            this.next();
-        }else{
-            this.used = true;
-        }
-        var item = this.getItem();
-        if(this.check(item)){
-            this.execFunc(item,this._continueExec());
-        }else{
-            this.runCount--;
-            if(this.runCount === 0){
-                execFunc.call(this,this.success);
-            }
-        }
-    },
-    _continueExec:function(){
-        var _this = this;
-        return function(){
-            setTimeout(function(){
-                _this._exec();
-            },_this.interval);
-        };
-    },
-    add:function(list){
-        if(!isArray(list)){
-            list = [list];
-        }
-        list.forEach(function(item){
-            this.list.push(item);
-        },this);
     }
-};
+    _exec(){
+        let item = this.getItem();
+        execFunc.call(this,this.next);
+        if(item == null){
+            this._runCount--;
+            if(this._runCount === 0){
+                execFunc.call(this,this.success,this.result);
+            }
+        }else if(this.check(item)){
+            this.execFunc(item,(data) => {
+                this.result.push(data);
+                setTimeout(() => {
+                    this._exec();
+                },this.interval);
+            });
+        }else{
+            this._exec();
+        }
+    }
+}
 
 
 
@@ -266,6 +249,25 @@ Queue.prototype = {
  * @param fn    有两个参数，一个成功回调，一个失败回调
  * @constructor
  */
+
+
+// class Promise{
+//     constructor(){
+//         this.state = 0;
+//         this.resolveList = [];
+//         this.rejectList = [];
+//         this.value = null;
+//         fn(this.getFunc('resolve'),this.getFunc('reject'));
+//     }
+// }
+
+
+
+
+
+
+
+
 function Promise(fn){
     this.state = 'pending';
     this.resolveList = [];
@@ -391,23 +393,23 @@ function forEach(ary,fn,_this){
 
 
 var util = {
-    isFunction:isFunction,
-    isArray:isArray,
-    isObject:isObject,
-    isNumber:isNumber,
-    isString:isString,
-    isBoolean:isBoolean,
-    isUndefined:isUndefined,
-    isEmpty:isEmpty,
-    isPlainObj:isPlainObj,
-    equal:equal,
-    Queue:Queue,
-    execFunc:execFunc,
-    toArray: toArray,
-    Promise:Promise,
-    extend: extend,
-    pinyin:pinyin,
-    forEach:forEach,
+    isFunction,
+    isArray,
+    isObject,
+    isNumber,
+    isString,
+    isBoolean,
+    isUndefined,
+    isEmpty,
+    isPlainObj,
+    equal,
+    Queue,
+    execFunc,
+    toArray,
+    Promise,
+    extend,
+    pinyin,
+    forEach,
     clone
 };
 
