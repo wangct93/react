@@ -8,7 +8,8 @@ import * as dialog from './dialog/reducer';
 import * as home from './home/reducer';
 import * as story from './story/reducer';
 import * as blog from './blog/reducer';
-let fn = combineReducers(wt.extend({},nav,dialog,home,story,blog));
+import * as comment from './comment/reducer';
+let fn = combineReducers(wt.extend({},nav,dialog,home,story,blog,comment));
 export let store = createStore((state,action) => {
     console.log('store接收操作：' + action.type);
     return fn(state,action);

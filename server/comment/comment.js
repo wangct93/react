@@ -7,18 +7,19 @@ let mysql = require('../../modules/mysql');
 module.exports = {
     getList,
     getTotal,
-    getListAndTotal
+    getListAndTotal,
+    insert
 };
 
 function getList(params,cb,eb){
-    let {start,limit,num = 1,size = 10,targetId} = params;
+    let {start,limit,num = 1,size = 10,targetId,parentId} = params;
     limit = limit || size;
     start = start ? start.toNum() : (num - 1) * limit;
-    mysql.query(`select id,username,content,date_format(time,"%Y-%m-%d %H:%i:%s") time,to_userid toUserId,to_username toUserName,parentId from comment ${targetId ? `where targetId = ${targetId}` : ''} limit ${start},${limit}`,cb,eb);
+    mysql.query(`select id,username,content,date_format(time,"%Y-%m-%d %H:%i:%s") time,to_userid toUserId,to_username toUserName,parentId,targetId from comment where ${parentId ? `parentId = ${parentId}` : 'parentId is null'} ${targetId ? `and targetId = ${targetId}` : ''} order by time limit ${start},${limit}`,cb,eb);
 }
 function getTotal(params,cb,eb){
-    let {targetId} = params;
-    mysql.query(`select count(id) total from comment where parentId is null ${targetId ? `and targetId = ${targetId}` : ''} order by time desc`,cb,eb);
+    let {targetId,parentId} = params;
+    mysql.query(`select count(id) total from comment where ${parentId ? `parentId = ${parentId}` : 'parentId is null'} ${targetId ? `and targetId = ${targetId}` : ''}`,cb,eb);
 }
 function getListAndTotal(params,cb,eb){
     let tp = new Promise((cb,eb) => {
@@ -30,29 +31,22 @@ function getListAndTotal(params,cb,eb){
     Promise.all([tp,lp]).then((result) => {
         cb({
             total:result[0][0].total,
-            list:format(result[1])
+            list:result[1]
         });
     },eb);
 
 }
 
 
-function format(list){
-    let formatData = [];
-    let temp = {};
-    list.forEach(item => {
-        let {parentId} = item;
-        if(parentId){
-            let parent = temp[parentId] || {};
-            let {replyList = []} = parent;
-            if(replyList.length === 0){
-                parent.replyList = replyList;
-            }
-            replyList.push(item);
-        }else{
-            temp[item.id] = item;
-            formatData.push(item);
-        }
-    });
-    return formatData;
+function insert(params,cb,eb){
+    let {targetId,parentId,userId = 1,username = 'wangct',content,toUserId,toUserName} = params;
+    mysql.query(`insert into comment set ?`,{
+        username,
+        content,
+        time:new Date().toFormatString(),
+        parentId,
+        targetId,
+        to_userId:toUserId,
+        to_userName:toUserName
+    },cb,eb);
 }

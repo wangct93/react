@@ -81,4 +81,11 @@ router.get('/getCommentList',(req,res) => {
         sendError(res,err);
     });
 });
+router.get('/submitComment',(req,res) => {
+    commentObj.insert(req.query,(result) => {
+        res.send(result);
+    },(err) => {
+        sendError(res,err);
+    });
+});
 
