@@ -2,9 +2,9 @@
  * Created by Administrator on 2017/12/6.
  */
 module.exports = {
-    toFormatString: function (str) {
+    toFormatString(str){
         str = str || 'YYYY-MM-DD hh:mm:ss';
-        var config = {
+        let config = {
             Y: this.getFullYear(),
             M: this.getMonth() + 1,
             D: this.getDate(),
@@ -12,17 +12,37 @@ module.exports = {
             m: this.getMinutes(),
             s: this.getSeconds()
         };
-        for(var char in config){
-            var re = new RegExp(char + '+');
-            str = str.replace(re,function(match){
-                var v = config[char] + '';
-                var d = match.length - v.length;
-                if(d > 0){
-                    v = new Array(d + 1).join('0') + v;
-                }
-                return v;
-            });
+        for(let char in config){
+            str = str.replace(new RegExp(char + '+','g'),match => config[char].toString().addZero(match.length));
         }
         return str;
+    },
+    diffDays(num){
+        return diff(this,'Date',num);
+    },
+    diffMonths(num){
+        return diff(this,'Month',num);
+    },
+    diffYears(num){
+        return diff(this,'FullYear',num);
+    },
+    diffHours(num){
+        return diff(this,'Hours',num);
+    },
+    diffMinutes(num){
+        return diff(this,'Minutes',num);
+    },
+    diffSeconds(num){
+        return diff(this,'Seconds',num);
     }
 };
+
+function diff(date,type,num){
+    type = type || 'Year';
+    let temp = ['FullYear','Date','Month','Hours','Minutes','Seconds'];
+    let targetDate = new Date(date);
+    if(temp.indexOf(type) !== -1){
+        targetDate['set' + type](targetDate['get' + type]() + num.toString().toNum(0));
+    }
+    return targetDate;
+}

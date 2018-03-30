@@ -234,7 +234,7 @@ Queue.prototype = {
             this.execFunc(item,this._continueExec());
         }else{
             this.runCount--;
-            if(this.runCount == 0){
+            if(this.runCount === 0){
                 execFunc.call(this,this.success);
             }
         }

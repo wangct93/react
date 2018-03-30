@@ -3,9 +3,9 @@
  */
 
 
-var config = require('../config/serverConfig');
-var util = require('./lib/util/util');
-var default_config = {
+let config = require('../config/serverConfig');
+let util = require('./lib/util/util');
+let default_config = {
     port:8888
 };
 

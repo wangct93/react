@@ -116,9 +116,9 @@ module.exports = {
         }
         return this;
     },
-    toFieldObject:function(field){
-        var target = {};
-        this.forEach(function(item,i){
+    toFieldObject(field){
+        let target = {};
+        this.forEach((item,i) => {
             target[item[field] || i] = item;
         });
         return target;

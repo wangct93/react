@@ -2274,20 +2274,47 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     m: this.getMinutes(),
                     s: this.getSeconds()
                 };
-                for (var char in config) {
-                    var re = new RegExp(char + '+');
-                    str = str.replace(re, function (match) {
-                        var v = config[char] + '';
-                        var d = match.length - v.length;
-                        if (d > 0) {
-                            v = new Array(d + 1).join('0') + v;
-                        }
-                        return v;
+
+                var _loop = function _loop(char) {
+                    str = str.replace(new RegExp(char + '+', 'g'), function (match) {
+                        return config[char].toString().addZero(match.length);
                     });
+                };
+
+                for (var char in config) {
+                    _loop(char);
                 }
                 return str;
+            },
+            diffDays: function diffDays(num) {
+                return diff(this, 'Date', num);
+            },
+            diffMonths: function diffMonths(num) {
+                return diff(this, 'Month', num);
+            },
+            diffYears: function diffYears(num) {
+                return diff(this, 'FullYear', num);
+            },
+            diffHours: function diffHours(num) {
+                return diff(this, 'Hours', num);
+            },
+            diffMinutes: function diffMinutes(num) {
+                return diff(this, 'Minutes', num);
+            },
+            diffSeconds: function diffSeconds(num) {
+                return diff(this, 'Seconds', num);
             }
         };
+
+        function diff(date, type, num) {
+            type = type || 'Year';
+            var temp = ['FullYear', 'Date', 'Month', 'Hours', 'Minutes', 'Seconds'];
+            var targetDate = new Date(date);
+            if (temp.indexOf(type) !== -1) {
+                targetDate['set' + type](targetDate['get' + type]() + num.toString().toNum(0));
+            }
+            return targetDate;
+        }
     }, {}], 5: [function (require, module, exports) {
         /**
          * Created by Administrator on 2017/12/6.
@@ -2767,7 +2794,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         this.execFunc(item, this._continueExec());
                     } else {
                         this.runCount--;
-                        if (this.runCount == 0) {
+                        if (this.runCount === 0) {
                             execFunc.call(this, this.success);
                         }
                     }
