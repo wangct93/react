@@ -133,6 +133,78 @@ a {
 .font20 {
   font-size: 20px;
 }
+.border-top {
+  border-top: 1px solid #ccc;
+}
+.comment-box .reply-box {
+  margin-top: 10px;
+}
+.comment-box .input-box {
+  min-height: 20px;
+  line-height: 20px;
+  padding: 10px;
+  border: 1px solid #ebebeb;
+  background-color: #f6f6f6;
+  outline: none;
+}
+.comment-box .input-box:focus {
+  background-color: #fff;
+  border-color: #8590a6;
+}
+.comment-box .reply-btn-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 0;
+}
+.comment-box .reply-btn-box .text-btn {
+  font-size: 14px;
+  color: #8590a6;
+}
+.comment-box .reply-btn {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px;
+  background-color: #00a4ff;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 15px;
+  border-radius: 8px;
+}
+.comment-box .reply-btn:hover {
+  background-color: #0077e6;
+}
+.comment-list {
+  font-size: 14px;
+}
+.comment-list > li {
+  padding: 10px 10px 0 10px;
+  border-bottom: 1px solid #ccc;
+}
+.comment-list .head {
+  display: flex;
+  align-items: center;
+}
+.comment-list .img-box > img {
+  width: 40px;
+  height: 40px;
+}
+.comment-list .username {
+  flex: 1;
+  margin: 0 5px;
+}
+.comment-list .content {
+  line-height: 24px;
+  margin: 10px 0;
+  white-space: normal;
+}
+.comment-list .reply-text {
+  margin: 0 10px;
+}
+.comment-list .actions {
+  height: 30px;
+  line-height: 30px;
+}
 .body {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -199,7 +271,8 @@ a {
   padding-bottom: 1px;
   border-bottom: 1px solid #ccc;
 }
-.nav-list > li {
+.nav-list a {
+  display: block;
   padding-left: 20px;
   padding-right: 20px;
   height: 100%;
@@ -210,8 +283,8 @@ a {
   font-weight: bold;
   color: #999;
 }
-.nav-list > li:hover,
-.nav-list > li.active {
+.nav-list a:hover,
+.nav-list a.active {
   border-bottom-color: #00a4ff;
   color: #00a4ff;
 }

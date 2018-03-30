@@ -4,12 +4,14 @@
 import React from 'react';
 import Component from '../lib/component';
 import {Provider, connect} from 'react-redux';
+import Comment from '../../../../src/component/comment';
 
-class Comment extends Component{
+class CommentPanel extends Component{
     render(){
+        let {id} = this.props;
         return <div>
-            dddd
+            <Comment targetId={`novel_${id}`} />
         </div>;
     }
 }
-export default connect((state) => ({}))(Comment)
+export default connect((state) => state.novelData)(CommentPanel)

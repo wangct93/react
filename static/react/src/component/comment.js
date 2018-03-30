@@ -25,25 +25,52 @@ export default class Comment extends Component{
             <ul className="comment-list">
                 {
                     data.map((item,i) => {
-                        return <li key={i}>
-                            <Item data={item} />
-                        </li>
+                        return <Item key={i} data={item} />
                     })
                 }
             </ul>
+            <div className="reply-box">
+                <div className="input-box" ref="input" contentEditable={true}></div>
+                <div className="reply-btn-box">
+                    <a className="reply-btn" onClick={this.submit.bind(this)}>评论</a>
+                </div>
+            </div>
             <Paging onSelect={this.turnPage.bind(this)} option={formatPaging(this.params,total)}/>
         </div>
     }
     componentDidMount(){
         this.turnPage(1,10);
     }
+    submit(){
+        let inputDiv = this.refs.input;
+        let value = inputDiv.innerText;
+        inputDiv.innerText = '';
+        if(!value){
+            alert('内容不能为空！');
+        }else{
+            let {targetId} = this.props;
+            $.ajax({
+                url:'/submitComment',
+                data:{
+                    targetId:targetId,
+                    content:value
+                },
+                success:() => {
+                    alert('评论成功！');
+                    this.reload();
+                },
+                error(err){
+                    console.log(err);
+                    alert('评论失败！');
+                }
+            });
+        }
+    }
+    reload(){
+        this.turnPage(this.params.num);
+    }
     turnPage(num,size){
         turnPage.call(this,...arguments);
-    }
-    refresh(){
-        this.setState({
-            _date:+new Date()
-        });
     }
 }
 
@@ -57,17 +84,18 @@ class Item extends Component{
         }
     }
     componentWillMount(){
-        let {id,targetId} = this.props.data;
+        let {id,targetId,parentId} = this.props.data;
         this.params = {
-            parentId:id,
+            parentId:parentId || id,
             targetId
-        }
+        };
+        this.isReply = !!parentId;
     }
     render(){
         let {username,time,content,toUserName} = this.props.data || {};
         let {turnPage,reply,changeReplyState,submit,params} = this;
         let {data,total} = this.state;
-        return <div className="comment-item">
+        return <li>
             <div className="head">
                 <div className="img-box">
                     <img src="./img/1.jpg"/>
@@ -103,7 +131,7 @@ class Item extends Component{
                     {
                         data.map((item,i) => {
                             return <li key={i}>
-                                <Item data={item} />
+                                <Item data={item} reload={this.reload.bind(this)}/>
                             </li>
                         })
                     }
@@ -114,21 +142,26 @@ class Item extends Component{
                     <Paging search={turnPage.bind(this)} option={formatPaging(params,total)} />
                 </div>
             </div>
-        </div>
+        </li>
+    }
+    reload(){
+        this.turnPage(this.params.num);
     }
     turnPage(){
         turnPage.call(this,...arguments);
     }
     changeReplyState(){
-        this.reply = !this.reply;
+        this.openReply = !this.openReply;
         this.refresh();
-        if(!this.replyloaded){
+        if(!this.isReply && !this.replyloaded){
             this.replyloaded = true;
             this.turnPage(1);
         }
     }
     submit(){
-        let value = this.refs.input.innerText;
+        let inputDiv = this.refs.input;
+        let value = inputDiv.innerText;
+        inputDiv.innerText = '';
         if(!value){
             alert('内容不能为空！');
         }else{
@@ -145,7 +178,11 @@ class Item extends Component{
                 },
                 success:() => {
                     alert('评论成功！');
-                    this.turnPage(this.params.num);
+                    if(this.isReply){
+                        this.props.reload();
+                    }else{
+                        this.reload();
+                    }
                 },
                 error(err){
                     console.log(err);
@@ -153,11 +190,6 @@ class Item extends Component{
                 }
             });
         }
-    }
-    refresh(){
-        this.setState({
-            _date:+new Date()
-        });
     }
 }
 

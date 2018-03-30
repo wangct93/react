@@ -2,23 +2,21 @@
  * Created by Administrator on 2018/3/7.
  */
 import {dispatch} from '../store';
-import Intro from '../../view/intro';
-import ChapterList from '../../view/chapterList';
-import Comment from '../../view/comment';
+
 let defaultState = {
+    id:wt.getQueryString('bookId'),
     nav:[
         {
             title:'作品信息',
-            component:Intro
+            path:'/intro'
         },
         {
             title:'目录',
-            component:ChapterList,
-            selected:true
+            path:'/chapterList'
         },
         {
             title:'评论',
-            component:Comment
+            path:'/comment'
         }
     ]
 };
@@ -31,19 +29,11 @@ export let novelData = (state = defaultState,action = {}) => {
 };
 
 let reducer = {
-    changeNav(state,action){
-        let {nav} = state;
-        let {index} = action;
-        nav.forEach((item,i) => {
-            item.loaded = item.loaded || item.selected || i === index;
-            item.selected = i === index;
-        });
-    },
     requestInfo(state,action){
         $.ajax({
             url:'/book/getInfo',
             data:{
-                bookId:wt.getQueryString('bookId')
+                bookId:state.id
             },
             success(data){
                 dispatch({

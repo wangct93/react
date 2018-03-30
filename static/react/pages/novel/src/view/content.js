@@ -9,36 +9,37 @@ import Panel from '../../../../src/component/navPanel';
 
 import * as actionObj from '../store/novel/action';
 
+import {HashRouter,Route,NavLink,Switch,Redirect} from 'react-router-dom';
 
+
+import Intro from './intro';
+import ChapterList from './chapterList';
+import Comment from './comment';
 
 class Content extends Component{
     render(){
         let {list} = this.props;
         return <div className="content">
-            <Nav list={list} click={this.props.changeNav}/>
-            <NavPanel list={list}/>
-        </div>
-    }
-}
-
-
-class Nav extends Component{
-    render(){
-        return <ul className="nav-list">
-            {
-                this.props.list.map((item,i) => {
-                    let {selected,title} = item;
-                    return <li onClick={this.props.click.bind(this,i)} className={selected ? 'active' : ''} key={i}>{title}</li>
-                })
-            }
-        </ul>
-    }
-}
-
-class NavPanel extends Component{
-    render(){
-        return <div>
-            <Panel list={this.props.list} />
+            <HashRouter>
+                <div>
+                    <ul className="nav-list">
+                        {
+                            list.map((item,i) => {
+                                let {title} = item;
+                                return <li key={i}>
+                                    <NavLink to={item.path}>{title}</NavLink>
+                                </li>
+                            })
+                        }
+                    </ul>
+                    <Switch>
+                        <Route path="/intro" component={Intro} />
+                        <Route path="/chapterList" component={ChapterList} />
+                        <Route path="/comment" component={Comment} />
+                        <Redirect to="/intro" />
+                    </Switch>
+                </div>
+            </HashRouter>
         </div>
     }
 }

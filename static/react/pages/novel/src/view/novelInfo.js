@@ -11,7 +11,7 @@ class NovelInfo extends Component{
         let {data = {}} = this.props;
         return <div className="info-container mgb25">
             <div className="imgbox">
-                <img src="/static/blog_react/img/1.jpg" />
+                <img src="/static/react/img/1.jpg" />
             </div>
             <div className="info-box">
                 <h2>
