@@ -5,8 +5,8 @@ let path = require('path');
 let webpack = require('webpack');
 
 
-// let src = 'react/src/index.js';
-let src = 'react/pages/novel/src/index.js';
+let src = 'react/src/index.js';
+// let src = 'react/pages/novel/src/index.js';
 
 module.exports = {
     mode:'development',      //development:开发模式      production:上线模式

@@ -2,7 +2,7 @@
 @import "common";
 @import "comment";
 
-@explainBgColor:#1f2431;
+@lbtBgColor:#1f2431;
 @trHoverColor:#f1f1f1;
 @activeHoverColor:#0077e6;
 @fontColor:#8590a6;
@@ -21,12 +21,14 @@
 }
 
 .home-box {
-    .explain-box {
-        height: 300px;
-        background-color: @explainBgColor;
-        .text-center;
-        color: @white;
-        padding: 20px;
+    .home-lbt{
+        padding-top: 30px;
+        .lbt-box{
+            .border-bottom;
+        }
+        .lbt-list{
+            height: 400px;
+        }
     }
     .nav-bg-list {
         .flex-box;
@@ -285,5 +287,40 @@
     }
     .home-btn-box{
         text-align: right;
+    }
+}
+
+.fit{
+    width: 100%;
+    height: 100%;
+}
+.lbt-list{
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    > li{
+        position: absolute;
+        .fit;
+        img{
+            .fit;
+        }
+    }
+}
+.lbt-control{
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    >li{
+        height: 30px;
+        width: 30px;
+        background-color: @activeColor;
+        margin:0 10px;
+        cursor: pointer;
+        &:hover{
+            background-color: @activeHoverColor;
+        }
+        &.active{
+            background-color: yellow;
+        }
     }
 }
