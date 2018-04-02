@@ -204,42 +204,44 @@ module.exports = {
         }
         return str;
     },
-    toHexString:function(){
-        return this.split('').map(function(item){
-            return getHex(item);
+    toUtf8HexString(){
+        return this.split('').map(char => {
+            let code = char.charCodeAt(0);
+            return encodeUtf8(code.toString(2)).split(' ').map(binary => parseInt(binary,2).toString(16)).join(' ');
         }).join(' ');
+    },
+    decodeUtf8ByHex(){
+        return String.fromCharCode(parseInt(decodeUtf8(parseInt(this.replace(/\s/g,''),16).toString(2)),2));
     }
 };
 
-
-function getHex(char){
-    var code = +char.charCodeAt(0);
-    var utf8Binary = getUtf8Binary(code.toString(2));
-    return utf8Binary.split(' ').map(function(binary){
-        return parseInt(binary,2).toString(16);
-    }).join(' ');
+function encodeUtf8(binary){
+    let length = binary.length;
+    if(length < 8){
+        return '0' + binary.addZero(7);
+    }
+    let ary = [];
+    let headLen = length % 6;
+    ary.push(binary.substr(0,headLen));
+    for(let i = headLen;i < length;i += 6){
+        ary.push(binary.substr(i,6))
+    }
+    let aryLen = ary.length;
+    return '1'.repeat(aryLen) + '0'.repeat(8 - aryLen - headLen) + ary.join(' 10');
 }
 
-function getUtf8Binary(binary){
-    var len = binary.length;
-    var reBinary;
-    if(len < 8){
-        reBinary = '0' + binary.addZero(7);
-    }else if(len < 12){
-        binary = binary.addZero(11);
-        reBinary = '110' + binary.substr(0,5) + ' 10' + binary.substr(5);
-    }else if(len < 17){
-        binary = binary.addZero(16);
-        reBinary = '1110' + binary.substr(0,4) + ' 10' + binary.substr(4,6) + ' 10' + binary.substr(10);
-    }else if(len < 22){
-        binary = binary.addZero(21);
-        reBinary = '11110' + binary.substr(0,3) + ' 10' + binary.substr(3,6) + ' 10' + binary.substr(9,6) + ' 10' + binary.substr(15);
-    }else if(len < 27){
-        binary = binary.addZero(26);
-        reBinary = '111110' + binary.substr(0,2) + ' 10' + binary.substr(2,6) + ' 10' + binary.substr(8,6) + ' 10' + binary.substr(14,6) + ' 10' + binary.substr(20);
-    }else{
-        binary = binary.addZero(31);
-        reBinary = '1111110' + binary.substr(0,1) + ' 10' + binary.substr(1,6) + ' 10' + binary.substr(7,6) + ' 10' + binary.substr(13,6) + ' 10' + binary.substr(19,6) + ' 10' + binary.substr(25);
+
+function decodeUtf8(binary){
+    let length = binary.length;
+    let num = Math.ceil(length / 8);
+    binary.addZero(num * 8);
+    let result = '';
+    for(let i = 0;i < binary.length;i += 8){
+        if(i === 0){
+            result += binary.substr(num,8 - num).replace(/^0+/,'');
+        }else{
+            result += binary.substr(i + 2,6);
+        }
     }
-    return reBinary;
+    return result;
 }

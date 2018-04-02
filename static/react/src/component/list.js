@@ -293,8 +293,8 @@ export class WorksTableView extends Component{
                             {
                                 iconCls:'text-btn',
                                 text:'详情',
-                                handler:({id},i) => {
-                                    window.open('./pages/blog/index.html?blogId=' + id);
+                                handler:({url},i) => {
+                                    window.open(url);
                                 }
                             }
                         ]
