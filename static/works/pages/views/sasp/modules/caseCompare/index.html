@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <title>案件比对</title>
+    <link href="../../../../../../util/css/common.css" rel="stylesheet">
+    <link href="../common/css/list.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="../../../../../../util/js/util.js"></script>
+    <script src="../../../../../../util/plugins/require/require.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.min.js"></script>
+    <script src="../common/js/drawMarkEcharts.js"></script>
+    <script src="../common/js/list.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="header"></div>
+    <div class="content">
+        <div class="content-header">
+            <span class="header-title">案件比对</span>
+        </div>
+        <div class="info-box" id="baseInfo">
+            <div class="case-item">
+                <div class="case-header">
+                    <span class="form-value" vtext="CASENAME"></span>
+                    <div class="fr btn2 change-case icon-changecase">
+                        <span class="">切换案件</span>
+                        <div class="change-menu">
+                            <iframe class="object-mask"></iframe>
+                            <ul class="case-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="case-info">
+                    <div class="imgbox">
+                        <img class="info-img" onclick="openDetailByImg(this)" onerror="imgErrorEvent.call(this)">
+                    </div>
+                    <div class="case-info-right">
+                        <p class="case-info-text">案件编号：<span class="form-value hand-text" onclick="openDetailByImg(this)" vtext="OLDCASEID"></span></p>
+                        <p class="case-info-text">案发时间：<span class="form-value" vtext="STRCASETIME"></span></p>
+                        <div class="case-info-btnbox">
+                            <a class="btn" onclick="addToCB(this)">加入串并</a>
+                            <a class="w-btn fr icon-remove" onclick="removeCaseByBtn(this)">移除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="case-item">
+                <div class="case-header">
+                    <span class="form-value" vtext="CASENAME"></span>
+                    <div class="fr btn2 change-case icon-changecase">
+                        <span class="">切换案件</span>
+                        <div class="change-menu">
+                            <iframe class="object-mask"></iframe>
+                            <ul class="case-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="case-info">
+                    <div class="imgbox">
+                        <img class="info-img" onclick="openDetailByImg(this)" onerror="imgErrorEvent.call(this)">
+                    </div>
+                    <div class="case-info-right">
+                        <p class="case-info-text">案件编号：<span class="form-value hand-text" onclick="openDetailByImg(this)" vtext="OLDCASEID"></span></p>
+                        <p class="case-info-text">案发时间：<span class="form-value" vtext="STRCASETIME"></span></p>
+                        <div class="case-info-btnbox">
+                            <a class="btn" onclick="addToCB(this)">加入串并</a>
+                            <a class="w-btn fr icon-remove" onclick="removeCaseByBtn(this)">移除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="title">
+            <span>目标比对</span>
+            <div class="select-options inline" id="selectBox">
+                <span class="select-option active" type="all">全部</span>
+                <span class="select-option" type="person">目标嫌疑人</span>
+                <span class="select-option" type="vehicle">目标嫌疑车</span>
+            </div>
+            <div class="fr">
+                <a class="btn2 icon-display" onclick="showLayers(this);">隐藏图层</a>
+                <span style="font-weight:normal;margin:0 5px;font-size:12px;">|</span>
+                <a class="btn2 icon-fullscreen" onclick="openFull();"><span>全屏</span></a>
+            </div>
+        </div>
+        <div class="info-box target-box" id="targetBox">
+            <div class="case-item">
+                <div class="view-wrap">
+                    <div class="view-box fit">
+                        <div class="imgbox fit view-target">
+                            <img class="view-img">
+                        </div>
+                        <div class="video-box fit">
+                            <object classid="CLSID:62CB3B7B-E727-4FEF-95CF-F51ABF0179A3"></object>
+                            <video controls></video>
+                        </div>
+                    </div>
+                </div>
+                <div class="target-fj">
+                    <a class="move-btn move-left"></a>
+                    <div class="fit-width inline-m">
+                        <ul class="fj-list" index="0"></ul>
+                    </div>
+                    <a class="move-btn move-right"></a>
+                </div>
+            </div>
+            <div class="case-item">
+                <div class="view-wrap">
+                    <div class="view-box fit">
+                        <div class="imgbox fit view-target">
+                            <img class="view-img">
+                        </div>
+                        <div class="video-box fit">
+                            <object classid="CLSID:62CB3B7B-E727-4FEF-95CF-F51ABF0179A3"></object>
+                            <video controls></video>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="target-fj">
+                    <a class="move-btn move-left"></a>
+                    <div class="fit-width inline-m">
+                        <ul class="fj-list" index="1"></ul>
+                    </div>
+                    <a class="move-btn move-right"></a>
+                </div>
+            </div>
+        </div>
+        <div class="title">
+            <span>信息比对</span>
+            <div class="select-options inline" id="navBox">
+                <span class="select-option">研判信息</span>
+                <span class="select-option">标注信息</span>
+                <span class="select-option" id="mapTab">轨迹信息</span>
+            </div>
+        </div>
+        <div class="w-panels" id="panelBox">
+            <div class="w-panel">
+                <div class="info-box mark-box yp-box" id="ypBox">
+                    <div class="case-item">
+                        <div class="table-box">
+                            <table class="compare-table" style="display:table">
+                                <tr>
+                                    <td class="td-name">简要案情</td>
+                                    <td>
+                                        <div class="fit-box">
+                                            <div class="form-value multi-value" vtext="CNT"></div>
+                                            <i class="fit-btn" type="jyxq"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">视侦工作小结</td>
+                                    <td>
+                                        <div class="fit-box">
+                                            <div class="form-value multi-value" vtext="MEMO"></div>
+                                            <i class="fit-btn" type="gzxj"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">案件类别</td>
+                                    <td class="form-value" vtext="PARENTCATEGORIES"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">关联度</td>
+                                    <td class="form-value" vtext="RELATELEVEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">关联理由</td>
+                                    <td class="form-value" vtext="RELATEREASON"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">清晰度</td>
+                                    <td class="form-value" vtext="CLEARLEVEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">轨迹数</td>
+                                    <td class="form-value" vtext="trajectoryCount"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">密级</td>
+                                    <td class="form-value" vtext="SECURITYLEVEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">作案人数</td>
+                                    <td class="form-value" vtext="personNCount"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">信息点</td>
+                                    <td class="form-value" vtext="INFOPOINT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">超时点</td>
+                                    <td class="form-value" vtext="OVERTIMEPOINT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">落脚点</td>
+                                    <td class="form-value" vtext="LOCATIONPOINT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">落脚点地址</td>
+                                    <td class="form-value" vtext="LOCATIONADDR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">其他研判信息</td>
+                                    <td class="form-value" vtext="JUDGEINFO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">审核状态</td>
+                                    <td class="form-value" vtext="DEALSTATUS"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">审核时间</td>
+                                    <td class="form-value" vtext="ENDTIMEVALUE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">审核人</td>
+                                    <td class="form-value" vtext="USERNAME"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="case-item">
+                        <div class="table-box">
+                            <table class="compare-table" style="display:table">
+                                <tr>
+                                    <td class="td-name">简要案情</td>
+                                    <td>
+                                        <div class="fit-box">
+                                            <div class="form-value multi-value" vtext="CNT"></div>
+                                            <i class="fit-btn" type="jyxq"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">视侦工作小结</td>
+                                    <td>
+                                        <div class="fit-box">
+                                            <div class="form-value multi-value" vtext="MEMO"></div>
+                                            <i class="fit-btn" type="gzxj"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">案件类别</td>
+                                    <td class="form-value" vtext="PARENTCATEGORIES"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">关联度</td>
+                                    <td class="form-value" vtext="RELATELEVEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">关联理由</td>
+                                    <td class="form-value" vtext="RELATEREASON"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">清晰度</td>
+                                    <td class="form-value" vtext="CLEARLEVEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">轨迹数</td>
+                                    <td class="form-value" vtext="trajectoryCount"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">密级</td>
+                                    <td class="form-value" vtext="SECURITYLEVEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">作案人数</td>
+                                    <td class="form-value" vtext="personNCount"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">信息点</td>
+                                    <td class="form-value" vtext="INFOPOINT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">超时点</td>
+                                    <td class="form-value" vtext="OVERTIMEPOINT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">落脚点</td>
+                                    <td class="form-value" vtext="LOCATIONPOINT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">落脚点地址</td>
+                                    <td class="form-value" vtext="LOCATIONADDR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">其他研判信息</td>
+                                    <td class="form-value" vtext="JUDGEINFO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">审核状态</td>
+                                    <td class="form-value" vtext="DEALSTATUS"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">审核时间</td>
+                                    <td class="form-value" vtext="ENDTIMEVALUE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">审核人</td>
+                                    <td class="form-value" vtext="USERNAME"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-panel">
+                <div class="info-box mark-box" id="markBox">
+                    <div class="case-item">
+                        <div class="empty-alert">暂无标注信息</div>
+                        <div class="table-box">
+                            <table class="compare-table" type="base">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">基本信息</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">画面时间</td>
+                                    <td class="form-value" vtext="MATERIALDATE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >时差</td>
+                                    <td class="form-value" vtext="TIMEDIFFERENCERADIO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">北京时间</td>
+                                    <td class="form-value" vtext="ACTUALSTARTTIME"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">点位名称</td>
+                                    <td class="form-value" vtext="SXNAME"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">经纬度</td>
+                                    <td>
+                                        <span class="form-value" vtext="LONGITUDE" filter="filterLongitude"></span><span class="form-value" vtext="LATITUDE" filter="filterLatitude"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">监控类别</td>
+                                    <td class="form-value" vtext="SOURCETYPERADIO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">线路类别</td>
+                                    <td class="form-value" vtext="ROADTYPERADIO"></td>
+                                </tr>
+                            </table>
+                            <table class="compare-table" type="person">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">
+                                        <span class="mark-title">目标嫌疑人</span>
+                                        <div class="mark-nav"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">性别</td>
+                                    <td class="form-value" vtext="GENDERCODE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">体形</td>
+                                    <td class="form-value" vtext="BODYTYPE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">身高</td>
+                                    <td class="form-value" vtext="HEIGHTLOWERLIMIT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">年龄</td>
+                                    <td class="form-value" vtext="AGELOWERLIMIT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">特殊人群</td>
+                                    <td class="form-value" vtext="MEMBERTYPECODE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">头部特征</td>
+                                    <td class="form-value" vtext="FACIALFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">发型</td>
+                                    <td class="form-value" vtext="HAIRSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上身特征</td>
+                                    <td class="form-value" vtext="UPBODYFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上身穿着</td>
+                                    <td class="form-value" vtext="COATSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上衣颜色</td>
+                                    <td class="form-value" vtext="COATCOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上衣特征</td>
+                                    <td class="form-value" vtext="COATFEATURE"></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-name">下身特征</td>
+                                    <td class="form-value" vtext="DOWNBODYFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">下身穿着</td>
+                                    <td class="form-value" vtext="TROUSERSSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">下衣颜色</td>
+                                    <td class="form-value" vtext="TROUSERSCOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">鞋子款式</td>
+                                    <td class="form-value" vtext="SHOESSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">鞋子颜色</td>
+                                    <td class="form-value" vtext="SHOESCOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">嫌疑人姓名</td>
+                                    <td class="form-value" vtext="NAME"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">身份证号</td>
+                                    <td class="form-value" vtext="IDNUMBER"></td>
+                                </tr>
+                            </table>
+                            <table class="compare-table" type="vehicle">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">
+                                        <span class="mark-title">目标嫌疑车</span>
+                                        <div class="mark-nav"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆号牌</td>
+                                    <td class="form-value" vtext="PLATENO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">号牌类型</td>
+                                    <td class="form-value" vtext="PLATECLASS"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">号牌颜色</td>
+                                    <td class="form-value" vtext="PLATECOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆类型</td>
+                                    <td class="form-value" vtext="VEHICLECLASS"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆品牌</td>
+                                    <td class="form-value" vtext="VEHICLEBRAND"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆型号</td>
+                                    <td class="form-value" vtext="VEHICLEMODEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车身颜色</td>
+                                    <td class="form-value" vtext="VEHICLECOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车牌特征</td>
+                                    <td class="form-value" vtext="PLATENOFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">遮阳板</td>
+                                    <td class="form-value" vtext="SUNVISOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">天窗</td>
+                                    <td class="form-value" vtext="SKYWINDOW"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车脸特征</td>
+                                    <td class="form-value" vtext="MOTORFACEFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车身特征</td>
+                                    <td class="form-value" vtext="MOTORBODYFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆用途</td>
+                                    <td class="form-value" vtext="USINGPROPERTIESCODE"></td>
+                                </tr>
+                            </table>
+                            <table class="compare-table" type="yp">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">研判信息</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">信息点</td>
+                                    <td class="form-value" vtext="INFOPOINT" filter="filterInfopoint"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">超时点</td>
+                                    <td class="form-value" vtext="OVERTIMEPOINT" filter="filterOvertimepoint"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >落脚点</td>
+                                    <td class="form-value" vtext="LOCATIONPOINT" filter="filterLocationpoint"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >落脚点地址</td>
+                                    <td class="form-value" vtext="LOCATIONADDR" style="height: 45px;padding-top:3px;"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >其他研判信息</td>
+                                    <td class="form-value" vtext="JUDGEINFO"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="case-item">
+                        <div class="empty-alert">暂无标注信息</div>
+                        <div class="table-box">
+                            <table class="compare-table" type="base">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">基本信息</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">画面时间</td>
+                                    <td class="form-value" vtext="MATERIALDATE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >时差</td>
+                                    <td class="form-value" vtext="TIMEDIFFERENCERADIO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">北京时间</td>
+                                    <td class="form-value" vtext="ACTUALSTARTTIME"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">点位名称</td>
+                                    <td class="form-value" vtext="SXNAME"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">经纬度</td>
+                                    <td>
+                                        <span class="form-value" vtext="LONGITUDE" filter="filterLongitude"></span><span class="form-value" vtext="LATITUDE" filter="filterLatitude"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">监控类别</td>
+                                    <td class="form-value" vtext="SOURCETYPERADIO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">线路类别</td>
+                                    <td class="form-value" vtext="ROADTYPERADIO"></td>
+                                </tr>
+                            </table>
+                            <table class="compare-table" type="person">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">
+                                        <span class="mark-title">目标嫌疑人</span>
+                                        <div class="mark-nav"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">性别</td>
+                                    <td class="form-value" vtext="GENDERCODE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">体形</td>
+                                    <td class="form-value" vtext="BODYTYPE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">身高</td>
+                                    <td class="form-value" vtext="HEIGHTLOWERLIMIT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">年龄</td>
+                                    <td class="form-value" vtext="AGELOWERLIMIT"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">特殊人群</td>
+                                    <td class="form-value" vtext="MEMBERTYPECODE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">头部特征</td>
+                                    <td class="form-value" vtext="FACIALFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">发型</td>
+                                    <td class="form-value" vtext="HAIRSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上身特征</td>
+                                    <td class="form-value" vtext="UPBODYFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上身穿着</td>
+                                    <td class="form-value" vtext="COATSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上衣颜色</td>
+                                    <td class="form-value" vtext="COATCOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">上衣特征</td>
+                                    <td class="form-value" vtext="COATFEATURE"></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-name">下身特征</td>
+                                    <td class="form-value" vtext="DOWNBODYFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">下身穿着</td>
+                                    <td class="form-value" vtext="TROUSERSSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">下衣颜色</td>
+                                    <td class="form-value" vtext="TROUSERSCOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">鞋子款式</td>
+                                    <td class="form-value" vtext="SHOESSTYLE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">鞋子颜色</td>
+                                    <td class="form-value" vtext="SHOESCOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">嫌疑人姓名</td>
+                                    <td class="form-value" vtext="NAME"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">身份证号</td>
+                                    <td class="form-value" vtext="IDNUMBER"></td>
+                                </tr>
+                            </table>
+                            <table class="compare-table" type="vehicle">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">
+                                        <span class="mark-title">目标嫌疑车</span>
+                                        <div class="mark-nav"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆号牌</td>
+                                    <td class="form-value" vtext="PLATENO"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">号牌类型</td>
+                                    <td class="form-value" vtext="PLATECLASS"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">号牌颜色</td>
+                                    <td class="form-value" vtext="PLATECOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆类型</td>
+                                    <td class="form-value" vtext="VEHICLECLASS"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆品牌</td>
+                                    <td class="form-value" vtext="VEHICLEBRAND"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆型号</td>
+                                    <td class="form-value" vtext="VEHICLEMODEL"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车身颜色</td>
+                                    <td class="form-value" vtext="VEHICLECOLOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车牌特征</td>
+                                    <td class="form-value" vtext="PLATENOFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">遮阳板</td>
+                                    <td class="form-value" vtext="SUNVISOR"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">天窗</td>
+                                    <td class="form-value" vtext="SKYWINDOW"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车脸特征</td>
+                                    <td class="form-value" vtext="MOTORFACEFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车身特征</td>
+                                    <td class="form-value" vtext="MOTORBODYFEATURE"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">车辆用途</td>
+                                    <td class="form-value" vtext="USINGPROPERTIESCODE"></td>
+                                </tr>
+                            </table>
+                            <table class="compare-table" type="yp">
+                                <tr class="tr-hidden">
+                                    <td class="td-name"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-title" colspan="2">研判信息</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">信息点</td>
+                                    <td class="form-value" vtext="INFOPOINT" filter="filterInfopoint"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name">超时点</td>
+                                    <td class="form-value" vtext="OVERTIMEPOINT" filter="filterOvertimepoint"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >落脚点</td>
+                                    <td class="form-value" vtext="LOCATIONPOINT" filter="filterLocationpoint"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >落脚点地址</td>
+                                    <td class="form-value" vtext="LOCATIONADDR" style="height: 45px;padding-top:3px;"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" >其他研判信息</td>
+                                    <td class="form-value" vtext="JUDGEINFO"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="w-panel">
+                <iframe id="mapIframe" class="map-iframe" scrolling="0" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="footer-btn-box">
+        <a class="op-btn icon-addcb" onclick="openCB();">加入串并</a>
+    </div>
+</div>
+<div class="full-wrap" id="fullWrap">
+    <div class="full-bg"></div>
+    <div class="full-box" id="fullBox"></div>
+    <div class="full-close-box" title="关闭">
+        <iframe class="object-mask"></iframe>
+        <div class="full-close" onclick="hideFull()"></div>
+    </div>
+</div>
+<div class="full-wrap loading-wrap" id="loadingBox">
+    <div class="full-bg"></div>
+    <div class="loading-box">数据加载中，请稍后。。。</div>
+</div>
+</body>
+</html>

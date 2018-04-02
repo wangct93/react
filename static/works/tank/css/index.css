@@ -1,0 +1,61 @@
+
+
+
+.tank-wrap{
+    text-align: center;
+    padding: 20px;
+}
+.tank-box{
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+
+.tank1{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background:url('../img/tank.jpg') center no-repeat;
+    z-index: 500;
+}
+
+
+.tank-cell{
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: top;
+    background:#000 left top no-repeat;
+    background-size: 100% 100%;
+}
+.bg-cell-01-1,
+.bg-cell-10-1{
+    background-image:url('../img/bg1.jpg');
+}
+.bg-cell-00-1,
+.bg-cell-11-1{
+    background-image:url('../img/bg2.jpg');
+}
+
+
+
+.bullet{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('../img/bullet.png') center no-repeat;
+}
+.bullet-top{
+    transform:rotate(90deg);
+}
+.bullet-left{
+}
+.bullet-right{
+    transform:rotate(180deg);
+}
+.bullet-bottom{
+    transform:rotate(270deg);
+}

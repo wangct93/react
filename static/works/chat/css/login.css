@@ -1,0 +1,32 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.box{
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.line{
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+}
+.line{
+    margin-bottom: 20px;
+}
+.input{
+    border-color: #aaa;
+}
+.input:focus{
+    box-shadow:0 0 3px #333;
+}
+
+.btn-box{
+    display: flex;
+    justify-content: center;
+}
+.btn-box > .w-btn{
+    margin: 0 5px;
+}

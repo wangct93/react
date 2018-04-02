@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <title></title>
+    <link href="../../css/common.css" rel="stylesheet"  charset="utf-8">
+    <link href="css/homepage.css" rel="stylesheet">
+    <script src="../../../../../../util/js/util.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/homepage.js"></script>
+</head>
+<body>
+<div class="container">
+	<img class="container-bg" id="containerBg" src="img/bg.png">
+    <div class="main">
+    	<div class="box box-main mgb25">
+	    	<div class="box-bg"></div>
+	        <ul class="menu-list" id="menuList">
+	            <li menuid="60003020">
+	                <div class="menu-item menu-ajgl">案件管理</div>
+	            </li>
+	            <li menuid="60004010">
+	                <div class="menu-item menu-cbgl">串并管理</div>
+	            </li>
+	            <li menuid="60007010">
+	                <div class="menu-item menu-ajxc">案件协查</div>
+	            </li>
+	            <li menuid="6000101020">
+	                <div class="menu-item menu-shgl">审核管理</div>
+	            </li>
+	            <li menuid="60005010">
+	                <div class="menu-item menu-jxkh">绩效考核</div>
+	            </li>
+	            <li menuid="60008020">
+	                <div class="menu-item menu-rxbz">人像比中</div>
+	            </li>
+	            <li menuid="60009010">
+	                <div class="menu-item menu-mbxyrk">目标嫌疑库</div>
+	            </li>
+	            <li menuid="60002010">
+	                <div class="menu-item menu-wdsc">我的收藏</div>
+	            </li>
+	        </ul>
+	    </div>
+	    <div class="inline-box">
+	    	<div class="left-box fit">
+	            <div class="box">
+	            	<div class="box-nav-header">
+	            		<div class="nav-box" id="tabs">
+		                    <a class="nav-item active nav-item-qssak"></a>
+		                    <a class="nav-item nav-item-ca"></a>
+		                </div>
+	            	</div>
+	                <div class="box-main minH175" id='tabPanelBox'>
+	                    <div class="box-view-panel active" id="sheAn"></div>
+	                    <div class="box-view-panel" id="link"></div>
+	                    <div class="box-bg"></div>
+	                </div>
+	            </div>
+	            <div class="box">
+	            	<div class="box-nav-header">
+	            		<div class="nav-box">
+		                    <a class="nav-item active nav-item-mbbr"></a>
+		                </div>
+		                <div class="box-range">
+	                        <span>省级</span>
+	                        <span>市级</span>
+	                        <span>县级</span>
+	                    </div>
+	                    <span class="fr box-more">
+	                    	<a class="more-text" type="mbbr" onclick="seeMore()">更多</a>
+	                    </span>
+	            	</div>
+	                <div class="box-main">
+	                	<div class="box-bg"></div>
+	                    <div class="inline-box item-list" id="mbqr"></div>
+	                </div>
+	            </div>
+	            <div class="box">
+	                <div class="box-nav-header">
+	            		<div class="nav-box">
+		                    <a class="nav-item active nav-item-ajxc"></a>
+		                </div>
+	                    <span class="fr box-more">
+	                    	<a class="more-text" type="ajxc" onclick="seeMore()">更多</a>
+	                    </span>
+	            	</div>
+	                <div class="box-main">
+	                	<div class="box-bg"></div>
+	                    <div class="inline-box item-list" id="ajxc"></div>
+	                </div>
+	            </div>
+	            <div class="box">
+	                <div class="box-nav-header">
+	            		<div class="nav-box">
+		                    <a class="nav-item active nav-item-zxaj"></a>
+		                </div>
+	                    <span class="fr box-more">
+	                    	<a class="more-text" type="zxaj" onclick="seeMore()">更多</a>
+	                    </span>
+	            	</div>
+	                <div class="box-main">
+	                	<div class="box-bg"></div>
+	                    <div class="inline-box item-list" id="zxaj"></div>
+	                </div>
+	            </div>
+	            <div class="box">
+	                <div class="box-nav-header">
+	            		<div class="nav-box">
+		                    <a class="nav-item active nav-item-zxcb"></a>
+		                </div>
+	                    <span class="fr box-more">
+	                    	<a class="more-text" type="zxcb" onclick="seeMore()">更多</a>
+	                    </span>
+	            	</div>
+	                <div class="box-main">
+	                	<div class="box-bg"></div>
+	                    <div class="inline-box item-list" id="zxcb"></div>
+	                </div>
+	            </div>
+	            <div class="box">
+	                <div class="box-nav-header">
+	            		<div class="nav-box nav-box-len2" id="tabs2">
+		                    <a class="nav-item nav-item-gddt"></a>
+		                    <a class="nav-item nav-item-dxal"></a>
+		                    <a class="nav-item nav-item-jzf"></a>
+		                    <a class="nav-item nav-item-bzgf"></a>
+		                    <a class="nav-item nav-item-tszs"></a>
+		                </div>
+	                    <span class="fr box-more">
+	                    	<a class="more-text" type="tszs" onclick="seeMore()">更多</a>
+	                    </span>
+	            	</div>
+	                <div class="box-main" id="panelBox2">
+	                	<div class="box-panel item-list inline-box"></div>
+	                    <div class="box-panel item-list inline-box" id="dxal"></div>
+	                    <div class="box-panel item-list inline-box"></div>
+	                    <div class="box-panel item-list inline-box"></div>
+	                    <div class="box-panel item-list inline-box" id="tszs"></div>
+	                	<div class="box-bg"></div>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="right-box">
+	            <div class="box box-main box-login">
+	            	<div class="box-bg"></div>
+	                <div class="login-img-box">
+	                    <img src="img/user_logo.png">
+	                </div>
+	                <div class="login-main">
+	                    <p id="user">您好，请登录</p>
+	                    <div class="login-op">
+	                    	<a class="login-btn" id="login-btn">登录</a>
+	                    	<a class="user-text" style='display:inline-block;' id="register-btn">注册</a>
+	                    	<a class="user-text" id="userInfo">信息修改</a>
+	                    	<a class="user-text" onclick="logOut()">退出</a>
+	                    </div>
+	                    <p class="login-op"><a class="user-text" onclick="toPlatform();">进入我的平台</a></p>
+	                </div>
+	            </div>
+	            <div class="box box-main">
+	            	<div class="box-bg"></div>
+	                <div class="box-header">
+	                    <span class="box-title">通知公告</span>
+	                    <span class="fr box-more">
+	                    	<a class="more-text" type="tzgg" onclick="seeMore()">更多</a>
+	                    </span>
+	                </div>
+	                <div class="box-notice" id="notice">
+	                    
+	                </div>
+	            </div>
+	            <div class="box box-main">
+	            	<div class="box-bg"></div>
+	                <div class="box-header"><span class="box-title">市级平台</span></div>
+	                <div class="box-main box-platform">
+	                	<span class="home-textbox"><a class="home-text">杭州</a></span>
+	                    <span class="home-textbox"><a class="home-text">宁波</a></span>
+	                    <span class="home-textbox"><a class="home-text">温州</a></span>
+	                    <span class="home-textbox"><a class="home-text">嘉兴</a></span>
+	                    <span class="home-textbox"><a class="home-text">湖州</a></span>
+	                    <span class="home-textbox"><a class="home-text">绍兴</a></span>
+	                    <span class="home-textbox"><a class="home-text">金华</a></span>
+	                    <span class="home-textbox"><a class="home-text">衢州</a></span>
+	                    <span class="home-textbox"><a class="home-text">舟山</a></span>
+	                    <span class="home-textbox"><a class="home-text">台州</a></span>
+	                    <span class="home-textbox"><a class="home-text">丽水</a></span>
+	                </div>
+	            </div>
+	            <div class="box box-main">
+	            	<div class="box-bg"></div>
+	                <div class="box-header"><span class="box-title">相关下载</span></div>
+	                <div class="box-platform box-download">
+	                	 <span class="home-textbox"><a class="home-text" onclick="downloadPlayer()">平台插件下载（<span id="ptcj"></span>）</a></span>
+	                	 <span class="home-textbox"><a class="home-text" onclick="downloadOp()">操作手册</a></span>
+	                     <span class="home-textbox"><a class="home-text" onclick="downloadVideo()">20180208省厅涉案库培训视频</a></span>
+	                </div>
+	            </div>
+	            <div class="box box-main">
+	            	<div class="box-bg"></div>
+	                <div class="box-header"><span class="box-title">友情链接</span></div>
+	                <div class="box-platform box-download" id="yqlj">
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        
+    </div>
+    <div class="footer">
+       	<p>版权所有</span></p>
+     </div>
+</div>
+</body>
+</html>

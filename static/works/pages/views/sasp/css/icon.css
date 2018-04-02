@@ -1,0 +1,385 @@
+.tree-file{
+	background: transparent;
+}
+.tree-eqp{
+	background: url('../img/tree.png') center no-repeat;
+}
+.tree-qkgx{
+	background: url('../img/quan.png') center no-repeat;
+}
+.tree-qkgx2{
+	background: url('../img/kuai.png') center no-repeat;
+}
+
+.icon-prev{
+	background:url('../img/prevStep.png') center no-repeat;
+}
+.icon-next{
+	background:url('../img/nextStep.png') center no-repeat;
+}
+.icon-save{
+	background:url('../img/save.png') center no-repeat;
+}
+.icon-ok{
+	background:url('../img/right.png') center no-repeat;
+}
+.icon-close{
+	background:url('../img/delete.png') center no-repeat;
+}
+.icon-add{
+	background:url('../img/add.png') center no-repeat;
+}
+.icon-remove{
+	background:url('../img/remove.png') center no-repeat;
+}
+.icon-clear{
+	background:url('../img/delete.png') center no-repeat;
+}
+.icon-search{
+	background:url('../img/search.png') center no-repeat;
+}
+.icon-empty{
+	background:url('../img/empty.png') center no-repeat;
+}
+.icon-export{
+	background:url('../img/export1.png') center no-repeat;
+}
+
+
+.icon-change{
+	background:url('../img/changePassword.png') center no-repeat;
+}
+.icon-system{
+	background:url('../img/system.png') center no-repeat;
+}
+.icon-back{
+	background:url('../img/back.png') center no-repeat;
+}
+.icon-help{
+	background:url('../img/help.png') center no-repeat;
+}
+
+/*车辆查询*/
+.icon-carQuery{
+	background:url('../img/menuIcon/carQuery.png') center no-repeat;
+}
+/*案件地图显示*/
+.icon-caseMap{
+	background:url('../img/menuIcon/caseMap.png') center no-repeat;
+}
+/*车辆大数据*/
+.icon-carData{
+	background:url('../img/menuIcon/carData.png') center no-repeat;
+}
+/*车辆基础库*/
+.icon-carBase{
+	background:url('../img/menuIcon/carBase.png') center no-repeat;
+}
+/*车辆智能预警*/
+.icon-carWarn{
+	background:url('../img/menuIcon/carWarn.png') center no-repeat;
+}
+/*缉查布控*/
+.icon-checkControl{
+	background:url('../img/menuIcon/checkControl.png') center no-repeat;
+}
+/*决策分析*/
+.icon-decisionAnaly{
+	background:url('../img/menuIcon/decisionAnaly.png') center no-repeat;
+}
+/*最新案件*/
+.icon-newCase{
+	background:url('../img/menuIcon/newCase.png') center no-repeat;
+}
+/*最新接警*/
+.icon-newAlarm{
+	background:url('../img/menuIcon/newAlarm.png') center no-repeat;
+}
+/*视频图片检索*/
+.icon-imgQuery{
+	background:url('../img/menuIcon/imgQuery.png') center no-repeat;
+}
+/*信息录入*/
+.icon-infoInput{
+	background:url('../img/menuIcon/infoInput.png') center no-repeat;
+}
+/*可疑信息库*/
+.icon-dubiousInfo{
+	background:url('../img/menuIcon/dubiousInfo.png') center no-repeat;
+}
+/*警情信息库*/
+.icon-alarmInfo{
+	background:url('../img/menuIcon/alarmInfo.png') center no-repeat;
+}
+/*案件信息库*/
+.icon-caseInfo{
+	background:url('../img/menuIcon/caseInfo.png') center no-repeat;
+}
+/*专案信息库*/
+.icon-projectInfo{
+	background:url('../img/menuIcon/projectInfo.png') center no-repeat;
+}
+/*已破案件库*/
+.icon-brokeCase{
+	background:url('../img/menuIcon/brokeCase.png') center no-repeat;
+}
+/*串并信息库*/
+.icon-andInfo{
+	background:url('../img/menuIcon/andInfo.png') center no-repeat;
+}
+/*社会视频*/
+.icon-societyVideo{
+	background:url('../img/menuIcon/societyVideo.png') center no-repeat;
+}
+/*单点视频*/
+.icon-pointVideo{
+	background:url('../img/menuIcon/pointVideo.png') center no-repeat;
+}
+/*通讯基站*/
+.icon-communication{
+	background:url('../img/menuIcon/communication.png') center no-repeat;
+}
+/*电子围栏*/
+.icon-electron{
+	background:url('../img/menuIcon/electron.png') center no-repeat;
+}
+/*信息统计*/
+.icon-infoCount{
+	background:url('../img/menuIcon/infoCount.png') center no-repeat;
+}
+/*应用成效分析*/
+.icon-effectAnaly{
+	background:url('../img/menuIcon/effectAnaly.png') center no-repeat;
+}
+/*用户管理*/
+.icon-userManage{
+	background:url('../img/menuIcon/userManage.png') center no-repeat;
+}
+/*组织管理*/
+.icon-organizeManage{
+	background:url('../img/menuIcon/organizeManage.png') center no-repeat;
+}
+/*权限管理*/
+.icon-powerManage{
+	background:url('../img/menuIcon/powerManage.png') center no-repeat;
+}
+/*日志管理*/
+.icon-logManage{
+	background:url('../img/menuIcon/logManage.png') center no-repeat;
+}
+/*参数管理*/
+.icon-paramManage{
+	background:url('../img/menuIcon/paramManage.png') center no-repeat;
+}
+/*分类管理*/
+.icon-classManage{
+	background:url('../img/menuIcon/classManage.png') center no-repeat;
+}
+/*公告管理*/
+.icon-noticeManage{
+	background:url('../img/menuIcon/noticeManage.png') center no-repeat;
+}
+/*视频浓缩检索*/
+.icon-videoCondense{
+	background:url('../img/menuIcon/videoCondense.png') center no-repeat;
+}
+
+/*最新视频*/
+.icon-newVideo{
+	background:url('../img/menuIcon/newVideo.png') center no-repeat;
+}
+/*视频图像信息库*/
+.icon-videoImgInfo{
+	background:url('../img/menuIcon/videoImgInfo.png') center no-repeat;
+}
+/*串并信息库*/
+.icon-andInfo{
+	background:url('../img/menuIcon/andInfo.png') center no-repeat;
+}
+
+/*实战案例库*/
+.icon-actualCase{
+	background:url('../img/menuIcon/actualCase.png') center no-repeat;
+}
+/*信息回收站*/
+.icon-rubbishCollection{
+	background:url('../img/menuIcon/rubbishCollection.png') center no-repeat;
+}
+/*信息草稿箱*/
+.icon-draftBox{
+	background:url('../img/menuIcon/draftBox.png') center no-repeat;
+}
+/*人像搜痕*/
+.icon-portraitMark{
+	background:url('../img/menuIcon/portraitMark.png') center no-repeat;
+}
+/*人像布控*/
+.icon-portraitControl{
+	background:url('../img/menuIcon/portraitControl.png') center no-repeat;
+}
+/*人像对比库*/
+.icon-portraitRatio{
+	background:url('../img/menuIcon/portraitRatio.png') center no-repeat;
+}
+/*案件协查*/
+.icon-caseCheck{
+	background:url('../img/menuIcon/caseCheck.png') center no-repeat;
+}
+/*固边卡点*/
+.icon-borderPoint{
+	background:url('../img/menuIcon/borderPoint.png') center no-repeat;
+}
+/*重复发人员核查结果*/
+.icon-lock{
+	background:url('../../../commonui/images/icons/lock.png') center no-repeat;
+}
+.icon-deal{
+	background:url('../../../commonui/images/icons/deal.png') center no-repeat;
+}
+.icon-follow{
+	background:url('../../../commonui/images/icons/follow.png') center no-repeat;
+}
+.icon-closed{
+	background:url('../../../commonui/images/icons/closed.png') center no-repeat;
+}
+.icon-tovoid{
+	background:url('../../../commonui/images/icons/tovoid.png') center no-repeat;
+}
+.icon-query{
+	background:url('../../../commonui/images/icons/u26.png') center no-repeat;
+}
+.icon-play{
+	background:url('../../../commonui/images/icons/start.png') center no-repeat;
+}
+.icon-work{
+	background-image:url('../img/work.png');
+}
+
+/*我收藏的案事件*/
+.icon-saveCase{
+	background-image:url('../img/menuIcon/saveCase.png');
+}
+.icon-saveCaseCB{
+	background-image:url('../img/menuIcon/saveCase_cb.png')
+}
+.icon-susPeople{
+	background-image:url('../img/menuIcon/suspect.png');
+}
+.icon-susCar{
+	background-image:url('../img/menuIcon/suspect_car.png');
+}
+.icon-addCase{
+	background-image:url('../img/menuIcon/addCase.png');
+}
+.icon-caseList{
+	background-image:url('../img/menuIcon/caseList.png');
+}
+.icon-saveCaseZ{
+	background-image:url('../img/menuIcon/saveCase_z.png');
+}
+.icon-caseListCB{
+	background-image:url('../img/menuIcon/caseList_cb.png');
+}
+.icon-caseListYCB{
+	background-image:url('../img/menuIcon/caseList_ycb.png');
+}
+.icon-infoCount{
+	background-image:url('../img/menuIcon/infoCount.png');
+}
+.icon-viewPic{
+	background-image:url('../img/menuIcon/viewPic.png');
+}
+.icon-send{
+	background-image:url('../img/menuIcon/send.png');
+}
+.icon-receive{
+	background-image:url('../img/menuIcon/receive.png');
+}
+.icon-audit{
+	background-image:url('../img/menuIcon/audit.png');
+}
+.icon-checkList{
+	background-image:url('../img/menuIcon/checkList.png');
+}
+.icon-myCheck{
+	background-image:url('../img/menuIcon/myCheck.png');
+}
+.icon-countCB{
+	background-image:url('../img/menuIcon/count_cb.png');
+}
+
+.icon-ky-count{
+	background-image:url('../img/menuIcon/ky_count.png')
+}
+.icon-jq-count{
+	background-image:url('../img/menuIcon/jq_count.png')
+}
+.icon-aj-count{
+	background-image:url('../img/menuIcon/aj_count.png')
+}
+.icon-bm-count{
+	background-image:url('../img/menuIcon/bm_count.png')
+}
+.icon-case-count{
+	background-image:url('../img/menuIcon/case_count.png')
+}
+.icon-bm-analy{
+	background-image:url('../img/menuIcon/bm_analy.png')
+}
+.icon-gr-analy{
+	background-image:url('../img/menuIcon/gr_analy.png')
+}
+
+.icon-zn-manage{
+	background-image:url('../img/menuIcon/zn_manage.png')
+}
+.icon-keyword{
+	background-image:url('../img/menuIcon/keyword.png')
+}
+.icon-save-mi{
+	background-image:url('../img/menuIcon/mi_save.png')
+}
+.icon-save-mi-zu{
+	background-image:url('../img/menuIcon/mi_save_z.png')
+}
+.icon-rx-compare{
+	background-image:url('../img/menuIcon/rxbz_list.png')
+}
+
+.icon-yjbr{
+	background-image:url('../img/menuIcon/yjbr.png')
+}
+.icon-mbbr{
+	background-image:url('../img/menuIcon/mbbr.png')
+}
+
+.icon-dxal{
+	background-image:url('../img/menuIcon/dxal.png')
+}
+
+.icon-jzf{
+	background-image:url('../img/menuIcon/jzf.png')
+}
+
+.icon-bzgf{
+	background-image:url('../img/menuIcon/bzgf.png')
+}
+
+.icon-tszs{
+	background-image:url('../img/menuIcon/tszs.png')
+}
+
+.icon-gddt{
+	background-image:url('../img/menuIcon/gddt.png')
+}
+/*摄像机管理*/
+.icon-cameraManage{
+	background:url('../img/menuIcon/cameraManage.png') center no-repeat;
+}
+/***其他技术串并***/
+.icon-qtjscb{
+	background:url('../img/menuIcon/qtjscb.png') center no-repeat;
+}
+.icon-hsz{
+	background:url('../img/menuIcon/hsz.png') center no-repeat;
+}

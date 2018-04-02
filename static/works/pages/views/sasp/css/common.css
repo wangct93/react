@@ -1,0 +1,291 @@
+/********初始化样式********/
+html,body{
+    height: 100%;
+}
+body{
+    font: 12px '宋体';
+    white-space: nowrap;
+    word-break: break-all;
+    overflow: hidden;
+}
+body,p,h1,h2,h3,h4,h5,h6,ul{
+    margin: 0;
+}
+ul,ol{
+    padding: 0;
+    list-style-type: none;
+}
+table{
+    border-collapse:collapse;
+    font-size: 12px;
+}
+table td{
+    padding:0;
+}
+textarea,
+input{
+    vertical-align: middle;
+    box-sizing: border-box;
+    border: 1px solid #d3d3d3;
+    outline: none;
+    padding-left:5px;
+}
+textarea{
+    padding: 5px;
+}
+input[type=checkbox],
+input[type=radio]{
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+a{
+    text-decoration: none;
+    outline: none;
+}
+img,label{
+    vertical-align: middle;
+}
+img,
+textarea{
+	width:100%;
+	height:100%;
+}
+iframe{
+    width: 100%;
+    height: 100%;
+    display:block;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.clearfix:after{
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+}
+.container{
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+.inline-box{
+    font-size: 0;
+}
+.inline-box > div,
+.inline-box > ul,
+.inline-box > li,
+.inline-box > span,
+.inline-box > a,
+.inline-box > i,
+.inline-box > table{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.inline-box-m > div{
+	vertical-align:middle;
+}
+.vertical-middle:after{
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.multi-line{
+    white-space: normal;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑↑初始化样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/***************通用按钮***************************/
+.w-btn{
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    line-height:26px\9;
+    border: 1px solid #d3d3d3;
+    padding: 0 10px 0 30px;
+    cursor: pointer;
+    font-size: 12px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+.w-btn:first-child{
+    margin-left: 0;
+}
+.w-btn:hover{
+    background-color: #f1f1f1;
+    border-color: #bababa;
+}
+.w-btn-blue{
+    background-color: #3968C6;
+    border-color:#3968C6;
+    color: #fff;
+}
+.w-btn-blue:hover{
+    background-color: #4d77cc;
+    border-color: #4d77cc;
+}
+.w-btn-noicon{
+    padding-left: 10px;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑通用按钮↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/**************************自适应高度布局***************************/
+.fit-width{
+    width: 100%;
+    box-sizing: border-box;
+}
+.fit-height{
+    height: 100%;
+    box-sizing: border-box;
+}
+.fit{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/*↑↑↑↑↑↑↑↑↑↑↑↑自适应高度布局↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/****************************选项卡导航栏***************************/
+.nav-border{
+    height:33px;
+    border-bottom:1px solid #d3d3d3;
+    font-size: 0;
+}
+.nav-border-inner{
+    display: inline-block;
+    height: 33px;
+    line-height: 33px;
+    font-size: 12px;
+    padding: 0 5px;
+    margin-right:10px;
+    cursor:pointer;
+    box-sizing: border-box;
+}
+.nav-border-inner:hover{
+    color:#3F4C80;
+}
+.nav-border-inner.active{
+    border-bottom:2px solid #3F4C80;
+    height: 34px;
+    color:#3F4C80;
+    font-weight: bold;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑选项卡导航栏↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/***************************表单样式*******************************/
+.w-table-title{
+	height:12px;
+	line-height:12px;
+	border-left:2px solid #000;
+	padding-left:10px;
+	color:#000;
+	font-weight:bold;
+	margin:10px 0;
+}
+.w-table{
+    border-collapse:collapse;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.w-table td{
+    height: 31px;
+    box-sizing:border-box;
+    padding: 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border:1px solid #d3d3d3;
+}
+.pdlr2-box td{
+    padding: 0 2px;
+}
+.w-table-hidden > td{
+    height: 0;
+    border-width:0 1px;
+    padding: 0;
+}
+
+.w-table .pdlr2{
+    padding: 0 2px;
+}
+.w-table .pdlr8{
+    padding: 0 8px;
+}
+.w-table .pd2{
+    padding: 2px;
+}
+.w-table .td-name{
+    background-color:#D9E3FF;
+    text-align:right;
+    padding:0 10px;
+
+}
+.table-input{
+    width: 100%;
+    height: 26px;
+    line-height:24px;
+}
+.table-textarea{
+    width: 100%;
+    height: 60px;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑表单样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/*************************下拉菜单*****************************/
+.dropdown-box{
+    position: relative;
+    padding-right:14px;
+}
+.dropdown-box:before{
+    content:'';
+    position: absolute;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    border-top: 6px solid #CDCBCC;
+    top: 50%;
+    margin-top: -2px;
+    right: 10px;
+}
+.dropdown-main{
+    position: absolute;
+    left:0;
+    top: 34px;
+    width: 100%;
+    text-align: left;
+    display: none;
+    z-index: 1;
+    background: #f1f1f1;
+}
+.dropdown-box:hover .dropdown-main{
+    display: block;
+}
+/*↑↑↑↑↑↑↑↑↑↑↑↑下拉菜单↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
+
+/*******************************通用样式************************/
+.pd-20{
+    padding: 20px;
+}
+.pdt-20{
+    padding-top: 20px;
+}
+.pdlr-10{
+    padding: 0 10px;
+}
+.color-red{
+    color: red;
+}
+
+/*↑↑↑↑↑↑↑↑↑↑↑↑通用样式↑↑↑↑↑↑↑↑↑↑↑↑↑↑*/
