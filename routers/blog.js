@@ -14,12 +14,12 @@ let sendError = require('./sendError');
 let wt = require('../modules/util');
 let blogObj = require('../server/blog/blog');
 let commentObj = require('../server/comment/comment');
-
+let worksObj = require('../server/works/works');
 
 router.get('/',(req,res) => {
     res.status(301).setHeader('location','../static/react/index.html');
     res.send();
-})
+});
 
 router.get('/getHomeViewList',(req,res) => {
     let {type} = req.query;
@@ -89,3 +89,11 @@ router.get('/submitComment',(req,res) => {
     });
 });
 
+
+router.get('/getWorksList',(req,res) => {
+    worksObj.getListAndTotal(req.query,(result) => {
+        res.send(result);
+    },(err) => {
+        sendError(res,err);
+    });
+});

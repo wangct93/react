@@ -12,7 +12,7 @@ import Header from '../view/header';
 import Home from '../view/home';
 import Story from '../view/story';
 import Blog from '../view/blog';
-
+import Works from '../view/works';
 export default class Router extends Component{
     render(){
         return <HashRouter>
@@ -22,6 +22,7 @@ export default class Router extends Component{
                     <Route path="/home" component={Home}/>
                     <Route path="/story" component={Story}/>
                     <Route path="/blog" component={Blog}/>
+                    <Route path="/works" component={Works}/>
                     <Redirect to="/home"/>
                 </Switch>
             </div>

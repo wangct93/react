@@ -6,15 +6,14 @@ let defaultState = {
 };
 
 export let dialogData = (state = defaultState, action = {}) => {
-    wt.execFunc(reducer[action.type], state, action);
-    return wt.extend(true, {}, state);
+    state = wt.clone(state);
+    wt.execFunc(reducer[action.type],state,action);
+    return state;
 };
 
 let reducer = {
     closeDialog(state,action){
-        let index = state.list.indexOfFunc((item) => {
-            return item.id === action.id;
-        });
+        let index = state.list.indexOfFunc(item => item.id === action.id);
         if(index !== -1){
             state.list.splice(index,1);
         }

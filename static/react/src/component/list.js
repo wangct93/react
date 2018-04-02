@@ -253,3 +253,58 @@ export class BlogListView extends Component{
     }
 }
 
+
+export class WorksTableView extends Component{
+    constructor(){
+        super();
+        this.state = {
+            tableOption:{
+                columns:[
+                    {
+                        title:'序号',
+                        width:60,
+                        field:'orderNum'
+                    },
+                    {
+                        title:'名称',
+                        field:'name',
+                        fit:true,
+                        align:'left'
+                    },
+                    {
+                        title:'说明',
+                        width:100,
+                        field:'intro',
+                        fit:true,
+                        align:'left',
+                        formatter:(value,index,row) => {
+                            return <span title={value}>{value}</span>
+                        }
+                    },
+                    {
+                        title:'上传时间',
+                        width:160,
+                        field:'time'
+                    },
+                    {
+                        title:'操作',
+                        width:40,
+                        elemList:[
+                            {
+                                iconCls:'text-btn',
+                                text:'详情',
+                                handler:({id},i) => {
+                                    window.open('./pages/blog/index.html?blogId=' + id);
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+    render(){
+        return <Table option={this.state.tableOption} data={this.props.data}/>
+    }
+}
+
