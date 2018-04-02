@@ -40,7 +40,6 @@
             padding: 0 15px 0 35px;
             .mglr10;
             .cur-pointer;
-
             &:hover,
             &.active {
                 background-color: @activeColor;
@@ -62,12 +61,13 @@
     .home-content{
         min-height: 200px;
         .home-list{
+            margin: 0 -10px;
             padding-top: 20px;
             column-count: 3;
             column-gap:0;
             > li{
                 box-sizing: border-box;
-                padding:0 20px 30px 20px;
+                padding:0 10px 20px 10px;
                 -webkit-column-break-inside:avoid;
             }
         }
@@ -87,14 +87,12 @@
         .text-box{
             padding: 20px;
             white-space: normal;
-
             h2{
                 line-height: 30px;
             }
             .home-intro{
                 white-space: normal;
                 line-height: 24px;
-
                 .mgtb10;
             }
         }
@@ -311,16 +309,10 @@
     padding: 10px;
     justify-content: center;
     >li{
-        height: 30px;
-        width: 30px;
-        background-color: @activeColor;
-        margin:0 10px;
-        cursor: pointer;
-        &:hover{
-            background-color: @activeHoverColor;
-        }
-        &.active{
-            background-color: yellow;
-        }
+        margin: 0 5px;
+        cursor:pointer;
+    }
+    canvas{
+        display: block;
     }
 }
