@@ -107,7 +107,7 @@ function extend() {
         deep = target;
         target = arguments[i++] || {};
     }
-    if(!(isPlainObj(target) || isArray(target))){
+    if(isUndefined(target) || isNumber(target) || isString(target) || isBoolean(target)){
         target = {};
     }
     for(;i < length;i++){
@@ -202,9 +202,10 @@ class Queue{
             limit:1,
             interval:10,
             _runCount:0,
+            list:[],
             result:[],
             getItem(){
-                let {list = []} = this;
+                let {list} = this;
                 return list.shift();
             },
             check(item){
@@ -237,6 +238,12 @@ class Queue{
         }else{
             this._exec();
         }
+    }
+    addItem(items){
+        if(!isArray(items)){
+            items = [items];
+        }
+        this.list.push(...items);
     }
 }
 

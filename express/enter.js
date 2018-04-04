@@ -60,8 +60,8 @@ app.use('/',(req,res,next) => {
     next();
 });
 
-app.use('/book',bookRouter);
 app.use('/',indexRouter);
+app.use('/book',bookRouter);
 
 app.get('/favicon.ico',(req,res) => {
     res.send(null);

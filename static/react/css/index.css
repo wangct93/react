@@ -278,6 +278,9 @@ a {
   font-weight: normal;
   vertical-align: -2px;
 }
+.home-box .home-content .img-box {
+  min-height: 100px;
+}
 .home-box .home-content .img-box img {
   width: 100%;
 }
@@ -502,4 +505,16 @@ a {
 }
 .lbt-control canvas {
   display: block;
+}
+.img-box {
+  position: relative;
+}
+.icon-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: url("../img/icon_loading.gif") center no-repeat;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
 }

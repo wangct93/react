@@ -173,7 +173,7 @@ module.exports = {
             }
             return suc;
         } : function(item){
-            return list.indexOf(item) != -1;
+            return list.indexOf(item) !== -1;
         };
         var strLen = this.length;
         var tempStr = '';
@@ -193,7 +193,7 @@ module.exports = {
         }
     },
     toNum:function(n){
-        var num = parseInt(this);
+        let num = parseInt(this);
         return isNaN(num) ? n || 0 : num;
     },
     addZero:function(n){

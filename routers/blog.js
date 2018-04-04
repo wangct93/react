@@ -16,10 +16,29 @@ let blogObj = require('../server/blog/blog');
 let commentObj = require('../server/comment/comment');
 let worksObj = require('../server/works/works');
 
+let config = require('../modules/config');
+let {nosql} = config;
+let nosqlData = require('../server/data/data');
+
+let url = require('url');
+
+router.use('/',(req,res,next) => {
+    let pathname = url.parse(req.url).pathname;
+    if(nosql && nosqlData[pathname]){
+        res.send(nosqlData[pathname]);
+    }else{
+        next();
+    }
+});
+
 router.get('/',(req,res) => {
     res.status(301).setHeader('location','../static/react/index.html');
     res.send();
 });
+
+
+
+
 
 router.get('/getHomeViewList',(req,res) => {
     let {type} = req.query;

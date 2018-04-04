@@ -1,6 +1,12 @@
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function e(t, n, r) {
     function s(o, u) {
@@ -1465,22 +1471,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 this.queue.start();
             },
             add: function add(list) {
-                list = util.isArray(list) ? list : util.toArray(list);
-                list.forEach(function (item) {
-                    this.opt.list.push(item);
-                }, this);
+                this.queue.addItem(list);
             }
         };
-
-        /**
-         * ie8的事件名称过滤
-         * @param type
-         * @returns {*}
-         */
-        function filterEventTypeForIE8(type) {
-            var config = {};
-            return config[type] || type;
-        }
 
         /**
          * 表单取值赋值方法
@@ -1680,171 +1673,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 util.execFunc.call(this, this.onSelect, this.pageNum, this.pageSize);
             }
         };
-
-        function Datagrid(options) {
-            var target = options.target;
-            if (!target) {
-                throw new TypeError("target is null or not defined");
-            }
-            this.target = target;
-            this.init(options);
-        }
-        Datagrid.prototype = {
-            init: function init(options) {
-                this.setOption(options);
-                this.setField();
-                this.initHtml();
-                this.initPaging();
-                this.initEvent();
-            },
-            initHtml: function initHtml() {
-                var opt = this.opt;
-                var target = this.target;
-                var columns = opt.columns;
-                var headerHtml = '';
-                columns.forEach(function (tds) {
-                    headerHtml += '<tr class="w-datagrid-title">';
-                    tds.forEach(function (td) {
-                        var width = td.width || 'auto';
-                        var colspan = td.colspan || 1;
-                        var rowspan = td.rowspan || 1;
-                        var title = td.title || '';
-                        var align = td.halign || 'left';
-                        headerHtml += '<td align="' + align + '" width="' + width + '" colspan="' + colspan + '" rowspan="' + rowspan + '"><div class="w-datagrid-div">' + title + '</div></td>';
-                    });
-                    headerHtml += '</tr>';
-                });
-                target.innerHTML = '<div class="w-datagrid-header"><div class="fit">' + '<table class="w-datagrid-table">' + headerHtml + '</table></div>' + '</div><div class="w-datagrid-body">' + '<table class="w-datagrid-table"><thead>' + headerHtml + '</thead><tbody></tbody></table>' + '</div><div class="w-datagrid-paging"></div>';
-                target.addClass('w-datagrid-wrap');
-            },
-            initPaging: function initPaging() {
-                var opt = this.opt;
-                if (opt.pagination) {
-                    var _this = this;
-                    var target = this.target.querySelector('.w-datagrid-paging');
-                    var paging = new Paging({
-                        target: target,
-                        total: 300,
-                        onSelect: function onSelect(num, size, opt) {
-                            var param = opt.param;
-                            param.page = num;
-                            param.size = size;
-                            _this.loadData();
-                        },
-                        defaultClick: false
-                    });
-                    this.resize();
-                    paging.select(1);
-                    this.paging = paging;
-                } else {
-                    this.resize();
-                    this.loadData();
-                }
-            },
-            setOption: function setOption(options) {
-                var default_options = {
-                    param: {}
-                };
-                this.opt = util.extend(true, {}, default_options, options);
-            },
-            resize: function resize() {
-                var target = this.target;
-                var opt = this.opt;
-                if (opt.width) {
-                    target.css('width', parseInt(opt.width) + 'px');
-                }
-                if (opt.height != 'auto') {
-                    var allH = opt.height ? parseInt(opt.height) : target.parentNode.offsetHeight;
-                    var body = target.querySelector('.w-datagrid-body');
-                    var h = allH - body.prev().offsetHeight - body.next().offsetHeight - 1; //这里的1 是：最外层2px的边框减去body-1px的marginBottom
-                    body.css('height', h + 'px');
-                }
-            },
-            initEvent: function initEvent() {
-                var target = this.target;
-                var body = target.querySelector('.w-datagrid-body');
-                body.bind('scroll', function (ev) {
-                    var e = ev || event;
-                    var target = e.target || e.srcElement;
-                    var ol = target.oldScrollLeft || 0;
-                    var cl = target.scrollLeft;
-                    if (cl != ol) {
-                        var header = target.prev().children[0];
-                        header.scrollLeft = cl;
-                        target.oldScrollLeft = cl;
-                    }
-                });
-            },
-            setField: function setField() {
-                this.fields = this.getFieldsFunc(0);
-            },
-            getFieldsFunc: function getFieldsFunc(index, len) {
-                var result = [];
-                var tds = this.opt.columns[index].slice(0);
-                len = len || tds.length;
-                for (var i = 0; i < len; i++) {
-                    var td = tds.shift();
-                    var colspan = td.colspan || 1;
-                    if (colspan > 1) {
-                        this.getFieldsFunc(index + 1, colspan).forEach(function (item) {
-                            result.push(item);
-                        });
-                    } else {
-                        result.push(td);
-                    }
-                }
-                return result;
-            },
-            reload: function reload() {
-                this.loadData();
-            },
-            loadByParam: function loadByParam(param) {
-                var oparam = this.opt.param;
-            },
-            loadData: function loadData() {
-                var rows = this.opt.data;
-                var url = this.opt.url;
-                var _this = this;
-                if (rows) {
-                    this.render(this.opt.data);
-                } else if (url) {
-                    $.ajax({
-                        url: url,
-                        data: this.opt.param || {},
-                        success: function success(result) {
-                            _this.render(result);
-                        }
-                    });
-                }
-            },
-            render: function render(rows) {
-                var fields = this.fields;
-                var html = '';
-                rows.forEach(function (row, index) {
-                    html += '<tr>';
-                    fields.forEach(function (item) {
-                        var formatter = item.formatter;
-                        var value = row[item.field];
-                        if (util.isFunction(formatter)) {
-                            value = formatter(value, row, index);
-                        }
-                        html += '<td><div>' + value + '</div></td>';
-                    });
-                    html += '</tr>';
-                });
-                this.target.querySelector('.w-datagrid-body tbody').innerHTML = html;
-                var tables = this.target.querySelectorAll('.w-datagrid-table');
-                var btable = tables[1];
-                var scrollWidth = 17;
-                if (btable.offsetHeight > btable.parentNode.offsetHeight) {
-                    tables[0].parentNode.parentNode.css('paddingRight', scrollWidth + 'px');
-                }
-            },
-            getPaging: function getPaging() {
-                return this.paging;
-            }
-        };
-
         var wt = {
             isIE: isIE,
             isChrome: isChrome,
@@ -2125,11 +1953,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             /**
              * 分页组件
              */
-            Paging: Paging,
-            /**
-             * 表格组件
-             */
-            Datagrid: Datagrid
+            Paging: Paging
         };
         util.extend(util, wt);
     }, { "../$/$": 1, "../util/util": 6 }], 3: [function (require, module, exports) {
@@ -2491,7 +2315,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     }
                     return suc;
                 } : function (item) {
-                    return list.indexOf(item) != -1;
+                    return list.indexOf(item) !== -1;
                 };
                 var strLen = this.length;
                 var tempStr = '';
@@ -2522,43 +2346,47 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
                 return str;
             },
-            toHexString: function toHexString() {
-                return this.split('').map(function (item) {
-                    return getHex(item);
+            toUtf8HexString: function toUtf8HexString() {
+                return this.split('').map(function (char) {
+                    var code = char.charCodeAt(0);
+                    return encodeUtf8(code.toString(2)).split(' ').map(function (binary) {
+                        return parseInt(binary, 2).toString(16);
+                    }).join(' ');
                 }).join(' ');
+            },
+            decodeUtf8ByHex: function decodeUtf8ByHex() {
+                return String.fromCharCode(parseInt(decodeUtf8(parseInt(this.replace(/\s/g, ''), 16).toString(2)), 2));
             }
         };
 
-        function getHex(char) {
-            var code = +char.charCodeAt(0);
-            var utf8Binary = getUtf8Binary(code.toString(2));
-            return utf8Binary.split(' ').map(function (binary) {
-                return parseInt(binary, 2).toString(16);
-            }).join(' ');
+        function encodeUtf8(binary) {
+            var length = binary.length;
+            if (length < 8) {
+                return '0' + binary.addZero(7);
+            }
+            var ary = [];
+            var headLen = length % 6;
+            ary.push(binary.substr(0, headLen));
+            for (var i = headLen; i < length; i += 6) {
+                ary.push(binary.substr(i, 6));
+            }
+            var aryLen = ary.length;
+            return '1'.repeat(aryLen) + '0'.repeat(8 - aryLen - headLen) + ary.join(' 10');
         }
 
-        function getUtf8Binary(binary) {
-            var len = binary.length;
-            var reBinary;
-            if (len < 8) {
-                reBinary = '0' + binary.addZero(7);
-            } else if (len < 12) {
-                binary = binary.addZero(11);
-                reBinary = '110' + binary.substr(0, 5) + ' 10' + binary.substr(5);
-            } else if (len < 17) {
-                binary = binary.addZero(16);
-                reBinary = '1110' + binary.substr(0, 4) + ' 10' + binary.substr(4, 6) + ' 10' + binary.substr(10);
-            } else if (len < 22) {
-                binary = binary.addZero(21);
-                reBinary = '11110' + binary.substr(0, 3) + ' 10' + binary.substr(3, 6) + ' 10' + binary.substr(9, 6) + ' 10' + binary.substr(15);
-            } else if (len < 27) {
-                binary = binary.addZero(26);
-                reBinary = '111110' + binary.substr(0, 2) + ' 10' + binary.substr(2, 6) + ' 10' + binary.substr(8, 6) + ' 10' + binary.substr(14, 6) + ' 10' + binary.substr(20);
-            } else {
-                binary = binary.addZero(31);
-                reBinary = '1111110' + binary.substr(0, 1) + ' 10' + binary.substr(1, 6) + ' 10' + binary.substr(7, 6) + ' 10' + binary.substr(13, 6) + ' 10' + binary.substr(19, 6) + ' 10' + binary.substr(25);
+        function decodeUtf8(binary) {
+            var length = binary.length;
+            var num = Math.ceil(length / 8);
+            binary.addZero(num * 8);
+            var result = '';
+            for (var i = 0; i < binary.length; i += 8) {
+                if (i === 0) {
+                    result += binary.substr(num, 8 - num).replace(/^0+/, '');
+                } else {
+                    result += binary.substr(i + 2, 6);
+                }
             }
-            return reBinary;
+            return result;
         }
     }, {}], 6: [function (require, module, exports) {
         (function (global) {
@@ -2665,37 +2493,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 var target = arguments[0];
                 var length = arguments.length;
                 var i = 1;
-                var options, name, src, copy, copyIsArray, clone, temp;
                 if (isBoolean(target)) {
                     deep = target;
                     target = arguments[i++] || {};
                 }
-                if ((typeof target === "undefined" ? "undefined" : _typeof(target)) != 'object' && !isFunction(target)) {
+                if (isUndefined(target) || isNumber(target) || isString(target) || isBoolean(target)) {
                     target = {};
                 }
                 for (; i < length; i++) {
-                    options = arguments[i];
-                    if (options) {
-                        for (name in options) {
-                            if (options.hasOwnProperty(name)) {
-                                src = target[name];
-                                copy = options[name];
-                                if (target === copy) {
-                                    continue;
+                    var pData = arguments[i];
+                    if (isPlainObj(pData) || isArray(pData)) {
+                        for (var name in pData) {
+                            var selfValue = target[name];
+                            var pValue = pData[name];
+                            if (deep && (isPlainObj(pValue) || isArray(pValue))) {
+                                var subTarget = void 0;
+                                if (isPlainObj(pValue)) {
+                                    subTarget = isPlainObj(selfValue) ? selfValue : {};
+                                } else {
+                                    subTarget = isArray(selfValue) ? selfValue : [];
                                 }
-                                var isObj = isObject(copy);
-                                var isLikeAry = isLikeArray(copy);
-                                if (deep && (isObj || isLikeAry)) {
-                                    if (isObj) {
-                                        clone = isObject(src) ? src : {};
-                                    } else {
-                                        clone = isLikeArray(src) ? src : [];
-                                    }
-                                    copy = extend(true, clone, copy);
-                                }
-                                if (copy != null) {
-                                    target[name] = copy;
-                                }
+                                pValue = extend(true, subTarget, pValue);
+                            }
+                            if (pValue != null) {
+                                target[name] = pValue;
                             }
                         }
                     }
@@ -2709,46 +2530,48 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
              * @param bol   是否深度克隆，默认为true
              */
             function clone(obj, bol) {
-                bol = bol == null ? true : bol;
-                var target = isArray(obj) ? [] : {};
-                for (var name in obj) {
-                    var value = obj[name];
-                    if (bol && (isObject(value) || isArray(value))) {
-                        value = clone(value, true);
+                var target = void 0;
+                if (isPlainObj(obj) || isArray(obj)) {
+                    bol = bol !== false;
+                    target = isArray(obj) ? [] : {};
+                    for (var name in obj) {
+                        var value = obj[name];
+                        if (bol && (isPlainObj(value) || isArray(value))) {
+                            value = clone(value, true);
+                        }
+                        target[name] = value;
                     }
-                    target[name] = value;
                 }
                 return target;
             }
 
             /**
-             * 比较对象值是否相等（不需要同一对象）
+             * 比较对象值是否相等（必须是同一类型，不需要同一对象）
              * @param first
              * @param second
              * @returns {boolean}
              */
             function equal(first, second) {
-                if (first == second) {
-                    return true;
-                }
-                if (!first || !second || first.nodeType == 1 || first.nodeType == 9 || second.nodeType == 1 || second.nodeType == 9 || !isObject(first) && !isArray(first) || !isObject(second) && !isArray(second)) {
-                    return isFunction(first) && isFunction(second) ? first.toString() == second.toString() : first == second;
-                }
-                var temp = [];
-                for (var name in first) {
-                    if (!equal(first[name], second[name])) {
-                        return false;
-                    }
-                    temp.push(name);
-                }
-                for (name in second) {
-                    if (temp.indexOf(name) == -1) {
-                        if (!equal(first[name], second[name])) {
-                            return false;
+                if ((typeof first === "undefined" ? "undefined" : _typeof(first)) === (typeof second === "undefined" ? "undefined" : _typeof(second))) {
+                    if (isPlainObj(first) || isArray(first)) {
+                        var fieldData = {};
+                        for (var name in first) {
+                            if (!equal(first[name], second[name])) {
+                                return false;
+                            }
+                            fieldData[name] = 1;
                         }
+                        for (var _name in second) {
+                            if (!fieldData[_name] && !equal(first[_name], second[_name])) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    } else {
+                        return first === second;
                     }
                 }
-                return true;
+                return false;
             }
 
             /**
@@ -2756,72 +2579,97 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
              * @param opt       配置项有：       list execFunc limit check success
              * @constructor
              */
-            function Queue(opt) {
-                this.init(opt);
-            }
-            Queue.prototype = {
-                init: function init(options) {
-                    var default_options = {
-                        list: [],
-                        limit: 1,
-                        interval: 10,
-                        runCount: 0,
-                        getItem: function getItem() {
-                            var list = this.list;
-                            return list && list.shift();
-                        },
-                        check: function check(item) {
-                            return !isUndefined(item);
-                        },
-                        next: function next() {}
-                    };
-                    extend(this, default_options, options);
-                },
-                start: function start() {
-                    for (var i = this.runCount; i < this.limit; i++) {
-                        this.runCount++;
-                        this._exec();
+
+            var Queue = function () {
+                function Queue(option) {
+                    _classCallCheck(this, Queue);
+
+                    this.init(option);
+                }
+
+                _createClass(Queue, [{
+                    key: "init",
+                    value: function init(option) {
+                        var defaultOption = {
+                            limit: 1,
+                            interval: 10,
+                            _runCount: 0,
+                            list: [],
+                            result: [],
+                            getItem: function getItem() {
+                                var list = this.list;
+
+                                return list.shift();
+                            },
+                            check: function check(item) {
+                                return item != null;
+                            }
+                        };
+                        extend(this, defaultOption, option);
                     }
-                },
-                _exec: function _exec() {
-                    if (this.used) {
-                        this.next();
-                    } else {
-                        this.used = true;
-                    }
-                    var item = this.getItem();
-                    if (this.check(item)) {
-                        this.execFunc(item, this._continueExec());
-                    } else {
-                        this.runCount--;
-                        if (this.runCount === 0) {
-                            execFunc.call(this, this.success);
+                }, {
+                    key: "start",
+                    value: function start() {
+                        for (var i = this._runCount; i < this.limit; i++) {
+                            this._runCount++;
+                            this._exec();
                         }
                     }
-                },
-                _continueExec: function _continueExec() {
-                    var _this = this;
-                    return function () {
-                        setTimeout(function () {
-                            _this._exec();
-                        }, _this.interval);
-                    };
-                },
-                add: function add(list) {
-                    if (!isArray(list)) {
-                        list = [list];
+                }, {
+                    key: "_exec",
+                    value: function _exec() {
+                        var _this3 = this;
+
+                        var item = this.getItem();
+                        execFunc.call(this, this.next);
+                        if (item == null) {
+                            this._runCount--;
+                            if (this._runCount === 0) {
+                                execFunc.call(this, this.success, this.result);
+                            }
+                        } else if (this.check(item)) {
+                            this.execFunc(item, function (data) {
+                                _this3.result.push(data);
+                                setTimeout(function () {
+                                    _this3._exec();
+                                }, _this3.interval);
+                            });
+                        } else {
+                            this._exec();
+                        }
                     }
-                    list.forEach(function (item) {
-                        this.list.push(item);
-                    }, this);
-                }
-            };
+                }, {
+                    key: "addItem",
+                    value: function addItem(items) {
+                        var _list;
+
+                        if (!isArray(items)) {
+                            items = [items];
+                        }
+                        (_list = this.list).push.apply(_list, _toConsumableArray(items));
+                    }
+                }]);
+
+                return Queue;
+            }();
 
             /**
              * 异步处理方法
              * @param fn    有两个参数，一个成功回调，一个失败回调
              * @constructor
              */
+
+            // class Promise{
+            //     constructor(){
+            //         this.state = 0;
+            //         this.resolveList = [];
+            //         this.rejectList = [];
+            //         this.value = null;
+            //         fn(this.getFunc('resolve'),this.getFunc('reject'));
+            //     }
+            // }
+
+
             function Promise(fn) {
                 this.state = 'pending';
                 this.resolveList = [];

@@ -436,22 +436,9 @@ LoadImgList.prototype = {
         this.queue.start();
     },
     add:function(list){
-        list = util.isArray(list) ? list : util.toArray(list);
-        list.forEach(function(item){
-            this.opt.list.push(item);
-        },this);
+        this.queue.addItem(list);
     }
 };
-
-/**
- * ie8的事件名称过滤
- * @param type
- * @returns {*}
- */
-function filterEventTypeForIE8(type){
-    var config = {};
-    return config[type] || type;
-}
 
 /**
  * 表单取值赋值方法
@@ -652,177 +639,6 @@ Paging.prototype = {
         util.execFunc.call(this,this.onSelect,this.pageNum,this.pageSize);
     }
 };
-
-
-function Datagrid(options){
-    var target = options.target;
-    if(!target){
-        throw new TypeError("target is null or not defined");
-    }
-    this.target = target;
-    this.init(options);
-}
-Datagrid.prototype = {
-    init:function(options){
-        this.setOption(options);
-        this.setField();
-        this.initHtml();
-        this.initPaging();
-        this.initEvent();
-    },
-    initHtml:function(){
-        var opt = this.opt;
-        var target = this.target;
-        var columns = opt.columns;
-        var headerHtml = '';
-        columns.forEach(function(tds){
-            headerHtml += '<tr class="w-datagrid-title">';
-            tds.forEach(function(td){
-                var width = td.width || 'auto';
-                var colspan = td.colspan || 1;
-                var rowspan = td.rowspan || 1;
-                var title = td.title || '';
-                var align = td.halign || 'left';
-                headerHtml += '<td align="'+ align +'" width="'+ width +'" colspan="'+ colspan +'" rowspan="'+ rowspan +'"><div class="w-datagrid-div">'+ title +'</div></td>';
-            });
-            headerHtml += '</tr>';
-        });
-        target.innerHTML = '<div class="w-datagrid-header"><div class="fit">' +
-        '<table class="w-datagrid-table">'+ headerHtml +'</table></div>' +
-        '</div><div class="w-datagrid-body">' +
-        '<table class="w-datagrid-table"><thead>'+ headerHtml + '</thead><tbody></tbody></table>' +
-        '</div><div class="w-datagrid-paging"></div>';
-        target.addClass('w-datagrid-wrap');
-    },
-    initPaging:function(){
-        var opt = this.opt;
-        if(opt.pagination){
-            var _this = this;
-            var target = this.target.querySelector('.w-datagrid-paging');
-            var paging = new Paging({
-                target:target,
-                total:300,
-                onSelect:function(num,size,opt){
-                    var param = opt.param;
-                    param.page = num;
-                    param.size = size;
-                    _this.loadData();
-                },
-                defaultClick:false
-            });
-            this.resize();
-            paging.select(1);
-            this.paging = paging;
-        }else{
-            this.resize();
-            this.loadData();
-        }
-    },
-    setOption:function(options){
-        var default_options = {
-            param:{}
-        };
-        this.opt = util.extend(true,{},default_options,options);
-    },
-    resize:function(){
-        var target = this.target;
-        var opt = this.opt;
-        if(opt.width){
-            target.css('width',parseInt(opt.width) + 'px');
-        }
-        if(opt.height != 'auto'){
-            var allH = opt.height ? parseInt(opt.height) : target.parentNode.offsetHeight;
-            var body = target.querySelector('.w-datagrid-body');
-            var h = allH - body.prev().offsetHeight - body.next().offsetHeight - 1; //这里的1 是：最外层2px的边框减去body-1px的marginBottom
-            body.css('height',h + 'px');
-        }
-    },
-    initEvent:function(){
-        var target = this.target;
-        var body = target.querySelector('.w-datagrid-body');
-        body.bind('scroll',function(ev){
-            var e = ev || event;
-            var target = e.target || e.srcElement;
-            var ol = target.oldScrollLeft || 0;
-            var cl = target.scrollLeft;
-            if(cl != ol){
-                var header = target.prev().children[0];
-                header.scrollLeft = cl;
-                target.oldScrollLeft = cl;
-            }
-        });
-    },
-    setField:function(){
-        this.fields = this.getFieldsFunc(0);
-    },
-    getFieldsFunc:function(index,len){
-        var result = [];
-        var tds = this.opt.columns[index].slice(0);
-        len = len || tds.length;
-        for(var i = 0;i < len;i++){
-            var td = tds.shift();
-            var colspan = td.colspan || 1;
-            if(colspan > 1){
-                this.getFieldsFunc(index + 1,colspan).forEach(function(item){
-                    result.push(item);
-                });
-            }else{
-                result.push(td);
-            }
-        }
-        return result;
-    },
-    reload:function(){
-        this.loadData();
-    },
-    loadByParam:function(param){
-        var oparam = this.opt.param;
-    },
-    loadData:function(){
-        var rows = this.opt.data;
-        var url = this.opt.url;
-        var _this = this;
-        if(rows){
-            this.render(this.opt.data);
-        }else if(url){
-            $.ajax({
-                url:url,
-                data:this.opt.param || {},
-                success:function(result){
-                    _this.render(result);
-                }
-            })
-        }
-    },
-    render:function(rows){
-        var fields = this.fields;
-        var html = '';
-        rows.forEach(function(row,index){
-            html += '<tr>';
-            fields.forEach(function(item){
-                var formatter = item.formatter;
-                var value = row[item.field];
-                if(util.isFunction(formatter)){
-                    value = formatter(value,row,index)
-                }
-                html += '<td><div>'+ value +'</div></td>';
-            });
-            html += '</tr>';
-        });
-        this.target.querySelector('.w-datagrid-body tbody').innerHTML = html;
-        var tables = this.target.querySelectorAll('.w-datagrid-table');
-        var btable = tables[1];
-        var scrollWidth = 17;
-        if(btable.offsetHeight > btable.parentNode.offsetHeight){
-            tables[0].parentNode.parentNode.css('paddingRight',scrollWidth + 'px');
-        }
-    },
-    getPaging:function(){
-        return this.paging;
-    }
-};
-
-
 var wt = {
     isIE:isIE,
     isChrome:isChrome,
@@ -1116,10 +932,6 @@ var wt = {
     /**
      * 分页组件
      */
-    Paging:Paging,
-    /**
-     * 表格组件
-     */
-    Datagrid:Datagrid
+    Paging:Paging
 };
 util.extend(util,wt);
