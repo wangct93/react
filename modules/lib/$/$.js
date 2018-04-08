@@ -2,10 +2,14 @@
  * Created by Administrator on 2018/1/12.
  */
 
-var util = require('../util/util');
+let util = require('../util/util');
 
 function $(selector){
-    return new DomElement(selector);
+    if(util.isFunction(selector)){
+        DOMReady(selector);
+    }else{
+        return new DomElement(selector);
+    }
 }
 
 module.exports = $;
@@ -19,7 +23,7 @@ function DomElement(selector){
     }
     this.selector = selector;
     // 根据 selector 得出的结果（如 DOM，DOM List）
-    var elemList = [];
+    let elemList = [];
     if(selector){
         if(selector.nodeType === 9 || selector.nodeType === 1){
             elemList = [selector];
@@ -34,29 +38,30 @@ function DomElement(selector){
             elemList = selector;
         }
     }
-    for(var i = 0,len = elemList.length;i < len;i++){
+    let len = elemList.length;
+    for(let i = 0;i < len;i++){
         this[i] = elemList[i];
     }
     this.length = len;
 }
-var rnoInnerhtml = /<(?:script|style|link)/i;
+const rnoInnerhtml = /<(?:script|style|link)/i;
 // 修改原型
 DomElement.prototype = {
-    forEach:function(fn,_this){ //遍历
+    forEach(fn,_this){ //遍历
         _this = _this || this;
         arrForEach(this,fn,_this);
         return this;
     },
-    clone:function(deep){   //克隆
-        var cloneList = [];
+    clone(deep){   //克隆
+        let cloneList = [];
         this.forEach(function(elem){
             cloneList.push(elem.cloneNode(!!deep));
         });
         return $(cloneList);
     },
     // 获取第几个元素
-    eq:function(index){
-        var length = this.length;
+    eq(index){
+        let length = this.length;
         if(length){
             if (index >= length) {
                 index = index % length;
@@ -68,24 +73,24 @@ DomElement.prototype = {
         return $(this[index]);
     },
     // 第一个
-    first:function(){
+    first(){
         return this.eq(0);
     },
     // 最后一个
-    last:function(){
+    last(){
         return this.eq(this.length - 1);
     },
     // 绑定事件
-    on:function(type,fn,bol){
+    on(type,fn,bol){
         // selector 不为空，证明绑定事件要加代理
-        var types = type.split(/\s+/);
-        return this.forEach(function(elem){
-            types.forEach(function(type){
-                var eventList = elem.eventList;
+        let types = type.split(/\s+/);
+        return this.forEach(elem => {
+            types.forEach(type => {
+                let eventList = elem.eventList;
                 if (!eventList) {
                     elem.eventList = eventList = {};
                 }
-                var funcList = eventList[type];
+                let funcList = eventList[type];
                 if(!funcList){
                     eventList[type] = funcList = [];
                 }
@@ -93,7 +98,7 @@ DomElement.prototype = {
                     funcList.push(fn);
                     elem.addEventListener(type, fn, bol);
                 }else{
-                    var func = function (e) {
+                    let func = e => {
                         e = e || event;
                         e.target = e.target || e.srcElement;
                         e.deltaY = -e.wheelDelta;
@@ -107,18 +112,18 @@ DomElement.prototype = {
         });
     },
     // 取消事件绑定
-    off:function(type,fn){
-        return this.forEach(function(elem){
-            var eventList = elem.eventList;
-            var funcList = eventList && eventList[type];
+    off(type,fn){
+        return this.forEach(elem => {
+            let eventList = elem.eventList;
+            let funcList = eventList && eventList[type];
             if(funcList){
                 if(fn){
                     if (elem.removeEventListener) {
                         elem.removeEventListener(type,fn);
                         funcList.remove(fn);
                     } else {
-                        arrForEach(funcList,function(targetfn,i){
-                            if (targetfn.execFunc == fn) {
+                        arrForEach(funcList,(targetfn,i) => {
+                            if (targetfn.execFunc === fn) {
                                 elem.detachEvent('on' + filterEventTypeForIE8(type), targetfn);
                                 funcList.splice(i, 1);
                                 return false;
@@ -126,16 +131,14 @@ DomElement.prototype = {
                         });
                     }
                 }else{
-                    funcList.forEach(function(fn){
-                        this.off(type,fn);
-                    }, this);
+                    funcList.forEach(fn => this.off(type,fn), this);
                 }
             }
         },this);
     },
     // 获取/设置 属性
-    attr: function(key, val) {
-        if (val == null) {
+    attr(key, val) {
+        if (val === undefined) {
             return this[0] ? this[0].getAttribute(key) : '';
         } else {
             return this.forEach(function (elem) {
@@ -143,23 +146,21 @@ DomElement.prototype = {
             });
         }
     },
-    removeAttr:function(key){
-        return this.forEach(function (elem) {
-            elem.removeAttribute(key);
-        });
+    removeAttr(key){
+        return this.forEach(elem => elem.removeAttribute(key));
     },
-    prop: function(key, val) {
-        if (val == null) {
+    prop(key, val) {
+        if (val === undefined) {
             return this[0] ? this[0][key] : '';
         } else {
-            return this.forEach(function (elem) {
+            return this.forEach(elem => {
                 elem[key] = val;
             });
         }
     },
-    hasClass:function(className){
-        var bol = false;
-        arrForEach(this,function(elem){
+    hasClass(className){
+        let bol = false;
+        arrForEach(this,elem => {
             if(hasClass(elem,className)){
                 bol = true;
                 return false;
@@ -168,12 +169,12 @@ DomElement.prototype = {
         return bol;
     },
     // 添加 class
-    addClass: function(className) {
+    addClass(className) {
         if (!className) {
             return this;
         }
-        return this.forEach(function (elem) {
-            className.split(/\s+/).forEach(function(className){
+        return this.forEach(elem => {
+            className.split(/\s+/).forEach(className => {
                 if(!hasClass(elem,className)){
                     elem.className += ' ' + className;
                 }
@@ -181,20 +182,20 @@ DomElement.prototype = {
         });
     },
     // 删除 class
-    removeClass: function(className) {
+    removeClass(className) {
         if (!className) {
             return this;
         }
-        return this.forEach(function (elem) {
-            className.split(/\s+/).forEach(function(className){
-                var re = new RegExp('\\s+' + className + '\\s+');
+        return this.forEach(elem => {
+            className.split(/\s+/).forEach(className => {
+                let re = new RegExp('\\s+' + className + '\\s+');
                 elem.className = (' ' + elem.className + ' ').replace(re, ' ').trim();
             });
         });
     },
-    toggleClass:function(className){
-        return this.forEach(function(elem){
-            var $elem = $(elem);
+    toggleClass(className){
+        return this.forEach(elem => {
+            let $elem = $(elem);
             if($elem.hasClass(className)){
                 $elem.removeClass(className);
             }else{
@@ -203,18 +204,18 @@ DomElement.prototype = {
         });
     },
     // 修改 css
-    css: function css(key, val) {
+    css(key, val) {
         if(util.isString(key)){
-            if(val == null){
-                var elem = this[0];
+            if(val === undefined){
+                let elem = this[0];
                 return elem ? elem.currentStyle ? elem.currentStyle[key] : getComputedStyle(elem, false)[key] : '';
             }else{
-                this.forEach(function(elem){
+                this.forEach(elem => {
                     elem.style[key] = val;
                 });
             }
         }else{
-            for (var attr in key) {
+            for (let attr in key) {
                 if(key.hasOwnProperty(attr)){
                     this.css(attr, key[attr]);
                 }
@@ -222,18 +223,18 @@ DomElement.prototype = {
         }
         return this;
     },
-    getElemList:function(fn){
-        var eleList = [];
-        this.forEach(function(elem,i){
-            var list = fn.call(this,elem,i);
+    getElemList(fn){
+        let eleList = [];
+        this.forEach((elem,i) => {
+            let list = fn(elem,i);
             if(list){
-                if(list.length == null){
+                if(!util.isNumber(list.length)){
                     list = [list];
                 }
-                var tElem;
-                for(var n = 0,len = list.length;n < len;n++){
+                let tElem;
+                for(let n = 0,len = list.length;n < len;n++){
                     tElem = list[n];
-                    if(eleList.indexOf(tElem) == -1){
+                    if(eleList.indexOf(tElem) === -1){
                         eleList.push(tElem);
                     }
                 }
@@ -241,72 +242,66 @@ DomElement.prototype = {
         });
         return eleList;
     },
-    next:function(selector){
-        var eleList = this.getElemList(function(elem){
-            var next = elem.nextSibling;
-            while(next && (next.nodeType != 1 || !checkElem(next,selector))){
+    next(selector){
+        let eleList = this.getElemList(elem => {
+            let next = elem.nextSibling;
+            while(next && (next.nodeType !== 1 || !checkElem(next,selector))){
                 next = next.nextSibling;
             }
             return next;
         });
         return $(eleList);
     },
-    prev:function(){
-        var eleList = this.getElemList(function(elem){
-            var prev = elem.previousSibling;
-            while(prev && (prev.nodeType != 1 || !checkElem(prev,selector))){
+    prev(){
+        let eleList = this.getElemList(elem => {
+            let prev = elem.previousSibling;
+            while(prev && (prev.nodeType !== 1 || !checkElem(prev,selector))){
                 prev = prev.previousSibling;
             }
             return prev;
         });
         return $(eleList);
     },
-    index:function(){
-        var index = 0;
-        var prev = this[0];
+    index(){
+        let index = 0;
+        let prev = this[0];
         if(prev == null){
             return -1;
         }
         while (prev = prev.previousSibling) {
-            if(prev.nodeType == 1){
+            if(prev.nodeType === 1){
                 index++;
             }
         }
         return index;
     },
     // 显示
-    show: function() {
+    show() {
         return this.css('display', 'block');
     },
     // 隐藏
-    hide: function() {
+    hide() {
         return this.css('display', 'none');
     },
-    parent: function() {
-        var elemList = this.getElemList(function(elem){
-            return elem.parentNode;
-        });
+    parent() {
+        let elemList = this.getElemList(elem => elem.parentNode);
         return $(elemList);
     },
     // 获取子节点
-    children:function(selector){
-        var elemList = this.getElemList(function(elem){
-            return elem.children;
-        });
+    children(selector){
+        let elemList = this.getElemList(elem => elem.children);
         return $(elemList).filter(selector);
     },
     // 获取子节点（包括文本节点）
-    childNodes: function() {
-        var elemList = this.getElemList(function(elem){
-            return elem.childNodes;
-        });
+    childNodes() {
+        let elemList = this.getElemList(elem => elem.childNodes);
         return $(elemList);
     },
-    siblings: function (selector) {
-        var elemList = this.getElemList(function(elem){
-            var temp = [];
-            arrForEach(elem.parentNode.children,function(sibElem){
-                if (temp.indexOf(sibElem) == -1 && sibElem != elem && sibElem.nodeType == 1 && checkElem(sibElem,selector)) {
+    siblings(selector) {
+        let elemList = this.getElemList(elem => {
+            let temp = [];
+            arrForEach(elem.parentNode.children,sibElem => {
+                if (temp.indexOf(sibElem) === -1 && sibElem !== elem && sibElem.nodeType === 1 && checkElem(sibElem,selector)) {
                     temp.push(sibElem);
                 }
             });
@@ -315,20 +310,18 @@ DomElement.prototype = {
         return $(elemList);
     },
     // 增加子节点
-    append: function(children) {
-        return this.forEach(function (elem) {
-            var $children = $(children);
-            $children.forEach(function (child) {
-                elem.appendChild(child);
-            });
+    append(children) {
+        return this.forEach(elem => {
+            let $children = $(children);
+            $children.forEach(child => elem.appendChild(child));
             $._execScript($children);
         });
     },
-    prepend:function($children){
-        return this.forEach(function (elem) {
-            var $children = $(children);
-            $children.forEach(function (child) {
-                var firstChild = elem.children[0];
+    prepend(children){
+        return this.forEach(elem => {
+            let $children = $(children);
+            $children.forEach(child => {
+                let firstChild = elem.children[0];
                 if(firstChild){
                     elem.insertBefore(child,firstChild);
                 }else{
@@ -338,19 +331,19 @@ DomElement.prototype = {
             $._execScript($children);
         });
     },
-    before:function(children){
-        return this.forEach(function (elem) {
-            var $children = $(children);
-            $children.forEach(function (child) {
+    before(children){
+        return this.forEach(elem => {
+            let $children = $(children);
+            $children.forEach(child => {
                 elem.parentNode.insertBefore(child,elem);
             });
             $._execScript($children);
         });
     },
-    after:function(children){
-        return this.forEach(function (elem) {
-            var $elem = $(elem);
-            var $next = $elem.next();
+    after(children){
+        return this.forEach(elem => {
+            let $elem = $(elem);
+            let $next = $elem.next();
             if($next.length){
                 $next.before(children);
             }else{
@@ -359,22 +352,22 @@ DomElement.prototype = {
         });
     },
     // 移除当前节点
-    remove: function() {
-        return this.forEach(function (elem) {
+    remove() {
+        return this.forEach(elem => {
             elem.parentNode.removeChild(elem);
         });
     },
     // 是否包含某个子节点
     isContain: function($child) {
-        var elem = this[0];
-        var child = $child[0];
+        let elem = this[0];
+        let child = $child[0];
         return elem && child ? elem.contains(child) : false;
     },
     // 尺寸数据
     getRect: function() {
-        var elem = this[0];
+        let elem = this[0];
         if(elem){
-            var rect = elem.getBoundingClientRect();
+            let rect = elem.getBoundingClientRect();
             return {
                 left:rect.left,
                 top:rect.top,
@@ -391,7 +384,7 @@ DomElement.prototype = {
     },
     // 从当前元素查找
     find: function(selector) {
-        var elemList = this.getElemList(function(elem){
+        let elemList = this.getElemList(function(elem){
             return elem.querySelectorAll(selector);
         });
         return $(elemList);
@@ -404,7 +397,7 @@ DomElement.prototype = {
     },
     // 获取当前元素的 text
     text: function(val) {
-        if(val == null) {
+        if(val === undefined) {
             return this[0] ? this[0].innerText : '';
         }else {
             // 设置 text
@@ -416,7 +409,7 @@ DomElement.prototype = {
 
     // 获取 html
     html: function(value) {
-        if(value == null) {
+        if(value === undefined) {
             return this[0] ? this[0].innerHTML : '';
         }else if(util.isString(value) && value.charAt(0) !== '<' || util.isNumber(value) || util.isBoolean(value)){
             return this.forEach(function(elem){
@@ -428,7 +421,7 @@ DomElement.prototype = {
     },
     // 获取 value
     val: function(value) {
-        if(value == null){
+        if(value === undefined){
             return this[0] ? this[0].value : '';
         }else{
             return this.forEach(function (elem) {
@@ -442,13 +435,13 @@ DomElement.prototype = {
         });
     },
     filter:function(selector){
-        var elemList = this.getElemList(function(elem){
+        let elemList = this.getElemList(function(elem){
             return checkElem(elem,selector) ? elem : null;
         });
         return $(elemList);
     },
     offset:function(){
-        var elem = this[0];
+        let elem = this[0];
         if(elem){
             return {
                 left:elem.offsetLeft,
@@ -457,7 +450,7 @@ DomElement.prototype = {
         }
     },
     closest:function(selector){
-        var elemList = this.getElemList(function(elem){
+        let elemList = this.getElemList(function(elem){
             while(elem){
                 if(checkElem(elem,selector)){
                     break;
@@ -470,7 +463,7 @@ DomElement.prototype = {
     },
     data:function(name,value){
         if(value == null){
-            var elem = this[0];
+            let elem = this[0];
             return elem ? cacheData.getData(elem,name) : '';
         }else{
             return this.forEach(function(elem){
@@ -485,21 +478,21 @@ DomElement.prototype = {
     },
     dragSort:function(){
         this.off('mousedown').mousedown(function(e){
-            var $this = $(this);
-            var $target = $(e.target);
-            var $item = $target.closest('.dragsort-elem');
-            var $items = $item.siblings();
+            let $this = $(this);
+            let $target = $(e.target);
+            let $item = $target.closest('.dragsort-elem');
+            let $items = $item.siblings();
             if(e.which !== 1 || $item.length === 0 || $items.length === 0 || $target.closest('.nodrag-elem').length){
                 return;
             }
-            var ox = e.clientX;
-            var oy = e.clientY;
-            var dx,dy,rect;
-            var rects = [];
-            var isDrag = false;
+            let ox = e.clientX;
+            let oy = e.clientY;
+            let dx,dy,rect;
+            let rects = [];
+            let isDrag = false;
             function mousemove(e){
-                var cx = e.clientX;
-                var cy = e.clientY;
+                let cx = e.clientX;
+                let cy = e.clientY;
                 if(!isDrag && (cy != oy || cx != ox)){
                     isDrag = true;
                     rect = $item[0].getBoundingClientRect();
@@ -512,21 +505,21 @@ DomElement.prototype = {
                         top:rect.top + 'px'
                     });
                     $items.forEach(function(elem,i){
-                        var rect = elem.getBoundingClientRect();
-                        var width = rect.width || rect.right - rect.left;
-                        var $elem = $(elem);
-                        var th = $elem.css('marginBottom').toNum();
-                        var y = rect.top - th / 2;
-                        var x = rect.left + width / 2;
-                        var index = rects.indexOfFunc(function(item){
-                            return item[0].y == y;
+                        let rect = elem.getBoundingClientRect();
+                        let width = rect.width || rect.right - rect.left;
+                        let $elem = $(elem);
+                        let th = $elem.css('marginBottom').toNum();
+                        let y = rect.top - th / 2;
+                        let x = rect.left + width / 2;
+                        let index = rects.indexOfFunc(function(item){
+                            return item[0].y === y;
                         })
-                        var data = {
+                        let data = {
                             y:y,
                             x:x,
                             i:i
                         };
-                        if(index == -1){
+                        if(index === -1){
                             rects.push([data]);
                         }else{
                             rects[index].push(data);
@@ -539,15 +532,16 @@ DomElement.prototype = {
                         left:cx - dx + 'px',
                         top:cy - dy + 'px'
                     });
-                    var ary = rects[0];
-                    for(var i = 0;i < rects.length;i++){
+                    let ary = rects[0];
+                    let i;
+                    for(i = 0;i < rects.length;i++){
                         if(rects[i][0].y < cy){
                             ary = rects[i];
                         }
                     }
-                    var r;
-                    var targetIndex = ary[0].i;
-                    var isLineHead = true;
+                    let r;
+                    let targetIndex = ary[0].i;
+                    let isLineHead = true;
                     for(i = 0;i < ary.length;i++){
                         r = ary[i];
                         if(r.x < cx){
@@ -566,7 +560,7 @@ DomElement.prototype = {
             }
             function mouseup(e){
                 if(isDrag){
-                    var $target = $items.filter('.drag-active');
+                    let $target = $items.filter('.drag-active');
                     $item.css({
                         left:0,
                         top:0,
@@ -601,9 +595,9 @@ DomElement.prototype = {
      */
     drag:function() {
         return this.off('mousedown').mousedown(function(e){
-            var $this = $(this);
-            var dx = e.clientX - this.offsetLeft + $this.css('marginLeft').toNum();
-            var dy = e.clientY - this.offsetTop + $this.css('marginTop').toNum();
+            let $this = $(this);
+            let dx = e.clientX - this.offsetLeft + $this.css('marginLeft').toNum();
+            let dy = e.clientY - this.offsetTop + $this.css('marginTop').toNum();
             function mousemove(e){
                 $this.css({
                     left: e.clientX - dx + 'px',
@@ -622,13 +616,13 @@ DomElement.prototype = {
      */
     zoom:function(){
         return this.off('wheel').wheel(function(e){
-            var $this = $(this);
-            var rect = $this.getRect();
-            var dx = e.clientX - this.offsetLeft;
-            var dy = e.clientY - this.offsetTop;
-            var oLeft = this.offsetLeft - $this.css('marginLeft').toNum();
-            var oTop = this.offsetTop - $this.css('marginTop').toNum();
-            var scale = (e.wheelDelta == null ? e.deltaY < 0 : e.wheelDelta > 0) ? 1.2 : 1 / 1.2;
+            let $this = $(this);
+            let rect = $this.getRect();
+            let dx = e.clientX - this.offsetLeft;
+            let dy = e.clientY - this.offsetTop;
+            let oLeft = this.offsetLeft - $this.css('marginLeft').toNum();
+            let oTop = this.offsetTop - $this.css('marginTop').toNum();
+            let scale = (e.wheelDelta == null ? e.deltaY < 0 : e.wheelDelta > 0) ? 1.2 : 1 / 1.2;
             $this.css({
                 width:rect.width * scale + 'px',
                 height:rect.height * scale + 'px',
@@ -641,37 +635,37 @@ DomElement.prototype = {
     /**
      * 放大镜效果
      */
-    magnify:function(opt){
-        var defaultOpt = {
+    magnify(opt){
+        let defaultOpt = {
             offset:10,
             scale:8
         };
         this.data('option',util.extend(defaultOpt,opt));
         return this.off('mouseenter').mouseenter(function(e){
-            var $this = $(this);
-            var rect = $this.getRect();
-            var width = rect.width;
-            var height = rect.height;
-            var opt = $this.data('option');
-            var src = $this.find('img').attr('src');
+            let $this = $(this);
+            let rect = $this.getRect();
+            let width = rect.width;
+            let height = rect.height;
+            let opt = $this.data('option');
+            let src = $this.find('img').attr('src');
             if(!src || opt.enable && opt.enable.call(this,src)){
                 return;
             }
-            var $slider = $this.find('.magnify-slider');
+            let $slider = $this.find('.magnify-slider');
             if($slider.length === 0){
                 $slider = $('<div class="magnify-slider"></div>');
                 $this.append($slider);
             }
-            var $viewBox = $('.magnify-view');
-            var $body = $('body');
+            let $viewBox = $('.magnify-view');
+            let $body = $('body');
             if($viewBox.length === 0){
                 $viewBox = $('<div class="magnify-view"><img class="magnify-img"></div>');
                 $body.append($viewBox);
             }
-            var $viewImg = $viewBox.find('img').attr('src',src);
-            var render = function(e){
-                var l = e.clientX - rect.left - sliderWidth / 2;
-                var t = e.clientY - rect.top - sliderWidth / 2;
+            let $viewImg = $viewBox.find('img').attr('src',src);
+            let render = function(e){
+                let l = e.clientX - rect.left - sliderWidth / 2;
+                let t = e.clientY - rect.top - sliderWidth / 2;
                 l = Math.min(Math.max(l,0),width - sliderWidth);
                 t = Math.min(Math.max(t,0),height - sliderWidth);
                 $slider.css({
@@ -683,15 +677,15 @@ DomElement.prototype = {
                     top: -t * scale + 'px'
                 });
             };
-            var sliderWidth = $slider.css('width').toNum();
-            var scale = opt.scale;
-            var offset = opt.offset;
-            var boxLeft = rect.right + 10;
-            var boxWidth = sliderWidth * scale;
+            let sliderWidth = $slider.css('width').toNum();
+            let scale = opt.scale;
+            let offset = opt.offset;
+            let boxLeft = rect.right + 10;
+            let boxWidth = sliderWidth * scale;
             if(rect.right + boxWidth + offset > innerWidth){
                 boxLeft = rect.left - offset - boxWidth;
             }
-            var boxTop = rect.top;
+            let boxTop = rect.top;
             if(boxTop + boxWidth > innerHeight){
                 boxTop = rect.bottom - boxWidth;
             }
@@ -708,7 +702,7 @@ DomElement.prototype = {
             render(e);
             $slider.show();
             $viewBox.show();
-            var mouseleave = function(){
+            const mouseleave = () => {
                 $slider.hide();
                 $viewBox.hide();
                 $('body').off('mousemove',render);
@@ -761,81 +755,66 @@ DomElement.prototype = {
                 }
             });
             q.start();
-        }).data('fileDropOption',option).on('dragover',e => {
-            e.preventDefault();
-        });
+        }).data('fileDropOption',option).on('dragover',e => e.preventDefault());
     }
 };
 
 
 
 util.extend($,{
-    ajax: function (option) {
-        var defaultOpt = {
-            async:true,
-            type:'get',
-            headers:{
-                'content-type':'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            processData:true,
-            contentType:true
-        };
-        var opt = util.extend(defaultOpt,option);
-        var x = new XMLHttpRequest();
-        x.onreadystatechange = function () {
-            if(x.readyState == 4){
-                var data = x.responseText;
-                if(x.status == 200){
-                    try{
-                        data = JSON.parse(data);
-                    }catch(e){}
-                    util.execFunc(opt.success,data);
+    ajax(option){
+        let {type = 'get',url,data,async = true,headers = {
+            'content-type':'application/x-www-form-urlencoded; charset=UTF-8'
+        },processData = true,contentType = true,responseType,success,error,timeout,ontimeout} = option;
+        let xhr = new XMLHttpRequest();
+        let {execFunc} = util;
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === 4){
+                let data = xhr.responseText;
+                try{
+                    data = JSON.parse(data);
+                }catch(e){}
+                if(xhr.status === 200){
+                    execFunc(success,data);
                 }else{
-                    util.execFunc(opt.error, data);
+                    execFunc(error,data);
                 }
             }
         };
-        x.onerror = function(e){
-            util.execFunc(opt.error, x.responseText);
+        xhr.onerror = (e) => {
+            execFunc(error, xhr.responseText);
         };
-        var data = opt.data;
-        if(opt.processData && util.isObject(data)){
-            var dataAry = [];
-            for(name in data){
-                if(data.hasOwnProperty(name)){
-                    var value = data[name];
+        if(processData && util.isPlainObj(data)){
+            let temp = [];
+            for(let key in data){
+                if(data.hasOwnProperty(key)){
+                    let value = data[key];
                     if(value !== undefined){
-                        dataAry.push(name + '=' + value);
+                        temp.push(key + '=' + value);
                     }
                 }
             }
-            data = dataAry.join('&');
-            if(opt.type.toUpperCase() == 'GET'){
-                opt.url += (opt.url.indexOf('?') != -1 ? '&' : '?') + data;
+            data = temp.join('&');
+            if(type.toUpperCase() === 'GET' && data){
+                url += (url.indexOf('?') === -1 ? '?' : '&') + data;
             }
         }
-        x.open(opt.type,opt.url, opt.async);
-        if (opt.responseType) {
-            x.responseType = opt.responseType;
-        }
-        var name;
-        var headers = opt.headers;
-        for (name in headers) {
+        xhr.open(type,url,async);
+        for (let name in headers) {
             if(headers.hasOwnProperty(name)){
-                if(name !== 'content-type' || opt.contentType){
-                    x.setRequestHeader(name, headers[name]);
+                if(name !== 'content-type' || contentType){
+                    xhr.setRequestHeader(name, headers[name]);
                 }
             }
         }
-        if(opt.timeout){
-            x.timeout = opt.timeout;
-        }
-        if(opt.ontimeout){
-            x.ontimeout = opt.ontimeout;
-        }
-        x.send(data);
+        wt.extend(xhr,{
+            timeout,
+            ontimeout,
+            responseType
+        });
+        xhr.send(data);
     },
-    _execScript:function($node){
+    _execScript($node){
         $node = $node instanceof DomElement ? $node : $($node);
         $node.find('script').forEach(function(script){
             if(script.src){
@@ -859,7 +838,7 @@ util.extend($,{
      * 取消默认行为
      * @param e
      */
-    preventDefault:function(e){
+    preventDefault(e){
         if(e.preventDefault){
             e.preventDefault();
         }else{
@@ -870,7 +849,7 @@ util.extend($,{
      * 取消冒泡
      * @param e
      */
-    stopPropagation:function(e){
+    stopPropagation(e){
         if(e.stopPropagation){
             e.stopPropagation();
         }else{
@@ -879,26 +858,23 @@ util.extend($,{
     }
 });
 
-var eventNames = 'click dblclick mouseover mouseout mouseenter mouseleave mousedown mousemove mouseup keydown keyup wheel change';
+const eventNames = 'click dblclick mouseover mouseout mouseenter mouseleave mousedown mousemove mouseup keydown keyup wheel change';
 
-eventNames.split(' ').forEach(function(eventName){
+eventNames.split(' ').forEach(eventName => {
     DomElement.prototype[eventName] = function(fn){
-        return fn == null ? this.forEach(function(elem){
-            elem.click();
-        }) : this.on(eventName,fn);
+        return util.isFunction(fn) ? this.on(eventName,fn) : this.forEach(elem => elem.click());
     };
 });
 
 
 function createElemByHTML(selector){
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.innerHTML = selector;
-    var children = div.children;
-    var result = [];
-    for(var i = 0,len = children.length;i < len;i++){
+    let children = div.children;
+    let result = [];
+    for(let i = 0,len = children.length;i < len;i++){
         result.push(children[i]);
     }
-    div = null;
     return result;
 }
 
@@ -908,7 +884,7 @@ function createElemByHTML(selector){
  * @returns {*}
  */
 function filterEventTypeForIE8(type){
-    var config = {
+    let config = {
         'wheel':'mousewheel'
     };
     return config[type] || type;
@@ -921,8 +897,8 @@ function filterEventTypeForIE8(type){
  * @returns {boolean}
  */
 function hasClass(elem,className){
-    var re = new RegExp('\\s+' + className + '\\s+');
-    var classStr = ' ' + elem.className + ' ';
+    let re = new RegExp('\\s+' + className + '\\s+');
+    let classStr = ' ' + elem.className + ' ';
     return re.test(classStr);
 }
 
@@ -930,10 +906,11 @@ function hasClass(elem,className){
  * 类数组遍历
  * @param ary
  * @param fn
+ *  * @param _this
  */
 function arrForEach(ary,fn,_this){
     _this = _this || this;
-    for(var i = 0,len = ary.length;i < len;i++){
+    for(let i = 0,len = ary.length;i < len;i++){
         if(fn.call(_this,ary[i],i) === false){
             break;
         }
@@ -943,39 +920,50 @@ function arrForEach(ary,fn,_this){
  * 合并
  */
 function concat(first,second){
-    var ol = first.length;
-    for(var i = 0,len = second.length;i < len;i++){
+    let ol = first.length;
+    for(let i = 0,len = second.length;i < len;i++){
         first[ol + i] = second[i];
     }
     first.length = ol + len;
 }
 
-var selectorExpr = /^(#([\w-]+)|(\w+)|\.([\w-]+))$/;
+const selectorExpr = /^(#([\w-]+)|(\w+)|\.([\w-]+))$/;
+const selectorPropExpr = /\[[\w\W]+\]$/;
 /**
  * 判断元素是否符合选择器
  * @param elem
  * @param selector
  * @returns {boolean}
  */
-function checkElem(elem,selector){
-    var match = selectorExpr.exec(selector);
-    return selector ? match ? match[2] ? elem.id == match[2] : match[3] ? elem.nodeName == match[3].toUpperCase() : match[4] ? hasClass(elem,match[4]) : false : false : true;
+function checkElem(elem,selector = ''){
+    let bol = true;
+    selector = selector.replace(selectorPropExpr,(match) => {
+        bol = false;
+        let temp = elem.parentNode.querySelectorAll(match);
+        arrForEach(temp,item => {
+            if(item === elem){
+                bol = true;
+                return false;
+            }
+        });
+        return '';
+    });
+    let match = selectorExpr.exec(selector);
+    return bol ? selector ? match ? match[2] ? elem.id === match[2] : match[3] ? elem.nodeName === match[3].toUpperCase() : match[4] ? hasClass(elem,match[4]) : false : false : true : false;
 }
 
 /**
  * 数据存储中心
  * @type {{data: Array, getDataByElem: cacheData.getDataByElem, setData: cacheData.setData, getData: cacheData.getData, removeData: cacheData.removeData}}
  */
-var cacheData = {
+let cacheData = {
     data:[],
-    getDataByElem:function(elem){
-        var index = this.data.indexOfFunc(function(data){
-            return data._target == elem;
-        })
+    getDataByElem(elem){
+        let index = this.data.indexOfFunc(data => data._target === elem);
         return this.data[index];
     },
-    setData:function(elem,name,value){
-        var data = this.getDataByElem(elem);
+    setData(elem,name,value){
+        let data = this.getDataByElem(elem);
         if(data){
             data.data[name] = value;
         }else{
@@ -987,18 +975,43 @@ var cacheData = {
             this.data.push(data);
         }
     },
-    getData:function(elem,name){
-        var data = this.getDataByElem(elem);
+    getData(elem,name){
+        let data = this.getDataByElem(elem);
         return data ? data.data[name] : '';
     },
-    removeData:function(elem,name){
-        var data = this.getDataByElem(elem);
+    removeData(elem,name){
+        let data = this.getDataByElem(elem);
         if(data){
-            if(name == null){
-                data.data = {};
+            if(name === undefined){
+                this.data.remove(data);
             }else{
                 delete data.data[name];
             }
         }
+    }
+};
+
+function DOMReady(fn){
+    if(document.readyState === 'complete'){
+        fn();
+    }else if(document.addEventListener){
+        document.addEventListener('DOMContentLoaded',fn,false);
+    }else{
+        ieDOMReady(fn);
+    }
+}
+
+/**
+ * ie判断DOM元素加载完成事件
+ * @param fn
+ */
+function ieDOMReady(fn){
+    try{
+        document.documentElement.doScroll('left');
+        fn();
+    }catch(e){
+        setTimeout(function(){
+            ieDOMReady(fn);
+        },10);
     }
 }

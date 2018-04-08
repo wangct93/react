@@ -1,37 +1,38 @@
 /**
  * Created by Administrator on 2017/12/6.
  */
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
-var path = require('path');
-var mime = require('mime');
-var url = require('url');
-let request = require('request');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const mime = require('mime');
+const url = require('url');
+const request = require('request');
 
-var queryString = require('queryString');
-var crypto = require('crypto');
-var wt = require('./lib/util/util');
-var config = require('./config');
-var cloud = require('./cloud');
+const queryString = require('queryString');
+const crypto = require('crypto');
+const wt = require('./lib/util/util');
+const config = require('./config');
+const cloud = require('./cloud');
 
-var formidable = require('formidable');
-var form = new formidable.IncomingForm();
+
+const formidable = require('formidable');
+const form = new formidable.IncomingForm();
 form.uploadDir = path.resolve(__dirname,'../temp');
 
 
 /**
- * formData 表单附件上传数据处理
+ * formData 后台发起上传文件
  * @param data
  * @returns {Buffer}
  */
-function formData(data){
-    var boundary = '-------------wangchuitong' + (+new Date());
+function formdata(data){
+    let boundary = '-------------wangchuitong' + (+new Date());
     opt.headers['content-type'] += ';boundary=' + boundary;
     let b = new Buffer(0);
-    var name,value,fileName;
-    var fileNames = opt.fileNames;
-    var fileText = '';
+    let name,value,fileName;
+    let fileNames = opt.fileNames;
+    let fileText = '';
     for(name in data){
         if(data.hasOwnProperty(name)){
             value = data[name];
@@ -55,8 +56,8 @@ function formData(data){
 
 function toBase64(pathname,cb){
     // var pathname = url.parse(remoteAddr).pathname;
-    var re = /^(http[s]?):/;
-    var match = pathname.match(re);
+    let re = /^(http[s]?):/;
+    let match = pathname.match(re);
     if(match){
         request(pathname,function(err,req,data){
             if(err){
@@ -107,11 +108,11 @@ function ocrByPath(filePath,cb){
 
 
 function getLocalIp(){
-    var interfaces = require('os').networkInterfaces();
-    for(var devName in interfaces){
-        var iface = interfaces[devName];
-        for(var i = 0;i < iface.length;i++){
-            var alias = iface[i];
+    let interfaces = require('os').networkInterfaces();
+    for(let devName in interfaces){
+        let iface = interfaces[devName];
+        for(let i = 0;i < iface.length;i++){
+            let alias = iface[i];
             if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
                 return alias.address;
             }
@@ -120,7 +121,7 @@ function getLocalIp(){
 }
 
 function getClientIp(req){
-    var ip = req.headers['x-forwarded-for'] ||
+    let ip = req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
@@ -138,14 +139,14 @@ function uploadFile(req,cb,eb){
             console.log(err);
             eb(err);
         }else{
-            var temp = [];
+            let temp = [];
             for(let field in files){
                 let file = files[field];
                 file.field = field;
                 temp.push(file);
             }
-            var results = [];
-            var queue = new wt.Queue({
+            let results = [];
+            let queue = new wt.Queue({
                 list:temp,
                 execFunc:(file,cb) => {
                     let nameTemp = file.name.split('.');
@@ -191,7 +192,7 @@ function uploadFile(req,cb,eb){
 
 
 function cryptoSha1(str){
-    var sha1 = crypto.createHmac('sha1',config.cryPtoKey);
+    let sha1 = crypto.createHmac('sha1',config.cryPtoKey);
     sha1.update(str.toString());
     return sha1.digest('hex');
 }
@@ -217,7 +218,7 @@ function getRemoteAddr(baseRemoteAddr,pathname){
 }
 
 
-var newUtil = {
+let newUtil = {
     request:request,
     toBase64:toBase64,
     ocr:ocr,
@@ -238,7 +239,7 @@ module.exports = newUtil;
 /**
  * 控制台颜色
  */
-var consoleStyles = {
+const consoleStyles = {
     'bold'          : ['\x1B[1m',  '\x1B[22m'],
     'italic'        : ['\x1B[3m',  '\x1B[23m'],
     'underline'     : ['\x1B[4m',  '\x1B[24m'],

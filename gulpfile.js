@@ -17,7 +17,7 @@ let path = require('path');
 let minifyCss = require('gulp-minify-css');
 
 
-let utilConfig = require('./config/utilConfig.json');
+const utilConfig = require('./config/util.json');
 
 
 let less = require('gulp-less');
@@ -29,11 +29,15 @@ let plumnber = require('gulp-plumber');
  * 生成浏览器util
  */
 let {client} = utilConfig;
-gulp.task('clientUtil',() => {
-    let promise = gulp.src(client.path).pipe(plumnber());
-    promise = promise.pipe(browserify()).pipe(babel({
-        presets:['es2015']
-    }));
+let babelJsPath = client.path.map(item => {
+    return path.resolve(__dirname,item,'../../**/*.js');
+});
+gulp.task('util',['babelJs'],() => {
+    let filePath = client.path.map(item => {
+        return path.resolve(__dirname,'temp',item.replace(/^.*[\\\/]lib[\\\/]/,''));
+    });
+    let promise = gulp.src(filePath);
+    promise = promise.pipe(plumnber()).pipe(browserify());
     promise = promise.pipe(concat(client.fileName || 'util.js'));
     if(client.compress){
         promise = promise.pipe(uglify({
@@ -42,8 +46,20 @@ gulp.task('clientUtil',() => {
     }
     return promise.pipe(gulp.dest(client.dest));
 });
-gulp.watch(['./modules/**'],['clientUtil']);
-gulp.task('default',['clientUtil']);
+gulp.watch(['./modules/**'],['util']);
+gulp.task('default',['util']);
+
+
+gulp.task('babelJs',() => {
+    return gulp.src(babelJsPath)
+        .pipe(plumnber())
+        .pipe(babel({
+            presets:['es2015']
+        }))
+        .pipe(gulp.dest('temp'))
+});
+
+
 
 gulp.task('minCss',function(){
     gulp.src(['./static/util/css/common.css','./static/zjb/css/index.css'])

@@ -1,58 +1,60 @@
 /**
  * Created by Administrator on 2017/12/6.
  */
-var doubleByteRe = /[^\x00-\xff]/;      //匹配双字节正则
+let doubleByteRe = /[^\x00-\xff]/;      //匹配双字节正则
 
 
 
 module.exports = {
-    isValid: function (fn) {
-        return isFunction(fn) ? fn(this) : fn == this.toString();
+    isValid(fn) {
+        return typeof fn === 'function' ? fn(this) : fn === this.toString();
     },
-    charCount: function (char, index) {
+    charCount(char, index) {
         if (!arguments.length) {
-            return this.split('').reduce(function (first, second) {        //计算每个字符的出现次数
-                first[second]++ || (first[second] = 1);
+            return this.split('').reduce((first, second) => {        //计算每个字符的出现次数
+                if(first[second]){
+                    first[second]++;
+                }else{
+                    first[second] = 1;
+                }
                 return first;
             }, {});
         } else {
-            var count = 0;
-            var str = this.substr(0, index);
-            while (str.indexOf(char) > -1) {
-                str = str.replace(char, '');
-                count++;
+            let count = 0;
+            let str = this.substr(0, index);
+            for(let i = 0;i < str.length;i++){
+                if(str.charAt(i) === char){
+                    count++;
+                }
             }
             return count;
         }
     },
-    toJSON: function (sep, eq) {
-        sep = sep || '&';
-        eq = eq || '=';
-        var obj = {};
+    toJSON(sep = '&', eq = '=') {
+        let obj = {};
         if (this.length) {
-            var ary = this.split(sep);
-            ary.forEach(function (item) {
+            let ary = this.split(sep);
+            ary.forEach(item => {
                 if (item) {
-                    var ary = item.split(eq);
+                    let ary = item.split(eq);
                     obj[ary[0].trim()] = ary[1].trim();
                 }
             });
         }
         return obj;
     },
-    trim:function(){
-        return this.toString().replace(/^\s+|\s+$/,'');
+    trim(){
+        return this.toString().replace(/^\s+|\s+$/g,'');
     },
-    addSpace:function(n) {
-        n = n || 0;
-        return new Array(n + 1).join('\t') + this.replace(/[\[\]\{\},]/g, function (match) {
-                var suf = '';
-                var pre = '';
-                if (match == ']' || match == '}') {
+    addSpaceForJsonStr(n = 0) {
+        return new Array(n + 1).join('\t') + this.replace(/[\[\]\{\},]/g, match => {
+                let suf = '';
+                let pre = '';
+                if (match === ']' || match === '}') {
                     n--;
                     pre = '\n' + new Array(n + 1).join('\t');
                 } else {
-                    if(match == '[' || match == '{'){
+                    if(match === '[' || match === '{'){
                         n++;
                     }
                     suf = '\n' + new Array(n + 1).join('\t');
@@ -60,16 +62,14 @@ module.exports = {
                 return pre + match + suf;
             });
     },
-    escapeHtml:function(){
-        return this.replace(/[<>&\s"']/g,function(match){
-            return '&#' +match.charCodeAt(0) + ';';
-        });
+    escapeHtml(){
+        return this.replace(/[<>&\s"']/g,match => '&#' +match.charCodeAt(0) + ';');
     },
-    unescapeHtml:function(){
-        return this.replace(/&#[^;]+;/g,(match) => {
+    unescapeHtml(){
+        return this.replace(/&#[^;]+;/g,match => {
             let codeStr = match.substr(2);
             let code;
-            if(codeStr[0] == 'x'){
+            if(codeStr[0] === 'x'){
                 code = parseInt(codeStr.substr(1,codeStr.length - 2),16);
             }else{
                 code = parseInt(codeStr);
@@ -82,16 +82,16 @@ module.exports = {
      * @param lineBytes     每行的字节数，用于指定换行符对应多少字符
      * @param max   最大字节数
      * @param bol   是否添加省略号
+     * @param br   换行符替代元素
      * @returns {string}
      */
-    limitBytes:function(lineBytes,max,bol,n){
-        n = n == null ? '<br/>' : n;
-        var count = 0;
-        var str = this.toString();
-        var len = str.length;
-        for(var i = 0;i < len;i++){
-            var char = str.charAt(i);
-            if(char == '\n'){
+    limitBytes(lineBytes,max,bol,br = '<br/>'){
+        let count = 0;
+        let str = this.toString();
+        let len = str.length;
+        for(let i = 0;i < len;i++){
+            let char = str.charAt(i);
+            if(char === '\n'){
                 count = (Math.floor(count / lineBytes) + 1) * lineBytes;
             }else if(doubleByteRe.test(char)){
                 count += 2;
@@ -103,17 +103,17 @@ module.exports = {
                 break;
             }
         }
-        return str.replace(/\s?\n\s?/g,n);
+        return str.replace(/\s?\n\s?/g,br);
     },
     /**
      * 统计字节数
      * @returns {number}
      */
-    countBytes:function(){
-        var count = 0;
-        var len = this.length;
-        for(var i = 0;i < len;i++){
-            var char = this.charAt(i);
+    countBytes(){
+        let count = 0;
+        let len = this.length;
+        for(let i = 0;i < len;i++){
+            let char = this.charAt(i);
             if(doubleByteRe.test(char)){
                 count += 2;
             }else{
@@ -127,22 +127,22 @@ module.exports = {
      * @param max
      * @returns {{x: number, y: number}}
      */
-    getLensAndLines:function(max) {
-        var lineChar = '\n';
-        var len = this.length;
-        var lineBytes = 0;
-        var tempBytes = 0;
-        var lines = 1;
-        for (var i = 0; i < len; i++) {
-            var char = this.charAt(i);
-            if (char == lineChar) {
+    getLensAndLines(max) {
+        let lineChar = '\n';
+        let len = this.length;
+        let lineBytes = 0;
+        let tempBytes = 0;
+        let lines = 1;
+        for (let i = 0; i < len; i++) {
+            let char = this.charAt(i);
+            if (char === lineChar) {
                 lines++;
                 tempBytes = 0;
                 if (tempBytes > lineBytes) {
                     lineBytes = tempBytes
                 }
             } else {
-                var bytes = doubleByteRe.test(char) ? 2 : 1;
+                let bytes = doubleByteRe.test(char) ? 2 : 1;
                 tempBytes += bytes;
                 if (max && tempBytes > max) {
                     lines++;
@@ -163,26 +163,24 @@ module.exports = {
      * @param filter
      * @returns {*}
      */
-    getKeywords:function(len,list,filter){
+    getKeywords(len,list,filter){
         len = len || 0;
         list = list || [];
-        var existFunc = filter ? function(item){
-            var suc = filter[item];
+        let existFunc = filter ? item => {
+            let suc = filter[item];
             if(!suc){
                 filter[item] = 1;
             }
             return suc;
-        } : function(item){
-            return list.indexOf(item) !== -1;
-        };
-        var strLen = this.length;
-        var tempStr = '';
+        } : item => list.indexOf(item) !== -1;
+        let strLen = this.length;
+        let tempStr = '';
         if(len >= strLen){
             return list;
         }else{
-            for(var i = 0,maxI = strLen - len;i < maxI;i++){
+            for(let i = 0,maxI = strLen - len;i < maxI;i++){
                 tempStr = '';
-                for(var j = 0;j <= len;j++){
+                for(let j = 0;j <= len;j++){
                     tempStr += this.charAt(j + i);
                 }
                 if(!existFunc[tempStr]){
@@ -192,14 +190,14 @@ module.exports = {
             return this.getKeywords(len + 1,list,filter);
         }
     },
-    toNum:function(n){
+    toNum(n = 0){
         let num = parseInt(this);
-        return isNaN(num) ? n || 0 : num;
+        return isNaN(num) ? n : num;
     },
-    addZero:function(n){
-        var len = this.length;
-        var str = this.toString();
-        for(var i = len;i < n;i++){
+    addZero(n){
+        let len = this.length;
+        let str = this.toString();
+        for(let i = len;i < n;i++){
             str = '0' + str;
         }
         return str;

@@ -359,6 +359,7 @@ function execFunc(){
         return fn.apply(this,ary);
     }
 }
+
 //将类数组对象转化为数组
 function toArray(nodeList){
     if(nodeList instanceof Array){

@@ -3,10 +3,10 @@
  */
 
 
-let config = require('../config/serverConfig');
+let config = require('../config/server.json');
 let util = require('./lib/util/util');
-let default_config = {
+let defaultConfig = {
     port:8888
 };
 
-util.extend(exports,default_config,config);
+util.extend(exports,defaultConfig,config);
