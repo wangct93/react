@@ -1,0 +1,39 @@
+
+
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content{
+    display: flex;
+    border: 1px solid #ccc;
+    align-items: center;
+}
+
+.box{
+    border-right: 1px solid #ccc;
+}
+.info-box{
+    padding: 20px;
+}
+.info-box .w-btn{
+    margin-top: 20px;
+}
+
+.row{
+    display: flex;
+}
+
+.cell{
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    box-sizing: border-box;
+}
+
+.active.cell{
+    background-color: #f1f1f1;
+}

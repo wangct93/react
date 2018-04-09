@@ -36,28 +36,28 @@ function isIE() {
  * @returns {boolean}
  */
 function isFirefox(){
-    return navigator.userAgent.indexOf('Firefox') != -1;
+    return navigator.userAgent.indexOf('Firefox') !== -1;
 }
 /**
  * 判断是否为火狐浏览器
  * @returns {boolean}
  */
 function isChrome(){
-    return navigator.userAgent.indexOf('Chrome') != -1;
+    return navigator.userAgent.indexOf('Chrome') !== -1;
 }
 /**
  * 判断是否为Opera浏览器
  * @returns {boolean}
  */
 function isOpera(){
-    return navigator.userAgent.indexOf('Opera') != -1;
+    return navigator.userAgent.indexOf('Opera') !== -1;
 }
 /**
  * 判断是否为Safari浏览器
  * @returns {boolean}
  */
 function isSafari(){
-    return navigator.userAgent.indexOf('Safari') != -1;
+    return navigator.userAgent.indexOf('Safari') !== -1;
 }
 
 

@@ -1129,28 +1129,28 @@ function isIE() {
  * @returns {boolean}
  */
 function isFirefox() {
-    return navigator.userAgent.indexOf('Firefox') != -1;
+    return navigator.userAgent.indexOf('Firefox') !== -1;
 }
 /**
  * 判断是否为火狐浏览器
  * @returns {boolean}
  */
 function isChrome() {
-    return navigator.userAgent.indexOf('Chrome') != -1;
+    return navigator.userAgent.indexOf('Chrome') !== -1;
 }
 /**
  * 判断是否为Opera浏览器
  * @returns {boolean}
  */
 function isOpera() {
-    return navigator.userAgent.indexOf('Opera') != -1;
+    return navigator.userAgent.indexOf('Opera') !== -1;
 }
 /**
  * 判断是否为Safari浏览器
  * @returns {boolean}
  */
 function isSafari() {
-    return navigator.userAgent.indexOf('Safari') != -1;
+    return navigator.userAgent.indexOf('Safari') !== -1;
 }
 
 /**
@@ -2468,11 +2468,7 @@ function decodeUtf8(binary) {
 (function (global){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2673,68 +2669,62 @@ var Queue = function () {
         this.init(option);
     }
 
-    _createClass(Queue, [{
-        key: 'init',
-        value: function init(option) {
-            var defaultOption = {
-                limit: 1,
-                interval: 10,
-                _runCount: 0,
-                list: [],
-                result: [],
-                getItem: function getItem() {
-                    var list = this.list;
+    Queue.prototype.init = function init(option) {
+        var defaultOption = {
+            limit: 1,
+            interval: 10,
+            _runCount: 0,
+            list: [],
+            result: [],
+            getItem: function getItem() {
+                var list = this.list;
 
-                    return list.shift();
-                },
-                check: function check(item) {
-                    return item != null;
-                }
-            };
-            extend(this, defaultOption, option);
-        }
-    }, {
-        key: 'start',
-        value: function start() {
-            for (var i = this._runCount; i < this.limit; i++) {
-                this._runCount++;
-                this._exec();
+                return list.shift();
+            },
+            check: function check(item) {
+                return item != null;
             }
-        }
-    }, {
-        key: '_exec',
-        value: function _exec() {
-            var _this2 = this;
+        };
+        extend(this, defaultOption, option);
+    };
 
-            var item = this.getItem();
-            execFunc.call(this, this.next);
-            if (item == null) {
-                this._runCount--;
-                if (this._runCount === 0) {
-                    execFunc.call(this, this.success, this.result);
-                }
-            } else if (this.check(item)) {
-                this.execFunc(item, function (data) {
-                    _this2.result.push(data);
-                    setTimeout(function () {
-                        _this2._exec();
-                    }, _this2.interval);
-                });
-            } else {
-                this._exec();
-            }
+    Queue.prototype.start = function start() {
+        for (var i = this._runCount; i < this.limit; i++) {
+            this._runCount++;
+            this._exec();
         }
-    }, {
-        key: 'addItem',
-        value: function addItem(items) {
-            var _list;
+    };
 
-            if (!isArray(items)) {
-                items = [items];
+    Queue.prototype._exec = function _exec() {
+        var _this2 = this;
+
+        var item = this.getItem();
+        execFunc.call(this, this.next);
+        if (item == null) {
+            this._runCount--;
+            if (this._runCount === 0) {
+                execFunc.call(this, this.success, this.result);
             }
-            (_list = this.list).push.apply(_list, _toConsumableArray(items));
+        } else if (this.check(item)) {
+            this.execFunc(item, function (data) {
+                _this2.result.push(data);
+                setTimeout(function () {
+                    _this2._exec();
+                }, _this2.interval);
+            });
+        } else {
+            this._exec();
         }
-    }]);
+    };
+
+    Queue.prototype.addItem = function addItem(items) {
+        var _list;
+
+        if (!isArray(items)) {
+            items = [items];
+        }
+        (_list = this.list).push.apply(_list, items);
+    };
 
     return Queue;
 }();

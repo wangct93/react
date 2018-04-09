@@ -54,7 +54,14 @@ gulp.task('babelJs',() => {
     return gulp.src(babelJsPath)
         .pipe(plumnber())
         .pipe(babel({
-            presets:['es2015']
+            presets:[
+                [
+                    'es2015',
+                    {
+                        loose:true
+                    }
+                ]
+            ]
         }))
         .pipe(gulp.dest('temp'))
 });
