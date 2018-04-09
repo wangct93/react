@@ -2,12 +2,11 @@
  * Created by Administrator on 2017/10/18.
  */
 
-let map;
 $(() => {
-    map = new Map({
-        $target:$('#box')
-    });
-    map.start();
+    new Map({
+        $target:$('#box'),
+        $score:$('#score')
+    }).start();
 });
 
 
@@ -41,11 +40,12 @@ class Map{
         map.forEach((item,i) => {
             html += '<div class="row" index="'+ i +'">';
             item.forEach((item,j) => {
-                html += '<div class="cell" index="'+ j +'"></div>';
+                html += '<div class="' + `cell ${item === 0 ? '' : 'active'}` + '" index="'+ j +'"></div>';
             });
             html += '</div>';
         });
         this.$target.html(html);
+        this.$score.html(this.score);
     }
     addEvent(){
         $(document).keyup(e => {
@@ -160,13 +160,18 @@ class Map{
         }
     }
     clear(){
+        let count = 0;
+        let {score = 0} = this;
         this.map.forEach((item,i,map) => {
             let bol = item.every(item => item === 1);
             if(bol){
+                count++;
                 map.splice(i,1);
                 map.unshift(map[0].map(item => 0));
             }
         });
+        score += Math.pow(2,count);
+        this.score = score;
         this.updateHtml();
     }
 }
