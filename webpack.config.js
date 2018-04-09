@@ -69,4 +69,4 @@ let babelModule = {
 };
 
 
-module.exports = babelModule;
+module.exports = reactModule;
