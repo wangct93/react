@@ -4,24 +4,24 @@
 
 
 
-let gulp = require('gulp');
-let rename = require('gulp-rename');
-let concat = require('gulp-concat');
-let uglify = require('gulp-uglify');
-let browserify = require('gulp-browserify');
-let babelify = require('babelify');
-let babel = require('gulp-babel');
-let plumber = require('gulp-plumber');
-let fs = require('fs');
-let path = require('path');
-let minifyCss = require('gulp-minify-css');
-
+const gulp = require('gulp');
+const rename = require('gulp-rename');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const browserify = require('gulp-browserify');
+const babelify = require('babelify');
+const babel = require('gulp-babel');
+const plumber = require('gulp-plumber');
+const fs = require('fs');
+const path = require('path');
+const minifyCss = require('gulp-minify-css');
 
 const utilConfig = require('./config/util.json');
 
 
 let less = require('gulp-less');
 let plumnber = require('gulp-plumber');
+
 
 
 
@@ -46,10 +46,7 @@ gulp.task('util',['babelJs'],() => {
     }
     return promise.pipe(gulp.dest(client.dest));
 });
-gulp.watch(['./modules/**'],['util']);
-gulp.task('default',['util']);
-
-
+//
 gulp.task('babelJs',() => {
     return gulp.src(babelJsPath)
         .pipe(plumnber())
@@ -66,7 +63,7 @@ gulp.task('babelJs',() => {
         .pipe(gulp.dest('temp'))
 });
 
-
+gulp.task('default',['util']);
 
 gulp.task('minCss',function(){
     gulp.src(['./static/util/css/common.css','./static/zjb/css/index.css'])
@@ -77,59 +74,10 @@ gulp.task('minCss',function(){
 // gulp.watch(['./static/zjb/css/index.css'],['minCss']);
 
 
-/**
- * 转化jsx,es6任务
- */
-// gulp.task('babelJsx',function(){
-//     return gulp.src('./static/blog_react/jsx/*')
-//         .pipe(browserify({
-//             transform:[
-//                 babelify.configure({
-//                     presets: ['react','es2015']
-//                 })
-//             ]
-//         }))
-//         // .pipe(babel({
-//         //     presets:['react','es2015']
-//         // }))
-//         .pipe(rename(function(path){
-//             path.extname  = '.js';
-//         }))
-//         // .pipe(uglify())
-//         .pipe(gulp.dest('./static/blog_react/temp_browse'))
-// });
-//
-// gulp.task('browse',function(){
-//     return gulp.src('./static/blog_react/src/index.js')
-//         .pipe(plumber())
-//         .pipe(browserify({
-//             // transform:[
-//             //     babelify.configure({
-//             //         presets: ['es2015'],
-//             //         compact:true
-//             //     })
-//             // ]
-//         }))
-//         .pipe(uglify())
-//         .pipe(gulp.dest('./static/blog_react/js'))
-// });
-
-
-
-// gulp.watch(['./static/blog_react/jsx/*','./static/blog_react/src/*'],['browse']);
-
-
-
-
-
-
-
-
-
-
-
 // let lessPath = ['./static/react/pages/novel/less/*.less'];
 let lessPath = ['./static/react/less/*.less'];
+
+
 gulp.task('less',() => {
     return gulp.src(lessPath)
         .pipe(plumnber())
@@ -139,29 +87,6 @@ gulp.task('less',() => {
         // }))
         .pipe(gulp.dest(path.join(lessPath[0],'../../css')))
 });
-gulp.watch(lessPath,['less']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -181,3 +106,11 @@ gulp.watch(lessPath,['less']);
 //        }))
 //    .pipe(gulp.dest(__dirname + '/static'));
 //});
+
+
+/**
+ * 监视
+ */
+
+// gulp.watch(['./modules/**'],['util']);
+gulp.watch(lessPath,['less']);

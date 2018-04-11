@@ -1100,8 +1100,10 @@ var $ = require('../$/$');
 window.$ = window.$ || $;
 
 /*初始化窗口宽高*/
-window.innerHeight = window.innerHeight || document.documentElement.offsetHeight;
-window.innerWidth = window.innerWidth || document.documentElement.offsetWidth;
+try {
+    window.innerHeight = window.innerHeight || document.documentElement.offsetHeight;
+    window.innerWidth = window.innerWidth || document.documentElement.offsetWidth;
+} catch (e) {}
 
 /**
  * ie判断DOM元素加载完成事件
@@ -2758,11 +2760,12 @@ function Promise(fn) {
  * 等所有promise异步执行后调用回调
  * @returns {Promise}
  */
-Promise.all = function () {
-    var ary = [];
-    for (var i = 0, len = arguments.length; i < len; i++) {
-        ary.push(arguments[i]);
-    }
+Promise.all = function (ary) {
+    // var ary = [];
+    // for(var i = 0,len = arguments.length;i < len;i++){
+    //     ary.push(arguments[i]);
+    // }
+    var len = ary.length;
     return new Promise(function (cb) {
         var result = [];
         var getFunc = function getFunc(promise, index) {

@@ -41,4 +41,14 @@ wt.DOMReady(() => {
             console.log(er);
         }
     });
+
+
 });
+
+
+function aa(name){
+    name = 1;
+    console.log(arguments[0]);
+}
+
+aa(4);

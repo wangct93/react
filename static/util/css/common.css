@@ -326,6 +326,7 @@ hr{
     position: relative;
     z-index: 80;
     user-select: none;
+    border-radius: 5px;
 }
 .combo-input{
     border-width: 0;
@@ -365,10 +366,11 @@ hr{
     border: 1px solid #ccc;
     overflow: auto;
     background-color: #fff;
+    border-radius: 4px;
 }
 .combo-list > li{
-    height: 24px;
-    line-height: 24px;
+    height: 30px;
+    line-height: 30px;
     padding: 0 10px;
 }
 .combo-list > li:hover{

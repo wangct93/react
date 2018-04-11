@@ -7,8 +7,11 @@ var $ = require('../$/$');
 window.$ = window.$ || $;
 
 /*初始化窗口宽高*/
-window.innerHeight = window.innerHeight || document.documentElement.offsetHeight;
-window.innerWidth = window.innerWidth || document.documentElement.offsetWidth;
+try{
+    window.innerHeight = window.innerHeight || document.documentElement.offsetHeight;
+    window.innerWidth = window.innerWidth || document.documentElement.offsetWidth;
+}catch(e){}
+
 
 /**
  * ie判断DOM元素加载完成事件
@@ -788,6 +791,7 @@ var wt = {
                 opt[btnType][$btn.index()].handler.call($btn[0]);
             }
         });
+        return $container;
     },
     /**
      * 打开全屏模式

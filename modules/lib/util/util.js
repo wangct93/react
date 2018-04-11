@@ -287,11 +287,12 @@ function Promise(fn){
  * 等所有promise异步执行后调用回调
  * @returns {Promise}
  */
-Promise.all = function(){
-    var ary = [];
-    for(var i = 0,len = arguments.length;i < len;i++){
-        ary.push(arguments[i]);
-    }
+Promise.all = function(ary){
+    // var ary = [];
+    // for(var i = 0,len = arguments.length;i < len;i++){
+    //     ary.push(arguments[i]);
+    // }
+    var len = ary.length;
     return new Promise(function(cb){
         var result = [];
         var getFunc = function(promise,index){
