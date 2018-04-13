@@ -119,8 +119,20 @@ module.exports = {
     toFieldObject(field){
         let target = {};
         this.forEach((item,i) => {
-            target[item[field] || i] = item;
+            let fieldStr = typeof field === 'function' ? field(item,i) : item[field] || i;
+            target[fieldStr] = item;
         });
         return target;
+    },
+    noRepeat(){
+        for(let i = 0;i < this.length;i++){
+            for(let j = i + 1;j < this.length;j++){
+                if(this[i] === this[j]){
+                    this.splice(j,1);
+                    j--;
+                }
+            }
+        }
+        return this;
     }
 };

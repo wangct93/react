@@ -6,6 +6,7 @@ let webpack = require('webpack');
 
 
 let src = 'react/src/index.js';
+// let src = 'react/src/test.js';
 // let src = 'react/pages/novel/src/index.js';
 
 

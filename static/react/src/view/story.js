@@ -30,7 +30,11 @@ export class Story extends Component{
                     <div className="story-control-box">
                         <h2>列表</h2>
                         <div>排序：</div>
-                        <Combobox data={sortList} width="120" height="30" onSelect={changeSort} />
+                        <Combobox data={sortList} option={{
+                            width:120,
+                            height:30,
+                            onSelect:changeSort
+                        }} />
                         <ViewNav list={viewList} />
                     </div>
                     <div className="story-content">

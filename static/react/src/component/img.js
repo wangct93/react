@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import Component from '../lib/component';
-import {Provider, connect} from 'react-redux';
 
 let imgCache = new wt.LoadImgList({
     imgLoad(img){

@@ -7,12 +7,13 @@ import Component from '../lib/component';
 export default class Search extends Component{
     render(){
         let {placeholder = '请输入查询关键词'} = this.props;
+        let {keyup,search} = this;
         return <div className="search-box">
-            <input className="search-input fit" ref="input" onKeyUp={this.keyUp.bind(this)} placeholder={placeholder}/>
-            <a className="search-btn iconfont icon-chaxun" onClick={this.search.bind(this)}></a>
+            <input className="search-input fit" ref="input" onKeyUp={keyup.bind(this)} placeholder={placeholder}/>
+            <i className="search-btn iconfont icon-chaxun" onClick={search.bind(this)}/>
         </div>;
     }
-    keyUp(e){
+    keyup(e){
         if(e.keyCode === 13){
             this.search();
         }

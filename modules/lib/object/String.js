@@ -210,6 +210,10 @@ module.exports = {
     },
     decodeUtf8ByHex(){
         return String.fromCharCode(parseInt(decodeUtf8(parseInt(this.replace(/\s/g,''),16).toString(2)),2));
+    },
+    toCssValue(px = 'px'){
+        let num = parseInt(this);
+        return this.indexOf('%') !== -1 || isNaN(num) ? this : num + px;
     }
 };
 

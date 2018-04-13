@@ -3,133 +3,157 @@
  */
 import React from 'react';
 import Component from '../lib/component';
-import {render} from 'react-dom';
-import {Provider, connect} from 'react-redux';
-import * as actions from '../store/dialog/action';
 
 import Btn from './btn';
 
-class Dialog extends Component{
+
+export default class Dialog extends Component{
     constructor(){
         super();
         this.state = {
-            title:'提示',
-            width:600,
-            height:400,
-            tools:[
-                {
-                    iconCls:'icon-cha2',
-                    handler:this.close
-                }
-            ],
-            buttons:[]
+            _height:600,
+            _width:800
         }
     }
+    componentWillMount(){
+        let {_width,_height,_top,_left} = this.state;
+        let {width = _width,height = _height,left,top} = this.props.option || {};
+        let mWidth = window.innerWidth;
+        let mHeight = window.innerHeight;
+        this.setState({
+            width,
+            height,
+            left:_left || left || (window.innerWidth - width) / 2,
+            top:_top || top || (window.innerHeight - height) / 2
+        });
+    }
     render(){
-        let data = this.getConfig();
-        let {mouseData,rect} = this;
-        return <div className="mask-container" onMouseMove={this.mousemove.bind(this)} onMouseUp={this.mouseup.bind(this)}>
+        let {props,mousemove,mouseup,mouseData = {}} = this;
+        let {option} = props;
+        let rect = this.getRect();
+        let {width,height} = rect;
+        let {top,left} = mouseData;
+        let {hide} = this.state;
+        return <div style={{
+            display:hide ? 'none' : 'block'
+        }} className="dialog-container" onMouseMove={mousemove.bind(this)} onMouseUp={mouseup.bind(this)}>
             {
-                mouseData && mouseData.state === 'down' && <VirFrame width={rect.width} height={rect.height} left={mouseData && mouseData.left} top={mouseData && mouseData.top} />
+                mouseData.state === 'move' && <DragRect rect={{
+                    width,
+                    height,
+                    left,
+                    top
+                }}/>
             }
-            <div className="prompt-box" style={{
-                width:rect.width + 'px',
-                height:rect.height + 'px',
-                left:rect.left + 'px',
-                top:rect.top + 'px'
-            }}>
-                <div className="prompt-header" onMouseDown={this.mousedown.bind(this)}>
-                    <span>{data.title}</span>
-                    <div className="prompt-toolbox">
-                        {
-                            data.tools.map((item,i) => {
-                                return <i key={i} onClick={item.handler.bind(this)} className={`prompt-tool iconfont ${item.iconCls || ''}`}></i>
-                            })
-                        }
-                    </div>
-                </div>
-                <div className="prompt-body fit">{React.createElement(data.content,{
-                    ref:'content',
-                    data:data.data
-                })}</div>
-                <div className="prompt-btnbox">
-                    {
-                        data.buttons.map((item,i) => {
-                            return <Btn text={item.text} iconCls={item.iconCls} key={i} click={item.handler.bind(null,this)}/>
-                        })
-                    }
-                </div>
-            </div>
-            <div className="mask-shadow">
-
-            </div>
+            <Content rect={rect} option={option} dialog={this} />
+            <Shadow />
         </div>
     }
-    getConfig(){
-        let data = wt.extend({},this.state,this.props.option);
-        this.rect = {
-            width:data.width,
-            height:data.height,
-            left:this.state.left == null ? (window.innerWidth - data.width) / 2 : this.state.left,
-            top:this.state.top == null ? (window.innerHeight - data.height) / 2 : this.state.top
+    getRect(){
+        let {width,height,top,left} = this.state;
+        return {
+            width,height,top,left
         };
-        return data;
     }
     close(){
-        this.props.close(this.props.dialogId);
+        this.setState({
+            hide:true
+        });
     }
     mousedown(e){
         if(e.button !== 2){
+            let {left,top} = this.state;
             this.mouseData = {
-                state:'down',
-                dx:e.clientX - this.rect.left,
-                dy:e.clientY - this.rect.top
+                state:'move',
+                dx:e.clientX - left,
+                dy:e.clientY - top
             }
         }
     }
     mousemove(e){
-        let {mouseData} = this;
-        if(mouseData && mouseData.state === 'down'){
+        let {mouseData = {}} = this;
+        if(mouseData.state === 'move'){
             wt.extend(mouseData,{
                 left:e.clientX - mouseData.dx,
                 top:e.clientY - mouseData.dy
             });
-            this.setState({
-                date:+new Date()
-            });
+            this.refresh();
         }
     }
     mouseup(){
-        let {mouseData} = this;
-        if(mouseData && mouseData.state === 'down'){
-            this.mouseData = {
-                state:'up'
-            };
+        let {mouseData = {}} = this;
+        if(mouseData.state === 'move'){
             let {left,top} = mouseData;
-            if(left != null){
+            this.mouseData = undefined;
+            if(left !== undefined){
                 this.setState({
                     left,
-                    top,
-                    date:+new Date()
+                    top
                 });
             }
         }
     }
-}
-
-
-class VirFrame extends Component{
-    render(){
-        let {width,height,left,top} = this.props;
-        return <div className="vir-frame" style={{
-            width:width + 'px',
-            height:height + 'px',
-            left:left + 'px',
-            top:top + 'px'
-        }}></div>
+    refresh(){
+        this.setState({
+            _date:+new Date()
+        });
     }
 }
 
-export default connect((state) => ({}),actions)(Dialog);
+const Content = props => {
+    let {dialog,rect = {},option} = props;
+    let {width,height,left,top} = rect;
+    let {title = 'new title',content,buttons = [],tools = [{
+        iconCls:'icon-cha2',
+        handler:(dialog) => {
+            dialog.close();
+        }
+    }]} = option;
+
+    return <div className="dialog-box" style={{
+        width:width + 'px',
+        height:height + 'px',
+        left:left + 'px',
+        top:top + 'px'
+    }}>
+        <div className="dialog-header" onMouseDown={dialog.mousedown.bind(dialog)}>
+            <span>{title}</span>
+            {
+                tools.length ? <div className="dialog-tool-box">
+                    {
+                        tools.map(({handler,iconCls},i) => {
+                            return <i key={i} onClick={handler.bind(null,dialog)} className={`iconfont ${iconCls}`}/>
+                        })
+                    }
+                </div> : ''
+            }
+        </div>
+        <div className="dialog-body">{content}</div>
+        {
+            buttons.length ? <div className="dialog-btn-box">
+                {
+                    buttons.map((item,i) => {
+                        let {text,iconCls,handler} = item;
+                        return <Btn iconCls={iconCls} key={i} onClick={handler.bind(item,dialog)}>{text}</Btn>
+                    })
+                }
+            </div> : ''
+        }
+    </div>;
+}
 
 
+const Shadow = props => {
+    return <div className="shadow-bg"></div>
+}
+
+
+const DragRect = props => {
+    let {width,height,left,top} = props.rect || {};
+    return <div className="drag-dialog-rect" style={{
+        width:width + 'px',
+        height:height + 'px',
+        left:left + 'px',
+        top:top + 'px'
+    }}></div>
+}

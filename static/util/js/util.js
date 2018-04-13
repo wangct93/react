@@ -1091,12 +1091,15 @@ function ieDOMReady(fn) {
 },{"../util/util":6}],2:[function(require,module,exports){
 'use strict';
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 /**
  * Created by Administrator on 2017/12/6.
  */
 var util = require('../util/util');
-window.wt = util;
 var $ = require('../$/$');
+
+window.wt = util;
 window.$ = window.$ || $;
 
 /*初始化窗口宽高*/
@@ -1154,22 +1157,6 @@ function isOpera() {
 function isSafari() {
     return navigator.userAgent.indexOf('Safari') !== -1;
 }
-
-/**
- * 封装找元素方法
- * @param selector
- * @param context
- * @returns {Element}
- */
-
-window.qs = function (selector, context) {
-    context = context || document;
-    return context.querySelector(selector);
-};
-window.qsAll = function (selector, context) {
-    context = context || document;
-    return context.querySelectorAll(selector);
-};
 
 /**
  * 画框方法mousedown
@@ -1270,7 +1257,7 @@ function ajaxSubmitForFormData(opt) {
         var $input = $(input);
         var name = $input.attr('name');
         if (name) {
-            if ($input.attr('type') == 'file') {
+            if ($input.attr('type') === 'file') {
                 util.forEach(input.files, function (file, i) {
                     data.append(name + '_' + i, file);
                 });
@@ -1295,6 +1282,8 @@ function ajaxSubmitForFormData(opt) {
  * @param opt
  */
 function ajaxSubmitForIE8(opt) {
+    var _this2 = this;
+
     var form = opt.form;
     var $form = $(form);
     if (opt.enctype) {
@@ -1311,7 +1300,7 @@ function ajaxSubmitForIE8(opt) {
 
     var load = function load() {
         $iframe.off('load', load);
-        var doc = getDoc(this);
+        var doc = getDoc(_this2);
         $iframe.after($form);
         doc.body.appendChild(form);
         try {
@@ -1321,7 +1310,7 @@ function ajaxSubmitForIE8(opt) {
             var submitFn = document.createElement('form').submit;
             submitFn.apply(form);
         }
-        var _this = this;
+        var _this = _this2;
         var startTime = +new Date();
         var timeout = opt.timeout || 6000;
         var timer = setInterval(function () {
@@ -1331,9 +1320,9 @@ function ajaxSubmitForIE8(opt) {
                 util.execFunc(opt.error);
                 $iframe.remove();
             } else {
-                var doc = getDoc(_this);
-                if (doc && doc.body.innerText) {
-                    util.execFunc(opt.success, doc.body.innerText);
+                var _doc = getDoc(_this);
+                if (_doc && _doc.body.innerText) {
+                    util.execFunc(opt.success, _doc.body.innerText);
                     clearInterval(timer);
                     $iframe.remove();
                 }
@@ -1377,99 +1366,6 @@ function getDoc(frame) {
     }
     return doc;
 }
-/**
- * 轮播图
- */
-function LBT(opt) {
-    this.init(opt);
-}
-
-LBT.prototype = {
-    init: function init(opt) {
-        this.initOption(opt);
-        this.startMove();
-    },
-    initOption: function initOption(opt) {
-        var target = opt.target;
-        var default_option = {
-            index: 0,
-            interval: 3000,
-            moveTime: 500,
-            width: opt.target.offsetWidth
-        };
-        opt.itemLength = opt.target.children.length;
-        this.opt = util.extend(default_option, opt);
-        this.state = 0;
-        this.moveing = false;
-        opt.target.lbt = this;
-        this.$elem = $(opt.target);
-    },
-    startMove: function startMove() {
-        var opt = this.opt;
-        this.$elem.children().eq(opt.index).css('display', 'block');
-        util.execFunc(opt.onSelect, opt.index);
-        this.start();
-    },
-    stop: function stop() {
-        clearTimeout(this.timer);
-        this.state = 0;
-    },
-    start: function start() {
-        var _this = this;
-        clearTimeout(this.timer);
-        this.timer = setTimeout(function () {
-            var index = _this.opt.index + 1;
-            var isRight = null;
-            if (index == _this.opt.itemLength) {
-                index = 0;
-                isRight = true;
-            }
-            _this.tab(index, isRight);
-        }, this.opt.interval);
-        this.state = 1;
-    },
-    tab: function tab(index, isRight) {
-        if (this.moveing || index == this.opt.index) {
-            return;
-        }
-        clearTimeout(this.timer);
-        clearInterval(this.moveTimer);
-        var opt = this.opt;
-        var $elem = this.$elem;
-        var box = opt.target;
-        var $childs = $elem.children();
-        var $oldElem = $childs.eq(opt.index);
-        var $newElem = $childs.eq(index);
-        var w = opt.width;
-        isRight = util.isBoolean(isRight) ? isRight : index > opt.index;
-        var left = (isRight ? 1 : -1) * w;
-        $newElem.css({
-            left: left + 'px',
-            display: 'block'
-        });
-        var speed = w / opt.moveTime * 30 * (isRight ? -1 : 1);
-        util.execFunc(opt.onSelect, index);
-        var _this = this;
-        var timer = setInterval(function () {
-            var ool = $oldElem[0].offsetLeft;
-            var onl = $newElem[0].offsetLeft;
-            var nol = ool + speed;
-            var nnl = onl + speed;
-            if (speed > 0 && nnl >= 0 || speed < 0 && nnl <= 0) {
-                clearInterval(timer);
-                _this.state && _this.start();
-                _this.moveing = false;
-                nnl = 0;
-                $oldElem.css('display', 'none');
-            }
-            $oldElem.css('left', nol + 'px');
-            $newElem.css('left', nnl + 'px');
-        }, 30);
-        this.moveing = true;
-        this.moveTimer = timer;
-        opt.index = index;
-    }
-};
 
 /**
  * 按顺序加载图片
@@ -1481,22 +1377,26 @@ LBT.prototype = {
  * success      图片全部加载好调用
  * limit        每次最大加载数量
  */
-function LoadImgList(option) {
-    this.init(option);
-}
-LoadImgList.prototype = {
-    init: function init(option) {
-        var opt = {
-            limit: 3,
-            list: [],
-            interval: 30
-        };
-        util.extend(opt, option);
-        var imgLoad = opt.imgLoad;
-        var imgError = opt.imgError;
-        var list = opt.list;
+
+var LoadImgList = function () {
+    function LoadImgList(option) {
+        _classCallCheck(this, LoadImgList);
+
+        this.init(option);
+    }
+
+    LoadImgList.prototype.init = function init(option) {
+        var _option$limit = option.limit,
+            limit = _option$limit === undefined ? 3 : _option$limit,
+            list = option.list,
+            _option$interval = option.interval,
+            interval = _option$interval === undefined ? 30 : _option$interval,
+            imgLoad = option.imgLoad,
+            imgError = option.imgError,
+            errorSrc = option.errorSrc;
+
         list = util.isArray(list) ? list : util.toArray(list);
-        var queue = new util.Queue({
+        this.queue = new util.Queue({
             list: list,
             execFunc: function execFunc(img, cb) {
                 var $img = $(img);
@@ -1506,7 +1406,12 @@ LoadImgList.prototype = {
                     var src = $img.attr('dsrc');
                     setTimeout(function () {
                         if (!img.complete) {
-                            img.src = null;
+                            if (errorSrc) {
+                                img.src = errorSrc;
+                            } else {
+                                img.src = null;
+                                cb();
+                            }
                         }
                     }, 6000);
                     $img.on('load', function () {
@@ -1517,53 +1422,57 @@ LoadImgList.prototype = {
                     }).attr('src', src);
                 }
             },
-            interval: opt.interval,
-            limit: opt.limit
+
+            interval: interval,
+            limit: limit
         });
-        queue.start();
-        this.queue = queue;
-        this.opt = opt;
-    },
-    load: function load() {
+    };
+
+    LoadImgList.prototype.load = function load() {
         this.queue.start();
-    },
-    add: function add(list) {
+    };
+
+    LoadImgList.prototype.add = function add(list) {
         this.queue.addItem(list);
-    }
-};
+    };
+
+    return LoadImgList;
+}();
 
 /**
  * 表单取值赋值方法
  * @param opt
  * @returns {{}}
  */
+
+
 function formData(opt) {
-    var default_opt = {
-        defaultFunc: function defaultFunc(value) {
-            return value == null ? '' : value;
-        },
-        filter: window,
-        list: [],
-        field: 'vname',
-        filterField: 'filter'
-    };
-    opt = util.extend(default_opt, opt);
-    var result = {};
-    var data = opt.data;
-    $(opt.list).forEach(function (elem) {
+    var _opt$formatTarget = opt.formatTarget,
+        formatTarget = _opt$formatTarget === undefined ? window : _opt$formatTarget,
+        _opt$formatField = opt.formatField,
+        formatField = _opt$formatField === undefined ? 'format' : _opt$formatField,
+        _opt$list = opt.list,
+        _opt$field = opt.field,
+        field = _opt$field === undefined ? 'vtext' : _opt$field,
+        data = opt.data;
+
+    var result = data || {};
+    $(list).forEach(function (elem) {
         var $elem = $(elem);
-        var nodeName = $elem.getNodeName();
-        var eleOpFunc = nodeName == 'INPUT' || nodeName == 'TEXTAREA' ? 'val' : 'html';
-        var name = $elem.attr(opt.field);
-        var func = opt.filter[$elem.attr(opt.filterField)];
-        if (typeof func != 'function') {
-            func = opt.defaultFunc;
-        }
-        if (name) {
+        var field = $elem.attr(field);
+        if (field) {
+            var nodeName = $elem.getNodeName();
+            var eleOpFunc = nodeName === 'INPUT' || nodeName === 'TEXTAREA' ? 'val' : 'html';
+            var formatFunc = formatTarget[$elem.attr(formatField)];
+            if (typeof formatFunc !== 'function') {
+                formatFunc = function formatFunc(item) {
+                    return item;
+                };
+            }
             if (data) {
-                $elem[eleOpFunc](func(data[name]));
+                $elem[eleOpFunc](formatFunc(data[field]));
             } else {
-                result[name] = $elem[eleOpFunc]();
+                result[field] = $elem[eleOpFunc]();
             }
         }
     });
@@ -1581,7 +1490,7 @@ function formData(opt) {
  */
 function Paging(options) {
     var target = options.target;
-    if (target && target.nodeType == 1) {
+    if (target && target.nodeType === 1) {
         this.setOpt(options);
         this.init();
     } else {
@@ -1612,7 +1521,7 @@ Paging.prototype = {
         var message = this.getMessage();
         var html = '<span class="paging-btn paging-btn-prev">上一页</span><div class="paging-pagebox">';
         for (var i = 1; i <= len; i++) {
-            html += '<span class="paging-item ' + (i == 1 ? 'active' : '') + '">' + i + '</span>';
+            html += '<span class="paging-item ' + (i === 1 ? 'active' : '') + '">' + i + '</span>';
         }
         html += '</div><span class="paging-btn paging-btn-next">下一页</span>';
         if (this.hasInput) {
@@ -1628,14 +1537,14 @@ Paging.prototype = {
     },
     resetTotal: function resetTotal(total) {
         var opt = this.opt;
-        if (this.total != total) {
+        if (this.total !== total) {
             this.total = total;
             var max = this.getMaxNum();
             var len = Math.min(max, this.itemLength);
             var html = '';
             var num = this.pageNum;
             for (var i = 1; i <= len; i++) {
-                html += '<span class="paging-item ' + (i == num ? 'active' : '') + '">' + i + '</span>';
+                html += '<span class="paging-item ' + (i === num ? 'active' : '') + '">' + i + '</span>';
             }
             this.$prevBtn.next().html(html);
             this.updateBtnState();
@@ -1646,7 +1555,7 @@ Paging.prototype = {
         var $prevBtn = this.$prevBtn;
         var $nextBtn = this.$nextBtn;
         var maxPage = this.getMaxNum();
-        if (this.pageNum == 1) {
+        if (this.pageNum === 1) {
             $prevBtn.addClass('paging-diasbaled');
         } else {
             $prevBtn.removeClass('paging-diasbaled');
@@ -1686,7 +1595,7 @@ Paging.prototype = {
         this.$input.on('keydown', function (e) {
             var filterCodes = [8, 37, 39];
             var keyCode = e.keyCode;
-            if (filterCodes.indexOf(keyCode) == -1 && !(keyCode >= 48 && keyCode <= 57 || keyCode >= 96 && keyCode <= 105)) {
+            if (filterCodes.indexOf(keyCode) === -1 && !(keyCode >= 48 && keyCode <= 57 || keyCode >= 96 && keyCode <= 105)) {
                 wt.preventDefault(e);
             }
         }).on('keyup', function (e) {
@@ -1696,7 +1605,7 @@ Paging.prototype = {
                 v = max;
                 this.value = v;
             }
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 _this.select(v);
             }
         });
@@ -1717,7 +1626,7 @@ Paging.prototype = {
             var $item = $(item);
             var n = extNum + index;
             $item.html(n);
-            if (n == num) {
+            if (n === num) {
                 $item.addClass('active');
             } else {
                 $item.removeClass('active');
@@ -1730,13 +1639,80 @@ Paging.prototype = {
         util.execFunc.call(this, this.onSelect, this.pageNum, this.pageSize);
     }
 };
+
+function previewImg() {
+    var $input = $(opt.input);
+    var $div = $(opt.target);
+    $input.on('change', function () {
+        if (window.FileReader) {
+            var file = this.files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (ev) {
+                var target = ev.target || ev.srcElement;
+                $div.css({
+                    background: 'url("' + target.result + '") left center no-repeat',
+                    backgroundSize: '100% 100%'
+                });
+            };
+            fileReader.readAsDataURL(file);
+        } else {
+            $div[0].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,src=' + input.value + ',sizingMethod=scale)';
+        }
+        util.execFunc(opt.onChange, this);
+    });
+}
+
+function fullScreen(target) {
+    target = target || document.body;
+    var requestMethod = target.requestFullScreen || //W3C
+    target.webkitRequestFullScreen || //Chrome等
+    target.mozRequestFullScreen || //FireFox
+    target.msRequestFullscreen; //IE11
+    if (requestMethod) {
+        requestMethod.call(target);
+    } else if (typeof window.ActiveXObject !== 'undefined') {
+        //for Internet Explorer
+        try {
+            var wscript = new ActiveXObject('WScript.Shell');
+            wscript.SendKeys('{F11}');
+        } catch (e) {
+            this.alert('请先将本站加入信任站点，并允许ActiveX控件交互，再进行全屏操作！');
+        }
+    }
+}
+
+function exitFullScreen() {
+    var exitMethod = document.exitFullscreen || //W3C
+    document.mozCancelFullScreen || //FireFox等
+    document.webkitExitFullscreen || //Chrome
+    document.msExitFullscreen; //IE11等
+    if (exitMethod) {
+        exitMethod.call(document);
+    } else if (typeof window.ActiveXObject !== 'undefined') {
+        //for Internet Explorer
+        try {
+            var wscript = new ActiveXObject('WScript.Shell');
+            wscript.SendKeys('{F11}');
+        } catch (e) {
+            this.alert('请先将本站加入信任站点，并允许ActiveX控件交互，再进行全屏操作！');
+        }
+    }
+}
+
+function getCPU() {
+    var agent = navigator.userAgent.toLowerCase();
+    if (agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
+        return "x64";
+    }
+    return navigator.cpuClass;
+}
+
 var wt = {
     isIE: isIE,
     isChrome: isChrome,
     isFirefox: isFirefox,
     isSafari: isSafari,
     isOpera: isOpera,
-    LBT: LBT,
     $: $,
     //简单封装ajax
     ajax: $.ajax,
@@ -1795,27 +1771,7 @@ var wt = {
      */
     ajaxSubmit: ajaxSubmit,
     //本地图片预览
-    previewImg: function previewImg(opt) {
-        var $input = $(opt.input);
-        var $div = $(opt.target);
-        $input.on('change', function () {
-            if (window.FileReader) {
-                var file = this.files[0];
-                var fileReader = new FileReader();
-                fileReader.onload = function (ev) {
-                    var target = ev.target || ev.srcElement;
-                    $div.css({
-                        background: 'url("' + target.result + '") left center no-repeat',
-                        backgroundSize: '100% 100%'
-                    });
-                };
-                fileReader.readAsDataURL(file);
-            } else {
-                $div[0].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,src=' + input.value + ',sizingMethod=scale)';
-            }
-            util.execFunc(opt.onChange, this);
-        });
-    },
+    previewImg: previewImg,
     /**
      * 弹窗方法
      * @param option
@@ -1868,60 +1824,22 @@ var wt = {
                 opt[btnType][$btn.index()].handler.call($btn[0]);
             }
         });
+        return $container;
     },
     /**
      * 打开全屏模式
      * @param target    全屏的目标元素
      */
-    fullScreen: function fullScreen(target) {
-        target = target || document.body;
-        var requestMethod = target.requestFullScreen || //W3C
-        target.webkitRequestFullScreen || //Chrome等
-        target.mozRequestFullScreen || //FireFox
-        target.msRequestFullscreen; //IE11
-        if (requestMethod) {
-            requestMethod.call(target);
-        } else if (typeof window.ActiveXObject !== 'undefined') {
-            //for Internet Explorer
-            try {
-                var wscript = new ActiveXObject('WScript.Shell');
-                wscript.SendKeys('{F11}');
-            } catch (e) {
-                this.alert('请先将本站加入信任站点，并允许ActiveX控件交互，再进行全屏操作！');
-            }
-        }
-    },
+    fullScreen: fullScreen,
     /**
      * 退出全屏
      */
-    exitFullScreen: function exitFullScreen() {
-        var exitMethod = document.exitFullscreen || //W3C
-        document.mozCancelFullScreen || //FireFox等
-        document.webkitExitFullscreen || //Chrome
-        document.msExitFullscreen; //IE11等
-        if (exitMethod) {
-            exitMethod.call(document);
-        } else if (typeof window.ActiveXObject !== 'undefined') {
-            //for Internet Explorer
-            try {
-                var wscript = new ActiveXObject('WScript.Shell');
-                wscript.SendKeys('{F11}');
-            } catch (e) {
-                this.alert('请先将本站加入信任站点，并允许ActiveX控件交互，再进行全屏操作！');
-            }
-        }
-    },
+    exitFullScreen: exitFullScreen,
     /**
      * 获取系统位数
      * @returns {*}
      */
-    getCPU: function getCPU() {
-        var agent = navigator.userAgent.toLowerCase();
-        if (agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
-            return "x64";
-        }
-        return navigator.cpuClass;
-    },
+    getCPU: getCPU,
     /**
      * 弹窗提示信息
      * @param info  内容
@@ -1944,25 +1862,11 @@ var wt = {
         this.dialog(opt);
     },
     /**
-     * html节点加载完成执行
-     * @param fn
-     * @constructor
-     */
-    DOMReady: function DOMReady(fn) {
-        if (document.readyState == 'complete') {
-            fn();
-        } else if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', fn, false);
-        } else if (document.attachEvent) {
-            ieDOMReady(fn);
-        }
-    },
-    /**
      * 获取页面最外层滚动条高度
      * @returns {*}
      */
     scrollTop: function scrollTop(v) {
-        if (v != null) {
+        if (v !== undefined) {
             v = v.toString().toNum();
             document.body.scrollTop = v;
             document.documentElement.scrollTop = v;
@@ -2137,9 +2041,21 @@ module.exports = {
     toFieldObject: function toFieldObject(field) {
         var target = {};
         this.forEach(function (item, i) {
-            target[item[field] || i] = item;
+            var fieldStr = typeof field === 'function' ? field(item, i) : item[field] || i;
+            target[fieldStr] = item;
         });
         return target;
+    },
+    noRepeat: function noRepeat() {
+        for (var i = 0; i < this.length; i++) {
+            for (var j = i + 1; j < this.length; j++) {
+                if (this[i] === this[j]) {
+                    this.splice(j, 1);
+                    j--;
+                }
+            }
+        }
+        return this;
     }
 };
 },{}],4:[function(require,module,exports){
@@ -2434,6 +2350,12 @@ module.exports = {
     },
     decodeUtf8ByHex: function decodeUtf8ByHex() {
         return String.fromCharCode(parseInt(decodeUtf8(parseInt(this.replace(/\s/g, ''), 16).toString(2)), 2));
+    },
+    toCssValue: function toCssValue() {
+        var px = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'px';
+
+        var num = parseInt(this);
+        return this.indexOf('%') !== -1 || isNaN(num) ? this : num + px;
     }
 };
 

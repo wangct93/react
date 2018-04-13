@@ -11,8 +11,8 @@ export default class Alter extends Component{
     constructor(){
         super();
         this.state = {
-            width:300,
-            height:140,
+            width:350,
+            height:200,
             title:'提示',
             buttons:[
                 {
@@ -22,22 +22,22 @@ export default class Alter extends Component{
                         dialog.close();
                     }
                 }
-            ],
-            content:Info
+            ]
         }
     }
     render(){
-        return <Dialog dialogId={this.props.dialogId} option={this.getOption()}/>
+        return <Dialog option={this.getOption()}/>
     }
     getOption(){
-        return wt.extend({},this.state,this.props.option);
+        let {option,children} = this.props;
+        return wt.extend({},this.state,option,{
+            content:<Content>{children}</Content>
+        });
     }
 }
 
-class Info extends Component{
-    render(){
-        return <div className="prompt-alert-box">
-            {this.props.data.message}
-        </div>;
-    }
-}
+const Content = ({children}) => {
+    return <div className="alert-text">
+        {children}
+    </div>;
+};

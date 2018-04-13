@@ -3,19 +3,19 @@
  */
 
 
-var wt = require('../../modules/util');
-var cheerio = require('cheerio');
-var iconv = require('iconv-lite');
-var url = require('url');
-var fs = require('fs');
-let request = require('request');
+
+const wt = require('../../modules/util');
+const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
+const url = require('url');
+const fs = require('fs');
+const request = require('request');
 
 
-var Lingdian = {
+const Lingdian = {
     host:'http://www.00ksw.org',
-    getInfo:function(num,cb){
-        var remoteAddr = this.host + '/html/' + Math.floor(num / 1000) +'/' + num + '/';
-
+    getInfo(num,cb){
+        let remoteAddr = this.host + '/html/' + Math.floor(num / 1000) +'/' + num + '/';
         request(remoteAddr).pipe(iconv.decodeStream('gbk')).collect((err,body) => {
             if(err){
                 cb('');
@@ -24,28 +24,28 @@ var Lingdian = {
             }
         });
     },
-    parseInfoHtml:function(data,remoteAddr){
-        var html = iconv.decode(data,'gbk');
-        var $ = cheerio.load(html);
-        var $top = $('.ymdz');
-        var $info = $('.introduce');
+    parseInfoHtml(data,remoteAddr){
+        let html = iconv.decode(data,'gbk');
+        let $ = cheerio.load(html);
+        let $top = $('.ymdz');
+        let $info = $('.introduce');
         if($top.length && $info.length){
-            var name = $info.find('h1').text();
-            var author = $info.find('.bq').children().eq(1).text().split('：')[1];
-            var state = $info.find('.bq').children().eq(2).text().split('：')[1] == '完结' ? 1 : 0;
-            var type = $top.text().split('>')[1].trim();
-            var intro = $info.find('.jj').text();
-            var fmUrl = this.host + $info.prev().find('img').attr('src');
-            var list = [];
+            let name = $info.find('h1').text();
+            let author = $info.find('.bq').children().eq(1).text().split('：')[1];
+            let state = $info.find('.bq').children().eq(2).text().split('：')[1] === '完结' ? 1 : 0;
+            let type = $top.text().split('>')[1].trim();
+            let intro = $info.find('.jj').text();
+            let fmUrl = this.host + $info.prev().find('img').attr('src');
+            let list = [];
             $('.ml_list li').each(function(i,li){
-                var $a = $(li).find('a');
+                let $a = $(li).find('a');
                 if($a.length){
                     list.push({
                         name:$a.text(),
                         url:remoteAddr + $a.attr('href')
                     });
                 }
-            }.bind(this));
+            });
             return {
                 name:name,
                 author:author,
@@ -57,7 +57,7 @@ var Lingdian = {
             };
         }
     },
-    getText:function(remoteAddr,cb){
+    getText(remoteAddr,cb){
         request(remoteAddr).pipe(iconv.decodeStream('gbk')).collect((err,body) => {
             if(err){
                 console.log(err);
@@ -67,14 +67,10 @@ var Lingdian = {
             }
         });
     },
-    parseTextHtml:function(html){
-        var $ = cheerio.load(html);
-        var $content = $('#articlecontent');
-        if($content.length){
-            return $content.text();
-        }else{
-            return;
-        }
+    parseTextHtml(html){
+        let $ = cheerio.load(html);
+        let $content = $('#articlecontent');
+        return $content.length ? $content.text() : '';
     }
 };
 

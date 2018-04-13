@@ -1,0 +1,78 @@
+@import 'common';
+
+
+@headerColor:#888989;
+
+.dialog-container{
+    position: fixed;
+    .fit;
+    .lt0;
+    z-index: 1000;
+}
+
+.dialog-box{
+    position: absolute;
+    .border;
+    background-color: #f3f3f3;
+    display: flex;
+    flex-flow:column;
+    user-select:none;
+}
+.dialog-header{
+    height: 34px;
+    .border-bottom;
+    padding:0 10px 0 15px;
+    color: @headerColor;
+    font-weight: bold;
+    cursor: move;
+    display: flex;
+    align-items: center;
+}
+.dialog-tool-box{
+    text-align: right;
+    flex: 1;
+    .iconfont{
+        margin-right: 5px;
+        &:first-child{
+            margin-right: 0;
+        }
+        &:hover{
+            color: #000;
+        }
+        cursor: pointer;
+    }
+}
+
+.dialog-btn-box{
+    padding: 10px;
+    border-top: 1px solid #d3d3d3;
+    text-align: right;
+    background-color: #f9f9f9;
+}
+.dialog-body{
+    background-color: #fff;
+    flex: 1;
+}
+
+.shadow-bg{
+    position: absolute;
+    .lt0;
+    .fit;
+    z-index: -1;
+}
+
+.drag-dialog-rect{
+    position: absolute;
+    box-sizing: border-box;
+    .border;
+    border-style: dashed;
+    z-index: 100;
+}
+
+
+
+.alert-text{
+    font-size: 14px;
+    padding: 20px;
+    white-space: normal;
+}
