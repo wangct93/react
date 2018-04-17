@@ -29,7 +29,7 @@ let view = {
             if($li.length){
                 this.tabNav($li.index());
             }
-        }).children().eq(4).click();
+        }).children().eq(0).click();
 
         $('#footer').click(e => {
             let $btn = $(e.target).closest('.w-btn');

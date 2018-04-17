@@ -14,5 +14,9 @@
   {
     "name":"4",
     "url":"views/sasp/modules/caseCompare/index.html"
+  },
+  {
+    "name":"5",
+    "url":"views/sasp/modules/caseInput/index.html"
   }
 ]
