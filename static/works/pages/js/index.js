@@ -3,7 +3,7 @@
  */
 
 
-wt.DOMReady(function(){
+$(function(){
     Control.init();
 });
 

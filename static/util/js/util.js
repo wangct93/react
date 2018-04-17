@@ -34,7 +34,7 @@ function DomElement(selector) {
             if (selector.charAt(0) === '<') {
                 elemList = createElemByHTML(selector);
             } else {
-                elemList = qsAll(selector);
+                elemList = document.querySelectorAll(selector);
             }
         } else {
             elemList = selector;
@@ -62,6 +62,14 @@ DomElement.prototype = {
             cloneList.push(elem.cloneNode(!!deep));
         });
         return $(cloneList);
+    },
+    add: function add(elem) {
+        var _this2 = this;
+
+        $(elem).forEach(function (elem) {
+            _this2[_this2.length++] = elem;
+        });
+        return this;
     },
 
     // 获取第几个元素
@@ -122,7 +130,7 @@ DomElement.prototype = {
 
     // 取消事件绑定
     off: function off(type, fn) {
-        var _this2 = this;
+        var _this3 = this;
 
         return this.forEach(function (elem) {
             var eventList = elem.eventList;
@@ -143,8 +151,8 @@ DomElement.prototype = {
                     }
                 } else {
                     funcList.forEach(function (fn) {
-                        return _this2.off(type, fn);
-                    }, _this2);
+                        return _this3.off(type, fn);
+                    }, _this3);
                 }
             }
         }, this);
@@ -284,7 +292,7 @@ DomElement.prototype = {
     index: function index() {
         var index = 0;
         var prev = this[0];
-        if (prev == null) {
+        if (prev === undefined) {
             return -1;
         }
         while (prev = prev.previousSibling) {
@@ -397,25 +405,35 @@ DomElement.prototype = {
         var child = $child[0];
         return elem && child ? elem.contains(child) : false;
     },
+
     // 尺寸数据
     getRect: function getRect() {
         var elem = this[0];
         if (elem) {
-            var rect = elem.getBoundingClientRect();
+            var _elem$getBoundingClie = elem.getBoundingClientRect(),
+                left = _elem$getBoundingClie.left,
+                top = _elem$getBoundingClie.top,
+                right = _elem$getBoundingClie.right,
+                bottom = _elem$getBoundingClie.bottom,
+                width = _elem$getBoundingClie.width,
+                height = _elem$getBoundingClie.height;
+
             return {
-                left: rect.left,
-                top: rect.top,
-                right: rect.right,
-                bottom: rect.bottom,
-                width: rect.width || rect.right - rect.left,
-                height: rect.height || rect.bottom - rect.top
+                left: left,
+                top: top,
+                right: right,
+                bottom: bottom,
+                width: width || right - left,
+                height: height || bottom - top
             };
         }
     },
+
     // 封装 nodeName
     getNodeName: function getNodeName() {
         return this[0] ? this[0].nodeName : '';
     },
+
     // 从当前元素查找
     find: function find(selector) {
         var elemList = this.getElemList(function (elem) {
@@ -424,11 +442,12 @@ DomElement.prototype = {
         return $(elemList);
     },
     bind: function bind() {
-        this.on.apply(this, arguments);
+        return this.on.apply(this, arguments);
     },
     unbind: function unbind() {
-        this.off.apply(this, arguments);
+        return this.off.apply(this, arguments);
     },
+
     // 获取当前元素的 text
     text: function text(val) {
         if (val === undefined) {
@@ -440,6 +459,7 @@ DomElement.prototype = {
             });
         }
     },
+
 
     // 获取 html
     html: function html(value) {
@@ -453,6 +473,7 @@ DomElement.prototype = {
             return this.empty().append(value);
         }
     },
+
     // 获取 value
     val: function val(value) {
         if (value === undefined) {
@@ -496,7 +517,7 @@ DomElement.prototype = {
         return $(elemList);
     },
     data: function data(name, value) {
-        if (value == null) {
+        if (value === undefined) {
             var elem = this[0];
             return elem ? cacheData.getData(elem, name) : '';
         } else {
@@ -508,6 +529,45 @@ DomElement.prototype = {
     removeData: function removeData(name) {
         return this.forEach(function (elem) {
             cacheData.removeData(elem, name);
+        });
+    },
+    animate: function animate() {
+        var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+        var cb = arguments[2];
+
+        return this.forEach(function (elem) {
+            var $elem = $(elem);
+            clearInterval($elem.data('animateTimer'));
+            var speedConfig = {};
+            var count = Math.ceil(time / 30);
+            for (var name in option) {
+                if (option.hasOwnProperty(name) && option[name] !== undefined) {
+                    var target = option[name].toString().toFloatNum();
+                    speedConfig[name] = (target - $elem.css(name).toFloatNum()) / count;
+                    option[name] = target + (name === 'opacity' ? '' : 'px');
+                }
+            }
+            var timer = setInterval(function () {
+                var cssObj = option;
+                count--;
+                if (count === 0) {
+                    clearInterval(timer);
+                    util.execFunc(cb, $elem);
+                } else {
+                    cssObj = {};
+                    for (var _name in option) {
+                        if (option.hasOwnProperty(_name) && option[_name] !== undefined) {
+                            cssObj[_name] = $elem.css(_name).toFloatNum() + speedConfig[_name] + (_name === 'opacity' ? '' : 'px');
+                        }
+                    }
+                }
+                if (cssObj.opacity !== undefined) {
+                    cssObj.filter = 'alpha(opacity=' + cssObj.opacity * 100 + ')';
+                }
+                $elem.css(cssObj);
+            }, 30);
+            $elem.data('animateTimer', timer);
         });
     },
     dragSort: function dragSort() {
@@ -529,7 +589,7 @@ DomElement.prototype = {
             function mousemove(e) {
                 var cx = e.clientX;
                 var cy = e.clientY;
-                if (!isDrag && (cy != oy || cx != ox)) {
+                if (!isDrag && (cy !== oy || cx !== ox)) {
                     isDrag = true;
                     rect = $item[0].getBoundingClientRect();
                     dx = ox - rect.left;
@@ -625,9 +685,9 @@ DomElement.prototype = {
             return false;
         };
     },
+
     /**
      * 拖拽触发方法
-     * @param e
      */
     drag: function drag() {
         return this.off('mousedown').mousedown(function (e) {
@@ -648,7 +708,6 @@ DomElement.prototype = {
     },
     /**
      * 缩放方法
-     * @param e
      */
     zoom: function zoom() {
         return this.off('wheel').wheel(function (e) {
@@ -658,7 +717,7 @@ DomElement.prototype = {
             var dy = e.clientY - this.offsetTop;
             var oLeft = this.offsetLeft - $this.css('marginLeft').toNum();
             var oTop = this.offsetTop - $this.css('marginTop').toNum();
-            var scale = (e.wheelDelta == null ? e.deltaY < 0 : e.wheelDelta > 0) ? 1.2 : 1 / 1.2;
+            var scale = (e.wheelDelta === undefined ? e.deltaY < 0 : e.wheelDelta > 0) ? 1.2 : 1 / 1.2;
             $this.css({
                 width: rect.width * scale + 'px',
                 height: rect.height * scale + 'px',
@@ -783,15 +842,15 @@ DomElement.prototype = {
             var q = new wt.Queue({
                 list: Array.from(files),
                 execFunc: function execFunc(file, cb) {
-                    var _this3 = this;
+                    var _this4 = this;
 
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        var result = _this3.result;
+                        var result = _this4.result;
 
                         if (!result) {
                             result = [];
-                            _this3.result = result;
+                            _this4.result = result;
                         }
                         result.push(e.target.result);
                         cb();
@@ -1009,14 +1068,8 @@ function checkElem(elem) {
 
     var bol = true;
     selector = selector.replace(selectorPropExpr, function (match) {
-        bol = false;
-        var temp = elem.parentNode.querySelectorAll(match);
-        arrForEach(temp, function (item) {
-            if (item === elem) {
-                bol = true;
-                return false;
-            }
-        });
+        var temp = match.replace(/^\[|\]$/g, '').split('=');
+        bol = elem.getAttribute(temp[0]) === temp[1];
         return '';
     });
     var match = selectorExpr.exec(selector);
@@ -1452,6 +1505,7 @@ function formData(opt) {
         _opt$formatField = opt.formatField,
         formatField = _opt$formatField === undefined ? 'format' : _opt$formatField,
         _opt$list = opt.list,
+        list = _opt$list === undefined ? [] : _opt$list,
         _opt$field = opt.field,
         field = _opt$field === undefined ? 'vtext' : _opt$field,
         data = opt.data;
@@ -2330,6 +2384,12 @@ module.exports = {
         var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
         var num = parseInt(this);
+        return isNaN(num) ? n : num;
+    },
+    toFloatNum: function toFloatNum() {
+        var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+        var num = parseFloat(this);
         return isNaN(num) ? n : num;
     },
     addZero: function addZero(n) {

@@ -32,7 +32,7 @@ function DomElement(selector){
             if(selector.charAt(0) === '<'){
                 elemList = createElemByHTML(selector);
             }else{
-                elemList = qsAll(selector);
+                elemList = document.querySelectorAll(selector);
             }
         }else{
             elemList = selector;
@@ -54,10 +54,16 @@ DomElement.prototype = {
     },
     clone(deep){   //克隆
         let cloneList = [];
-        this.forEach(function(elem){
+        this.forEach(elem => {
             cloneList.push(elem.cloneNode(!!deep));
         });
         return $(cloneList);
+    },
+    add(elem){
+        $(elem).forEach(elem => {
+            this[this.length++] = elem;
+        });
+        return this;
     },
     // 获取第几个元素
     eq(index){
@@ -265,7 +271,7 @@ DomElement.prototype = {
     index(){
         let index = 0;
         let prev = this[0];
-        if(prev == null){
+        if(prev === undefined){
             return -1;
         }
         while (prev = prev.previousSibling) {
@@ -358,61 +364,59 @@ DomElement.prototype = {
         });
     },
     // 是否包含某个子节点
-    isContain: function($child) {
+    isContain($child){
         let elem = this[0];
         let child = $child[0];
         return elem && child ? elem.contains(child) : false;
     },
     // 尺寸数据
-    getRect: function() {
+    getRect(){
         let elem = this[0];
         if(elem){
-            let rect = elem.getBoundingClientRect();
+            let {left,top,right,bottom,width,height} = elem.getBoundingClientRect();
             return {
-                left:rect.left,
-                top:rect.top,
-                right:rect.right,
-                bottom:rect.bottom,
-                width:rect.width || rect.right - rect.left,
-                height:rect.height || rect.bottom - rect.top
+                left,
+                top,
+                right,
+                bottom,
+                width:width || right - left,
+                height:height || bottom - top
             };
         }
     },
     // 封装 nodeName
-    getNodeName: function() {
+    getNodeName() {
         return this[0] ? this[0].nodeName : '';
     },
     // 从当前元素查找
-    find: function(selector) {
-        let elemList = this.getElemList(function(elem){
-            return elem.querySelectorAll(selector);
-        });
+    find(selector){
+        let elemList = this.getElemList(elem => elem.querySelectorAll(selector));
         return $(elemList);
     },
-    bind:function(){
-        this.on.apply(this,arguments);
+    bind(){
+        return this.on.apply(this,arguments);
     },
-    unbind:function(){
-        this.off.apply(this,arguments);
+    unbind(){
+        return this.off.apply(this,arguments);
     },
     // 获取当前元素的 text
-    text: function(val) {
+    text(val){
         if(val === undefined) {
             return this[0] ? this[0].innerText : '';
         }else {
             // 设置 text
-            return this.forEach(function (elem) {
+            return this.forEach(elem => {
                 elem.innerText = val;
             });
         }
     },
 
     // 获取 html
-    html: function(value) {
+    html(value){
         if(value === undefined) {
             return this[0] ? this[0].innerHTML : '';
         }else if(util.isString(value) && value.charAt(0) !== '<' || util.isNumber(value) || util.isBoolean(value)){
-            return this.forEach(function(elem){
+            return this.forEach(elem => {
                 elem.innerHTML = value;
             });
         }else{
@@ -420,27 +424,25 @@ DomElement.prototype = {
         }
     },
     // 获取 value
-    val: function(value) {
+    val(value){
         if(value === undefined){
             return this[0] ? this[0].value : '';
         }else{
-            return this.forEach(function (elem) {
+            return this.forEach(elem => {
                 elem.value = value;
             });
         }
     },
-    empty:function(){
-        return this.forEach(function(elem){
+    empty(){
+        return this.forEach(elem => {
             elem.innerHTML = '';
         });
     },
-    filter:function(selector){
-        let elemList = this.getElemList(function(elem){
-            return checkElem(elem,selector) ? elem : null;
-        });
+    filter(selector){
+        let elemList = this.getElemList(elem => checkElem(elem,selector) ? elem : null);
         return $(elemList);
     },
-    offset:function(){
+    offset(){
         let elem = this[0];
         if(elem){
             return {
@@ -449,8 +451,8 @@ DomElement.prototype = {
             }
         }
     },
-    closest:function(selector){
-        let elemList = this.getElemList(function(elem){
+    closest(selector){
+        let elemList = this.getElemList(elem => {
             while(elem){
                 if(checkElem(elem,selector)){
                     break;
@@ -461,22 +463,57 @@ DomElement.prototype = {
         });
         return $(elemList);
     },
-    data:function(name,value){
-        if(value == null){
+    data(name,value){
+        if(value === undefined){
             let elem = this[0];
             return elem ? cacheData.getData(elem,name) : '';
         }else{
-            return this.forEach(function(elem){
+            return this.forEach(elem => {
                 cacheData.setData(elem,name,value);
             });
         }
     },
-    removeData:function(name){
-        return this.forEach(function(elem){
+    removeData(name){
+        return this.forEach(elem => {
             cacheData.removeData(elem,name);
         });
     },
-    dragSort:function(){
+    animate(option = {},time = 100,cb){
+        return this.forEach(elem => {
+            let $elem = $(elem);
+            clearInterval($elem.data('animateTimer'));
+            let speedConfig = {};
+            let count = Math.ceil(time / 30);
+            for(let name in option){
+                if(option.hasOwnProperty(name) && option[name] !== undefined){
+                    let target = option[name].toString().toFloatNum();
+                    speedConfig[name] = (target - $elem.css(name).toFloatNum()) / count;
+                    option[name] = target + (name === 'opacity' ? '' : 'px');
+                }
+            }
+            let timer = setInterval(() => {
+                let cssObj = option;
+                count--;
+                if(count === 0){
+                    clearInterval(timer);
+                    util.execFunc(cb,$elem);
+                }else{
+                    cssObj = {};
+                    for(let name in option){
+                        if(option.hasOwnProperty(name) && option[name] !== undefined){
+                            cssObj[name] = $elem.css(name).toFloatNum() + speedConfig[name] + (name === 'opacity' ? '' : 'px');
+                        }
+                    }
+                }
+                if(cssObj.opacity !== undefined){
+                    cssObj.filter = `alpha(opacity=${cssObj.opacity * 100})`;
+                }
+                $elem.css(cssObj);
+            },30);
+            $elem.data('animateTimer',timer);
+        });
+    },
+    dragSort(){
         this.off('mousedown').mousedown(function(e){
             let $this = $(this);
             let $target = $(e.target);
@@ -493,7 +530,7 @@ DomElement.prototype = {
             function mousemove(e){
                 let cx = e.clientX;
                 let cy = e.clientY;
-                if(!isDrag && (cy != oy || cx != ox)){
+                if(!isDrag && (cy !== oy || cx !== ox)){
                     isDrag = true;
                     rect = $item[0].getBoundingClientRect();
                     dx = ox - rect.left;
@@ -511,9 +548,7 @@ DomElement.prototype = {
                         let th = $elem.css('marginBottom').toNum();
                         let y = rect.top - th / 2;
                         let x = rect.left + width / 2;
-                        let index = rects.indexOfFunc(function(item){
-                            return item[0].y === y;
-                        })
+                        let index = rects.indexOfFunc(item => item[0].y === y);
                         let data = {
                             y:y,
                             x:x,
@@ -591,7 +626,6 @@ DomElement.prototype = {
     },
     /**
      * 拖拽触发方法
-     * @param e
      */
     drag:function() {
         return this.off('mousedown').mousedown(function(e){
@@ -612,7 +646,6 @@ DomElement.prototype = {
     },
     /**
      * 缩放方法
-     * @param e
      */
     zoom:function(){
         return this.off('wheel').wheel(function(e){
@@ -622,7 +655,7 @@ DomElement.prototype = {
             let dy = e.clientY - this.offsetTop;
             let oLeft = this.offsetLeft - $this.css('marginLeft').toNum();
             let oTop = this.offsetTop - $this.css('marginTop').toNum();
-            let scale = (e.wheelDelta == null ? e.deltaY < 0 : e.wheelDelta > 0) ? 1.2 : 1 / 1.2;
+            let scale = (e.wheelDelta === undefined ? e.deltaY < 0 : e.wheelDelta > 0) ? 1.2 : 1 / 1.2;
             $this.css({
                 width:rect.width * scale + 'px',
                 height:rect.height * scale + 'px',
@@ -938,14 +971,8 @@ const selectorPropExpr = /\[[\w\W]+\]$/;
 function checkElem(elem,selector = ''){
     let bol = true;
     selector = selector.replace(selectorPropExpr,(match) => {
-        bol = false;
-        let temp = elem.parentNode.querySelectorAll(match);
-        arrForEach(temp,item => {
-            if(item === elem){
-                bol = true;
-                return false;
-            }
-        });
+        let temp = match.replace(/^\[|\]$/g,'').split('=');
+        bol = elem.getAttribute(temp[0]) === temp[1];
         return '';
     });
     let match = selectorExpr.exec(selector);

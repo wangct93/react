@@ -61,7 +61,7 @@ function getData(index,cb){
                 error:eb
             });
         });
-        wt.Promise.all(p1,p2).then(function(result){
+        wt.Promise.all([p1,p2]).then(function(result){
             var data = result[0][0];
             var shInfo = result[1][0]|| {};
             data.shInfo = shInfo;
@@ -73,7 +73,7 @@ function getData(index,cb){
             if(!data.ypInfo){
                 data.ypInfo = getYpInfo(data);
             }
-            if(typeof cb == 'function'){
+            if(typeof cb === 'function'){
                 cb();
             }else{
                 loadCase(index,cb);

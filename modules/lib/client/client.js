@@ -333,7 +333,7 @@ class LoadImgList{
  * @returns {{}}
  */
 function formData(opt){
-    let {formatTarget = window,formatField = 'format',list:[],field = 'vtext',data} = opt;
+    let {formatTarget = window,formatField = 'format',list = [],field = 'vtext',data} = opt;
     let result = data || {};
     $(list).forEach(elem => {
         let $elem = $(elem);
@@ -644,11 +644,11 @@ let wt = {
      * 表单取值赋值方法
      * @returns {{}}
      */
-    formData:formData,
+    formData,
     /**
      * 表单ajax提交
      */
-    ajaxSubmit:ajaxSubmit,
+    ajaxSubmit,
     //本地图片预览
     previewImg,
     /**

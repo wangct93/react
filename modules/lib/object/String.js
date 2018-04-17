@@ -194,6 +194,10 @@ module.exports = {
         let num = parseInt(this);
         return isNaN(num) ? n : num;
     },
+    toFloatNum(n = 0){
+        let num = parseFloat(this);
+        return isNaN(num) ? n : num;
+    },
     addZero(n){
         let len = this.length;
         let str = this.toString();

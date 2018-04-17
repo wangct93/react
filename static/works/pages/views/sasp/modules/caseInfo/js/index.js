@@ -143,7 +143,7 @@ function getFJData(){
             }
         });
     });
-    wt.Promise.all(caseInfoPromise,fjPromise).then(function(results){	//results为两个ajax的结果数组
+    wt.Promise.all([caseInfoPromise,fjPromise]).then(function(results){	//results为两个ajax的结果数组
         var result = results[1];
         var mid = results[0].DEFAULTIMG || '';
         var data = formatData(result,mid);

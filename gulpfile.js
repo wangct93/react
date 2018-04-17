@@ -82,8 +82,8 @@ gulp.task('minCss',function(){
 
 
 // let lessPath = ['./static/react/pages/novel/less/*.less'];
-let lessPath = ['./static/react/less/*.less'];
-
+// let lessPath = ['./static/react/less/*.less'];
+let lessPath = ['./static/works/pages/views/sasp/modules/caseInput/less/index.less'];
 
 gulp.task('less',() => {
     return gulp.src(lessPath)
