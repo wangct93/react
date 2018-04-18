@@ -11,14 +11,7 @@ let view = {
         this.addEvent();
         this.initData();
     },
-    initData(){
-        this.addFj([
-            {
-                fileId:1,
-                fileName:'1ddddddd',
-                types:['1','2']
-            },{fileId:2,fileName:'2ddddddd'},{fileId:3,fileName:'3ddddddd'},{fileId:4,fileName:'4ddddddd'}]);
-    },
+    initData(){},
     setParams(){
         this.list = [];
     },

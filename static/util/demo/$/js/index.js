@@ -4,6 +4,10 @@
 
 $(function(){
     $('div').filter('[id=a]');
+    for(let name in document){
+        console.log(name,':',document[name]);
+    }
 });
+
 
 

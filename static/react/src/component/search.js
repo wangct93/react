@@ -19,7 +19,6 @@ export default class Search extends Component{
         }
     }
     search(){
-        let keyword = this.refs.input.value;
-        wt.execFunc(this.props.search,keyword);
+        wt.execFunc(this.props.search,this.refs.input.value);
     }
 }

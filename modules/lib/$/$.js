@@ -814,7 +814,7 @@ util.extend($,{
                 }
             }
         };
-        xhr.onerror = (e) => {
+        xhr.onerror = e => {
             execFunc(error, xhr.responseText);
         };
         if(processData && util.isPlainObj(data)){
