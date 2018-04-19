@@ -287,7 +287,7 @@ class LoadImgList{
         this.init(option);
     }
     init(option){
-        let {limit = 3,list,interval = 30,imgLoad,imgError,errorSrc} = option;
+        let {limit = 3,list = [],interval = 30,imgLoad,imgError,errorSrc} = option;
         list = util.isArray(list) ? list : util.toArray(list);
         this.queue = new util.Queue({
             list,

@@ -10,6 +10,7 @@ const session = require('express-session');
 const config = require('../modules/config');
 const wt = require('../modules/util.js');
 
+const funcRouter = require('../routers/base');
 
 
 const bookRouter = require('../routers/book');
@@ -38,11 +39,9 @@ if(!wt.isArray(staticName)){
 staticName.forEach(name => {
     app.use('/' + name,express.static(name));
 });
-// app.use(multer({ dest: path.resolve(__dirname, 'static/img')}).single('f'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
 app.use(session({
     secret:'wangct',
     name:'ssid',
@@ -57,8 +56,16 @@ app.use(session({
 /***********************/
 app.use('/',(req,res,next) => {
     console.log('请求地址：' + req.url);
+    let headers = config.responseHeaders;
+    for(let name in headers){
+        if(headers.hasOwnProperty(name)){
+            res.setHeader(name,headers[name]);
+        }
+    }
     next();
 });
+
+app.use('/',funcRouter);
 
 app.use('/',indexRouter);
 app.use('/book',bookRouter);
@@ -66,7 +73,6 @@ app.use('/book',bookRouter);
 app.get('/favicon.ico',(req,res) => {
     res.send(null);
 });
-
 
 app.listen(port,() =>{
     console.log('the server is started on port '+ port +'!');

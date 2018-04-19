@@ -23,16 +23,20 @@ let defaultState = {
     ],
     lbtData:[
         {
-            src:'./img/1.jpg'
+            src:'./img/1.jpg',
+            href:'http://www.baidu.com'
         },
         {
-            src:'./img/2.jpg'
+            src:'./img/2.jpg',
+            href:'http://www.baidu.com'
         },
         {
-            src:'./img/3.jpg'
+            src:'./img/3.jpg',
+            href:'http://www.baidu.com'
         },
         {
-            src:'./img/4.jpg'
+            src:'./img/4.jpg',
+            href:'http://www.baidu.com'
         }
     ]
 };

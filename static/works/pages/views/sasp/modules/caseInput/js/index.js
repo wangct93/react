@@ -197,7 +197,7 @@ let view = {
     },
     newFileId(){
         let {list} = this;
-        return +list[list.length - 1].fileId + 1;
+        return list.length ? +list[list.length - 1].fileId + 1 : 1;
     },
     addFj(data){
         if(!wt.isArray(data)){

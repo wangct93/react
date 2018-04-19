@@ -64,7 +64,6 @@ export default class Combobox extends Component{
         if(index === -1){
             if(multiple){
                 selectList.push(itemIndex);
-                e.stopPropagation();
             }else{
                 selectList = [itemIndex];
             }
@@ -73,6 +72,8 @@ export default class Combobox extends Component{
             if(selectList.length !== 1 || !required){
                 selectList.splice(index,1);
             }
+        }
+        if(multiple){
             e.stopPropagation();
         }
         this.setState({
@@ -107,7 +108,6 @@ const List = props => {
         }}>
             {
                 data.map((item,i) => {
-                    let {selected} = item;
                     return <li className={selectList.indexOf(i) !== -1 ? 'active' : ''} onClick={select.bind(null,i)} key={i}>{item[textField]}</li>
                 })
             }

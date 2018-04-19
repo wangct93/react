@@ -17,13 +17,15 @@ export default class Lbt extends Component{
         return <div className="lbt-box" ref="box" onMouseLeave={this.mouseLeave.bind(this)}>
             <ul className="lbt-list">
                 {
-                    data.map(({src},i) => {
+                    data.map(({src,href},i) => {
                         let left = i === curIndex ? curLeft || 0 : i === oldIndex ? oldLeft || 0 : 0;
                         return <li key={i} style={{
                             display:i === curIndex || i === oldIndex ? 'block' : 'none',
                             left:left + 'px'
                         }}>
-                            <img src={src}/>
+                            <a target="_blank" href={href}>
+                                <img src={src}/>
+                            </a>
                         </li>
                     })
                 }

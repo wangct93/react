@@ -915,6 +915,7 @@ util.extend($, {
                 if (data.hasOwnProperty(key)) {
                     var value = data[key];
                     if (value !== undefined) {
+                        value = util.isPlainObj(value) ? JSON.stringify(value) : value;
                         temp.push(key + '=' + value);
                     }
                 }
@@ -1441,7 +1442,8 @@ var LoadImgList = function () {
     LoadImgList.prototype.init = function init(option) {
         var _option$limit = option.limit,
             limit = _option$limit === undefined ? 3 : _option$limit,
-            list = option.list,
+            _option$list = option.list,
+            list = _option$list === undefined ? [] : _option$list,
             _option$interval = option.interval,
             interval = _option$interval === undefined ? 30 : _option$interval,
             imgLoad = option.imgLoad,
@@ -2666,14 +2668,17 @@ var Queue = function () {
                 return list.shift();
             },
             check: function check(item) {
-                return item != null;
+                return item !== undefined;
             }
         };
         extend(this, defaultOption, option);
     };
 
     Queue.prototype.start = function start() {
-        for (var i = this._runCount; i < this.limit; i++) {
+        var _runCount = this._runCount,
+            limit = this.limit;
+
+        for (var i = _runCount; i < limit; i++) {
             this._runCount++;
             this._exec();
         }
@@ -2684,7 +2689,7 @@ var Queue = function () {
 
         var item = this.getItem();
         execFunc.call(this, this.next);
-        if (item == null) {
+        if (item === undefined) {
             this._runCount--;
             if (this._runCount === 0) {
                 execFunc.call(this, this.success, this.result);

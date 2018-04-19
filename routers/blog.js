@@ -38,11 +38,6 @@ router.get('/',(req,res) => {
 
 const formidable = require('formidable');
 const path = require('path');
-router.get('/test',(req,res) => {
-    res.send('dd');
-});
-
-
 
 
 

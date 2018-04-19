@@ -19,6 +19,9 @@
     "password":"123456",
     "database":"library"
   },
+  "mongodb":{
+    "db":"wang"
+  },
   "responseHeaders":{
     "Access-Control-Allow-Origin":"*",
     "content-type":"text/plain;charset=utf-8"

@@ -28,6 +28,7 @@ img {
 }
 a {
   color: inherit;
+  cursor: pointer;
 }
 .center-area {
   width: 1000px;

@@ -70,15 +70,16 @@ function getBucketAcl(){
 
 /**
  * 获取指定存储区指定文件名的地址（有时间限制）
- * @param params
  * @returns {string}
  */
-function getFileAddr(params){
+function getFileAddr(params,cb){
     let defaultParams = {
         Expires:60 * 60 * 24 * 365
     };
-    let auth = cos.getAuth(wt.extend(defaultParams,params));
-    return `https://${Bucket}-${AppId}.cos.${Region}.myqcloud.com/${params.Key}?sign=${encodeURIComponent(auth)}`;
+    params = addBucketParams(wt.extend(defaultParams,params));
+    cos.getObjectUrl(params,(err,data) => {
+        cb(err,data && data.Url);
+    });
 }
 
 /**
@@ -113,4 +114,12 @@ function getParams(params,cb,addParams){
     }
     params = wt.extend({},BucketConfig,addParams,params);
     return [params,cb];
+}
+
+/**
+ * 添加存储区信息
+ * @param params
+ */
+function addBucketParams(params){
+    return wt.extend(params,BucketConfig);
 }

@@ -209,13 +209,14 @@ class Queue{
                 return list.shift();
             },
             check(item){
-                return item != null;
+                return item !== undefined;
             }
         };
         extend(this,defaultOption,option);
     }
     start(){
-        for(let i = this._runCount;i < this.limit;i++){
+        let {_runCount,limit} = this;
+        for(let i = _runCount;i < limit;i++){
             this._runCount++;
             this._exec();
         }
@@ -223,7 +224,7 @@ class Queue{
     _exec(){
         let item = this.getItem();
         execFunc.call(this,this.next);
-        if(item == null){
+        if(item === undefined){
             this._runCount--;
             if(this._runCount === 0){
                 execFunc.call(this,this.success,this.result);

@@ -823,6 +823,7 @@ util.extend($,{
                 if(data.hasOwnProperty(key)){
                     let value = data[key];
                     if(value !== undefined){
+                        value = util.isPlainObj(value) ? JSON.stringify(value) : value;
                         temp.push(key + '=' + value);
                     }
                 }
