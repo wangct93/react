@@ -22,5 +22,16 @@ $(() => {
             }
         });
     });
+
+
+    $.ajax({
+        url:'/loadRemote',
+        data:{
+            url:'http://172.16.66.14:8080/tzcu/liveyc/index/cd/json/map_cd.json'
+        },
+        success(data){
+            console.log(data);
+        }
+    });
 });
 
