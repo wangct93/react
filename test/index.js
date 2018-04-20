@@ -4,7 +4,7 @@
 
 const cloud = require('../modules/cloud');
 const fs = require('fs');
-
+const a = 1;
 
 cloud.getFileAddr({
     Key:'01_登录页.jpg1333524123378764'
