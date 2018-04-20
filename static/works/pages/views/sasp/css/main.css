@@ -12,10 +12,10 @@ body{
     background: #2D4F99 url('../../area/banner/banner.jpg') left center no-repeat;
     padding-left: 300px;
     height:50px;
-    overflow:visible;
     position:relative;
     z-index:20;
     font-size:0;
+    overflow: hidden;
 }
 
 .header-item{
@@ -82,7 +82,7 @@ body{
 	padding-right:0;
 }
 
-/*×ÛºÏ²éÑ¯*/
+/*ï¿½ÛºÏ²ï¿½Ñ¯*/
 .search-box{
 	height:50px;
 	width:295px;
@@ -102,7 +102,7 @@ body{
 
 
 
-/*²»ÄÜºÏ£¬ºÏÔÚÒ»ÆðÃ»Ð§¹û*/
+/*ï¿½ï¿½ï¿½ÜºÏ£ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ã»Ð§ï¿½ï¿½*/
 .search-input::-webkit-input-placeholder{
 	color:#eee;
 }
@@ -137,7 +137,7 @@ body{
 	background-color:#203f8b;
 }
 
-/*ÏÂÀ­²Ëµ¥*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½*/
 .dropdown-box:hover .dropdown-menu{
 	display:block;
 }
@@ -194,7 +194,7 @@ body{
 
 
 
-/*************µÇÂ¼¿ò*************/
+/*************ï¿½ï¿½Â¼ï¿½ï¿½*************/
 .login-fit{
 	display:none;
 }
@@ -363,10 +363,10 @@ input::-webkit-input-placeholder {
 .diploma a:hover{
 	text-decoration:underline;
 }
-/*************µÇÂ¼¿ò*************/
+/*************ï¿½ï¿½Â¼ï¿½ï¿½*************/
 
 
-/*×ó±ßµ¼º½*/
+/*ï¿½ï¿½ßµï¿½ï¿½ï¿½*/
 .accordion-box{
 	border:none;	
 	background-color:#293038;
@@ -392,15 +392,15 @@ input::-webkit-input-placeholder {
 .panel-body.accordion-body{
 	overflow:hidden;
 	border-width:0;
-	 scrollbar-arrow-color: #010100;  /*Í¼6,Èý½Ç¼ýÍ·µÄÑÕÉ«*/
-     scrollbar-face-color: #1c2229;  /*Í¼5,Á¢Ìå¹ö¶¯ÌõµÄÑÕÉ«*/
-     scrollbar-3dlight-color: #666;  /*Í¼1,Á¢Ìå¹ö¶¯ÌõÁÁ±ßµÄÑÕÉ«*/
-     scrollbar-highlight-color: #37434e;  /*Í¼2,¹ö¶¯Ìõ¿Õ°×²¿·ÖµÄÑÕÉ«*/
-     scrollbar-shadow-color: #37434e;  /*Í¼3,Á¢Ìå¹ö¶¯ÌõÒõÓ°µÄÑÕÉ«*/
-     scrollbar-darkshadow-color: #37434e;  /*Í¼4,Á¢Ìå¹ö¶¯ÌõÇ¿ÒõÓ°µÄÑÕÉ«*/
-     scrollbar-track-color: #37434e;  /*Í¼7,Á¢Ìå¹ö¶¯Ìõ±³¾°ÑÕÉ«*/
+	 scrollbar-arrow-color: #010100;  /*Í¼6,ï¿½ï¿½ï¿½Ç¼ï¿½Í·ï¿½ï¿½ï¿½ï¿½É«*/
+     scrollbar-face-color: #1c2229;  /*Í¼5,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«*/
+     scrollbar-3dlight-color: #666;  /*Í¼1,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½É«*/
+     scrollbar-highlight-color: #37434e;  /*Í¼2,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ°×²ï¿½ï¿½Öµï¿½ï¿½ï¿½É«*/
+     scrollbar-shadow-color: #37434e;  /*Í¼3,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½É«*/
+     scrollbar-darkshadow-color: #37434e;  /*Í¼4,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½É«*/
+     scrollbar-track-color: #37434e;  /*Í¼7,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«*/
 
-     scrollbar-base-color:#1c2229;  /*¹ö¶¯ÌõµÄ»ù±¾ÑÕÉ«*/
+     scrollbar-base-color:#1c2229;  /*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½É«*/
 }
 
 .menuBox .panel-tool{
@@ -474,9 +474,9 @@ input::-webkit-input-placeholder {
 .accordion-body .icon{
 	left:17px;
 }
-/**********×ó±ßµ¼º½***********/
+/**********ï¿½ï¿½ßµï¿½ï¿½ï¿½***********/
 
-/*ÌáÊ¾ÐÅÏ¢*/
+/*ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢*/
 
 .tips{
     display: inline-block;
@@ -502,11 +502,11 @@ input::-webkit-input-placeholder {
     left: -8px;
 }
 
-/*ÓÒ±ßµ¼º½*/
+/*ï¿½Ò±ßµï¿½ï¿½ï¿½*/
 .center-header{
 }
 
-/*ÓÒ±ßÒ»¼¶µ¼º½*/
+/*ï¿½Ò±ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 
 .video-nav{
 	height:38px;
@@ -686,7 +686,7 @@ input::-webkit-input-placeholder {
 
 .frameBox{
 }
-/*¼ÓÔØÖÐ¡£¡£¡£*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½*/
 .loading{
 	height:100%;
 	width:100%;
@@ -699,7 +699,7 @@ input::-webkit-input-placeholder {
     display:none;
 }
 
-/*±È¶Ô´°¿Ú*/
+/*ï¿½È¶Ô´ï¿½ï¿½ï¿½*/
 .compare-box{
     position: fixed;
     right: 0;
