@@ -10,7 +10,7 @@ const session = require('express-session');
 const config = require('../modules/config');
 const wt = require('../modules/util.js');
 
-const funcRouter = require('../routers/base');
+const funcRouter = require('../routers/api');
 
 
 const bookRouter = require('../routers/book');
