@@ -1,0 +1,216 @@
+/*颜色区域*/
+.container {
+  overflow: auto;
+}
+.header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a303c url('../img/logo.png') 20px center no-repeat;
+}
+.footer-box {
+  height: 50px;
+  text-align: center;
+  padding: 20px;
+  background-color: #2a303c;
+  color: #fff;
+}
+.paging-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+a {
+  color: inherit;
+  cursor: pointer;
+}
+.center-area {
+  width: 1000px;
+}
+.b-btn {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  background-color: #00a4ff;
+  color: #fff;
+}
+.b-btn:hover {
+  background-color: #199de6;
+}
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+.flex-box {
+  display: flex;
+}
+.cur-pointer {
+  cursor: pointer;
+}
+.text-center {
+  text-align: center;
+}
+.pos-rel {
+  position: relative;
+}
+.pos-abs {
+  position: absolute;
+}
+.bold {
+  font-weight: bold;
+}
+.overflow-hide {
+  overflow: hidden;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.border-box {
+  box-sizing: border-box;
+}
+.border {
+  border: 1px solid #ccc;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+.mglr10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.mgtb10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.mgb20 {
+  margin-bottom: 20px;
+}
+.mgt20 {
+  margin-top: 20px;
+}
+.mglr20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.mgl20 {
+  margin-left: 20px;
+}
+.pdlr10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.pdb20 {
+  padding-bottom: 20px;
+}
+.pdlr20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.pdtb20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.pd20 {
+  padding: 20px;
+}
+.font14 {
+  font-size: 14px;
+}
+.font16 {
+  font-size: 16px;
+}
+.font20 {
+  font-size: 20px;
+}
+.fit-height {
+  height: 100%;
+  box-sizing: border-box;
+}
+.fit-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+.fit {
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+}
+.lt0 {
+  left: 0;
+  top: 0;
+}
+.combo-box {
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.combo-box > input {
+  border-width: 0;
+  padding-right: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  cursor: pointer;
+}
+.combo-right-icon {
+  position: absolute;
+  height: 100%;
+  width: 18px;
+  right: 0;
+  top: 0;
+  background-color: #eee;
+  opacity: .6;
+  cursor: pointer;
+}
+.combo-right-icon:hover {
+  opacity: 1;
+}
+.combo-right-icon > .iconfont {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  font-size: 16px;
+  margin: -8px 0 0 -8px;
+}
+.combo-content {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  width: 100%;
+}
+.combo-list {
+  overflow: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.combo-list > li {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+.combo-list > li:hover {
+  background-color: #f1f1f1;
+}
+.combo-list > li.active {
+  background-color: #00a4ff;
+  color: #fff;
+}
