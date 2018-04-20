@@ -1,22 +1,26 @@
 [
   {
-    "name":"1",
+    "name":"涉案",
     "url":"views/sasp/index.html"
   },
   {
-    "name":"2",
+    "name":"涉案详情",
     "url":"views/sasp/modules/caseInfo/index.html"
   },
   {
-    "name":"3",
+    "name":"涉案图片浏览",
     "url":"views/sasp/modules/videoJudge/index.html"
   },
   {
-    "name":"4",
+    "name":"涉案比对",
     "url":"views/sasp/modules/caseCompare/index.html"
   },
   {
-    "name":"5",
+    "name":"涉案录入",
     "url":"views/sasp/modules/caseInput/index.html"
+  },
+  {
+    "name":"一体化首页",
+    "url":"views/yth/home/index.html"
   }
 ]

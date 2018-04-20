@@ -1,0 +1,90 @@
+[
+    {
+        "region": "青羊区",
+        "regionId": "510105"
+    },
+    {
+        "region": "武侯区",
+        "regionId": "510107"
+    },
+    {
+        "region": "龙泉驿区",
+        "regionId": "510112"
+    },
+    {
+        "region": "锦江区",
+        "regionId": "510104"
+    },
+    {
+        "region": "成华区",
+        "regionId": "510108"
+    },
+    {
+        "region": "金牛区",
+        "regionId": "510106"
+    },
+    {
+        "region": "新都区",
+        "regionId": "510114"
+    },
+    {
+        "region": "温江区",
+        "regionId": "510115"
+    },
+    {
+        "region": "双流区",
+        "regionId": "510116"
+    },
+    {
+        "region": "郫都区",
+        "regionId": "510117"
+    },
+    {
+        "region": "青白江区",
+        "regionId": "510113"
+    },
+    {
+        "region": "金堂县",
+        "regionId": "510121"
+    },
+    {
+        "region": "简阳市",
+        "regionId": "510185"
+    },
+    {
+        "region": "新津县",
+        "regionId": "510132"
+    },
+    {
+        "region": "蒲江县",
+        "regionId": "510131"
+    },
+    {
+        "region": "大邑县",
+        "regionId": "510129"
+    },
+    {
+        "region": "都江堰市",
+        "regionId": "510181"
+    },
+    {
+        "region": "彭州市",
+        "regionId": "510182"
+    },
+    {
+        "region": "崇州市",
+        "regionId": "510184"
+    },
+    {
+        "region": "邛崃市",
+        "regionId": "510183"
+    },
+    {
+        "region": "天府新区",
+        "regionId": "510156"
+    },
+    {
+        "region": "高新区",
+        "regionId": "510109"
+    }
+]

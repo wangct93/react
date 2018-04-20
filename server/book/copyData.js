@@ -4,16 +4,16 @@
 
 
 
-var wt = require('../../modules/util');
-var fs = require('fs');
-var bqg = require('./biquge');
-var ld = require('./lingdian');
-var path = require('path');
-var mysql = require('./mysql');
-var tempFilePath = path.resolve(__dirname,'temp/num.txt');
+let wt = require('../../modules/util');
+let fs = require('fs');
+let bqg = require('./biquge');
+let ld = require('./lingdian');
+let path = require('path');
+let mysql = require('./mysql');
+let tempFilePath = path.resolve(__dirname,'temp/num.txt');
 
 
-var imgQueue = new wt.Queue({
+let imgQueue = new wt.Queue({
     execFunc:function(item,cb){
         wt.request(item.remoteAddr,function(data){
             if(data){
@@ -25,12 +25,12 @@ var imgQueue = new wt.Queue({
     }
 });
 
-var sqlQueue = new wt.Queue({
+let sqlQueue = new wt.Queue({
     execFunc:function(books,cb){
         mysql.insertBooks(books,function(data){
-            var bookId = data.insertId;
-            var chapters = [];
-            var imgList = [];
+            let bookId = data.insertId;
+            let chapters = [];
+            let imgList = [];
             books.forEach(function(book,i){
                 book.list.forEach(function(chapter,index){
                     chapter.bookId = bookId + i;
@@ -43,7 +43,7 @@ var sqlQueue = new wt.Queue({
                 });
             });
             mysql.insertChapters(chapters,function(){
-                var num = books.num;
+                let num = books.num;
                 fs.writeFile(tempFilePath,num + 1);
                 console.log('数据加载完成：' + num);
                 cb();
@@ -69,7 +69,7 @@ function start(){
                     console.log(err);
                     exec(0);
                 }else{
-                    var num = parseInt(data.toString());
+                    let num = parseInt(data.toString());
                     exec(num);
                 }
             });
@@ -81,11 +81,11 @@ function start(){
 
 
 
-var temps = [];
-var len = 10;
-var saveImgDir = '/static/img/book/';
+let temps = [];
+let len = 10;
+let saveImgDir = '/static/img/book/';
 function exec(num){
-    var q = new wt.Queue({
+    let q = new wt.Queue({
         getItem:function(){
             return num++;
         },

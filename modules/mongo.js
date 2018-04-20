@@ -24,8 +24,11 @@ let testModel = mongo.model('test',testSchema);
 
 let test = new testModel({name:'chui'});
 
-test.save();
 testModel.findOne((err,data) => {
     console.log(err,data);
-    mongo.disconnect();
+});
+
+
+test.find((err,data) => {
+    console.log(data);
 });
