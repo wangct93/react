@@ -4,32 +4,32 @@
 
 
 const echarts = require('echarts');
-
-
-
-let chart = echarts.init($('#box')[0]);
+const chart = echarts.init($('#box')[0]);
 
 chart.setOption({
+    title:{
+        text:'测试标题',
+        subtext:'副标题',
+        link:'http://www.baidu.com',
+        left:'50%'
+    },
+    dataZoom:{
+        type:'inside',
+        startValue:0,
+        endValue:2
+    },
     legend: {},
     tooltip: {},
-    dataset: {
-        // 提供一份数据。
-        source: [
-            ['product', '2015', '2016', '2017'],
-            ['Matcha Latte', 43.3, 85.8, 93.7],
-            ['Milk Tea', 83.1, 73.4, 55.1],
-            ['Cheese Cocoa', 86.4, 65.2, 82.5],
-            ['Walnut Brownie', 72.4, 53.9, 39.1]
-        ]
+    xAxis: {
+        type: 'category',
+        data:['Matcha Latte','Milk Tea','Cheese Cocoa','Walnut Brownie']
     },
-    // 声明一个 X 轴，类目轴（category）。默认情况下，类目轴对应到 dataset 第一列。
-    xAxis: {type: 'category'},
-    // 声明一个 Y 轴，数值轴。
     yAxis: {},
-    // 声明多个 bar 系列，默认情况下，每个系列会自动对应到 dataset 的每一列。
     series: [
-        {type: 'bar'},
-        {type: 'bar'},
-        {type: 'bar'}
+        {
+            name:'2015',
+            type: 'bar',
+            data:[41,89,62,91]
+        }
     ]
 });

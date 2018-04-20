@@ -1,0 +1,225 @@
+/*颜色区域*/
+.container {
+  overflow: auto;
+}
+.header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a303c url('../img/logo.png') 20px center no-repeat;
+}
+.footer-box {
+  height: 50px;
+  text-align: center;
+  padding: 20px;
+  background-color: #2a303c;
+  color: #fff;
+}
+.paging-box {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+img {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+a {
+  color: inherit;
+  cursor: pointer;
+}
+.center-area {
+  width: 1000px;
+}
+.b-btn {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 10px;
+  background-color: #00a4ff;
+  color: #fff;
+}
+.b-btn:hover {
+  background-color: #199de6;
+}
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+.flex-box {
+  display: flex;
+}
+.cur-pointer {
+  cursor: pointer;
+}
+.text-center {
+  text-align: center;
+}
+.pos-rel {
+  position: relative;
+}
+.pos-abs {
+  position: absolute;
+}
+.bold {
+  font-weight: bold;
+}
+.overflow-hide {
+  overflow: hidden;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.border-box {
+  box-sizing: border-box;
+}
+.border {
+  border: 1px solid #ccc;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+.mglr10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.mgtb10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.mgb20 {
+  margin-bottom: 20px;
+}
+.mgt20 {
+  margin-top: 20px;
+}
+.mglr20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.mgl20 {
+  margin-left: 20px;
+}
+.pdlr10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.pdb20 {
+  padding-bottom: 20px;
+}
+.pdlr20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.pdtb20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.pd20 {
+  padding: 20px;
+}
+.font14 {
+  font-size: 14px;
+}
+.font16 {
+  font-size: 16px;
+}
+.font20 {
+  font-size: 20px;
+}
+.fit-height {
+  height: 100%;
+  box-sizing: border-box;
+}
+.fit-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+.fit {
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+}
+.lt0 {
+  left: 0;
+  top: 0;
+}
+.dialog-container {
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+.dialog-box {
+  position: absolute;
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-flow: column;
+  user-select: none;
+}
+.dialog-header {
+  height: 34px;
+  border-bottom: 1px solid #ccc;
+  padding: 0 10px 0 15px;
+  color: #888989;
+  font-weight: bold;
+  cursor: move;
+  display: flex;
+  align-items: center;
+}
+.dialog-tool-box {
+  text-align: right;
+  flex: 1;
+}
+.dialog-tool-box .iconfont {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.dialog-tool-box .iconfont:first-child {
+  margin-right: 0;
+}
+.dialog-tool-box .iconfont:hover {
+  color: #000;
+}
+.dialog-btn-box {
+  padding: 10px;
+  border-top: 1px solid #d3d3d3;
+  text-align: right;
+  background-color: #f9f9f9;
+}
+.dialog-body {
+  background-color: #fff;
+  flex: 1;
+}
+.shadow-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  z-index: -1;
+}
+.drag-dialog-rect {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-style: dashed;
+  z-index: 100;
+}
+.alert-text {
+  font-size: 14px;
+  padding: 20px;
+  white-space: normal;
+}

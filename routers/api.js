@@ -11,20 +11,21 @@ const sendError = require('./sendError');
 const wt = require('../modules/util');
 const cloud = require('../modules/cloud');
 const formidable = require('formidable');
+const iconv = require('iconv-lite');
 
 module.exports = router;
 
 /**
  * 解决浏览器跨域加载数据
  */
-router.get('/loadRemoteAdrr',(req,res) => {
-    let {url,params,method = 'get'} = req.query;
+router.get('/loadRemote',(req,res) => {
+    let {url,params,method = 'get',charset = 'utf-8'} = req.query;
     params = typeof params === 'string' ? JSON.parse(params) : params;
     request({
         url,
         method,
         form:params
-    },(err,qres,data) => {
+    }).pipe(iconv.decodeStream(charset)).collect((err,data) => {
         if(err){
             console.log(err);
             sendError(res,err);

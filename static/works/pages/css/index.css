@@ -5,7 +5,7 @@
 
 .nav-box{
     width: 180px;
-    background-color: #272b2e;
+    background-color: #293038;
     display: flex;
     color: #fff;
     flex-flow:column;
@@ -15,7 +15,7 @@
     height: 50px;
     line-height: 50px;
     text-align: center;
-    background-color: #00c1de;
+    background-color: #38424E;
     font-size: 16px;
     letter-spacing: 3px;
     padding-left: 3px;
