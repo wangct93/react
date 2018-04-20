@@ -3,113 +3,113 @@
  */
 
 module.exports = {
-    forEach: function (fn) {
+    forEach(fn) {
         if (!this) {
             throw new TypeError("this is null or not defined");
         }
-        if (typeof fn != 'function') {
+        if (typeof fn !== 'function') {
             throw new TypeError(fn + " is not a function");
         }
-        var fn_this = arguments.length > 1 ? arguments[1] : this;
-        for (var i = 0; i < this.length; i++) {
+        let fn_this = arguments.length > 1 ? arguments[1] : this;
+        for (let i = 0; i < this.length; i++) {
             fn.call(fn_this, this[i], i, this);
         }
     },
-    reduce: function (fn, value) {
+    reduce(fn, value) {
         if (!this.length) {
             return value;
         }
-        if (value == undefined) {
+        if (value === undefined) {
             value = this[0];
         } else {
             value = fn(value, this[0], 0);
         }
-        for (var i = 1; i < this.length; i++) {
+        for (let i = 1; i < this.length; i++) {
             value = fn(value, this[i], i);
         }
         return value;
     },
-    every: function (fn) {
+    every(fn) {
         if (!this) {
             throw new TypeError("this is null or not defined");
         }
-        if (typeof fn != 'function') {
+        if (typeof fn !== 'function') {
             throw new TypeError(fn + " is not a function");
         }
-        var fn_this = arguments.length > 1 ? arguments[1] : this;
-        for (var i = 0; i < this.length; i++) {
+        let fn_this = arguments.length > 1 ? arguments[1] : this;
+        for (let i = 0; i < this.length; i++) {
             if (!fn.call(fn_this, this[i], i, this)) {
                 return false;
             }
         }
         return true;
     },
-    some: function (fn) {
+    some(fn) {
         if (!this) {
             throw new TypeError("this is null or not defined");
         }
-        if (typeof fn != 'function') {
+        if (typeof fn !== 'function') {
             throw new TypeError(fn + " is not a function");
         }
-        var fn_this = arguments.length > 1 ? arguments[1] : this;
-        for (var i = 0; i < this.length; i++) {
+        let fn_this = arguments.length > 1 ? arguments[1] : this;
+        for (let i = 0; i < this.length; i++) {
             if (fn.call(fn_this, this[i], i, this)) {
                 return true;
             }
         }
         return false;
     },
-    map: function (fn) {
+    map(fn) {
         if (!this) {
             throw new TypeError("this is null or not defined");
         }
-        if (typeof fn != 'function') {
+        if (typeof fn !== 'function') {
             throw new TypeError(fn + " is not a function");
         }
-        var fn_this = arguments.length > 1 ? arguments[1] : this;
-        var array = [];
-        for (var i = 0; i < this.length; i++) {
+        let fn_this = arguments.length > 1 ? arguments[1] : this;
+        let array = [];
+        for (let i = 0; i < this.length; i++) {
             array.push(fn.call(fn_this, this[i], i, this));
         }
         return array;
     },
-    filter: function (fn) {
+    filter(fn) {
         if (!this) {
             throw new TypeError("this is null or not defined");
         }
-        if (typeof fn != 'function') {
+        if (typeof fn !== 'function') {
             throw new TypeError(fn + " is not a function");
         }
-        var fn_this = arguments.length > 1 ? arguments[1] : this;
-        var array = [];
-        for (var i = 0; i < this.length; i++) {
+        let fn_this = arguments.length > 1 ? arguments[1] : this;
+        let array = [];
+        for (let i = 0; i < this.length; i++) {
             if (fn.call(fn_this, this[i], i, this)) {
                 array.push(this[i]);
             }
         }
         return array;
     },
-    indexOf: function (value) {
-        if (typeof value != 'undefined') {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == value) {
+    indexOf(value) {
+        if (value !== undefined) {
+            for (let i = 0; i < this.length; i++) {
+                if (this[i] === value) {
                     return i;
                 }
             }
         }
         return -1;
     },
-    indexOfFunc: function (fn) {
-        for (var i = 0; i < this.length; i++) {
-            if (typeof fn == 'function' ? fn(this[i]) : fn == this[i]) {
+    indexOfFunc(fn) {
+        for (let i = 0; i < this.length; i++) {
+            if (typeof fn === 'function' ? fn(this[i]) : fn === this[i]) {
                 return i;
             }
         }
         return -1;
     },
-    remove: function (item) {
-        for(var i = 0;i < this.length;i++){
-            if(this[i] == item){
+    remove(item) {
+        for(let i = 0;i < this.length;i++){
+            if(this[i] === item){
                 this.splice(i, 1);
                 break;
             }
@@ -119,8 +119,20 @@ module.exports = {
     toFieldObject(field){
         let target = {};
         this.forEach((item,i) => {
-            target[item[field] || i] = item;
+            let fieldStr = typeof field === 'function' ? field(item,i) : item[field] || i;
+            target[fieldStr] = item;
         });
         return target;
+    },
+    noRepeat(){
+        for(let i = 0;i < this.length;i++){
+            for(let j = i + 1;j < this.length;j++){
+                if(this[i] === this[j]){
+                    this.splice(j,1);
+                    j--;
+                }
+            }
+        }
+        return this;
     }
 };

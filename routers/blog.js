@@ -14,12 +14,33 @@ let sendError = require('./sendError');
 let wt = require('../modules/util');
 let blogObj = require('../server/blog/blog');
 let commentObj = require('../server/comment/comment');
+let worksObj = require('../server/works/works');
 
+let config = require('../modules/config');
+let {nosql} = config;
+let nosqlData = require('../server/data/data');
+
+let url = require('url');
+
+router.use('/',(req,res,next) => {
+    let pathname = url.parse(req.url).pathname;
+    if(nosql && nosqlData[pathname]){
+        res.send(nosqlData[pathname]);
+    }else{
+        next();
+    }
+});
 
 router.get('/',(req,res) => {
     res.status(301).setHeader('location','../static/react/index.html');
     res.send();
-})
+});
+
+const formidable = require('formidable');
+const path = require('path');
+
+
+
 
 router.get('/getHomeViewList',(req,res) => {
     let {type} = req.query;
@@ -89,3 +110,11 @@ router.get('/submitComment',(req,res) => {
     });
 });
 
+
+router.get('/getWorksList',(req,res) => {
+    worksObj.getListAndTotal(req.query,(result) => {
+        res.send(result);
+    },(err) => {
+        sendError(res,err);
+    });
+});

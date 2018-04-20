@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <title></title>
+    <link href="../../util/css/common.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="../../util/js/util.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<div class="container pd20 fit">
+    <div class="box fit-height">
+        <div class="input-box">
+            <input type="file" class="hide" id="file">
+            <input type="text" class="search-input" id="searchInput" placeholder="请输入网络图片地址">
+            <a class="w-btn" id="searchBtn">检测</a>
+            <span class="input-text">或</span>
+            <a class="w-btn" id="uploadBtn">本地上传</a>
+            <a class="w-btn mgl10" id="screenshotBtn">截图</a>
+        </div>
+        <div class="view">
+            <div class="viewimg-area inline">
+                <div class="imgbox" id="imgBox">
+                    <img class="show-img" id="showImg" src="img/test.png">
+                </div>
+            </div>
+            <div class="result-box inline">
+                <div class="result-title">返回结果预览</div>
+                <div class="result-text fit" id="resultBox"></div>
+                <div class="view-show-box fit pos-abs">
+                    <img id="viewImg">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@
 import React from 'react';
 import Component from '../lib/component';
 import Table from "./table";
+import ImgBox from './img';
 
 export class HomeList extends Component{
     render(){
@@ -26,9 +27,7 @@ class BlogItem extends Component{
         content = $('<div>' + content + '</div>').text().replace(/\n|\s/g,'').limitBytes(1,500,true,'');
         return <li>
             <div className="home-item">
-                <div className="img-box">
-                    <img src={fmImg} />
-                </div>
+                <ImgBox src={fmImg} />
                 <div className="text-box">
                     <h2>{name}</h2>
                     <div className="home-intro">{content}</div>
@@ -50,9 +49,7 @@ class StoryItem extends Component{
         fmImg = './img/blank.png';
         return <li>
             <div className="home-item story-item">
-                <div className="img-box">
-                    <img src={fmImg} ref="img" onError={this.imgError.bind(this)} />
-                </div>
+                <ImgBox src={fmImg} />
                 <div className="text-box">
                     <h2>
                         <span>{name}</span>
@@ -65,9 +62,6 @@ class StoryItem extends Component{
                 </div>
             </div>
         </li>;
-    }
-    imgError(){
-        this.refs.img.src = './img/blank.png';
     }
     bookDetail(id){
         window.open('./pages/novel/index.html?bookId=' + id);
@@ -150,9 +144,7 @@ export class StoryListView extends Component{
                     let {id,fmImg,name,author,intro = '',orderNum,state,type,time,size,clickHits,zanHits} = item;
                     fmImg = './img/blank.png';
                     return <li key={i}>
-                        <div className="img-box">
-                            <img src={fmImg}/>
-                        </div>
+                        <ImgBox src={fmImg}/>
                         <div className="story-info-box">
                             <h2>{name}</h2>
                             <div className="story-info">
@@ -253,3 +245,70 @@ export class BlogListView extends Component{
     }
 }
 
+
+export class WorksTableView extends Component{
+    constructor(){
+        super();
+        this.state = {
+            tableOption:{
+                columns:[
+                    {
+                        title:'序号',
+                        width:60,
+                        field:'orderNum'
+                    },
+                    {
+                        title:'名称',
+                        field:'name',
+                        fit:true,
+                        align:'left'
+                    },
+                    {
+                        title:'说明',
+                        width:100,
+                        field:'intro',
+                        fit:true,
+                        align:'left',
+                        formatter:(value,index,row) => {
+                            return <span title={value}>{value}</span>
+                        }
+                    },
+                    {
+                        title:'上传时间',
+                        width:160,
+                        field:'time'
+                    },
+                    {
+                        title:'操作',
+                        width:40,
+                        elemList:[
+                            {
+                                iconCls:'text-btn',
+                                text:'详情',
+                                handler:({url},i) => {
+                                    window.open(url);
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+    render(){
+        return <Table option={this.state.tableOption} data={this.props.data}/>
+    }
+}
+
+
+export class WorksListView extends Component{
+    render(){
+        return <ul className="blog-list">
+            {
+                this.props.data.map((item,i) => {
+                    return <BlogItem key={i} data={item}/>
+                })
+            }
+        </ul>
+    }
+}

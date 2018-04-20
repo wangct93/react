@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>视频研判</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <link href="../../../../../../util/css/common.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="../../../../../../util/js/util.js"></script>
+    <script src="../../../../../../util/plugins/require/require.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.min.js"></script>
+    <script src="../common/js/drawMarkEcharts.js"></script>
+    <script src="../common/js/imageEdit.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="header" id="header"></div>
+    <div class="fit">
+        <div class="scroll-box fit">
+            <div class="content inline-box font0 fit">
+                <div class="fit-height inline collapse-left">
+                    <div class="case-left imglist-s" id="caseLeft">
+                        <div class="case-header">
+                            <div class="casename" id="casename"></div>
+                            <div class="w-combobox fr" id="caseList">
+                                <input class="w-combo-title">
+                                <span class="w-combo-icon"></span>
+                                <div class="w-combo-list">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="types-box" id="typesBox">
+                            <span class="type-item active" value="all">全部<span class="type-count"></span></span>
+                            <!-- <span class="type-item" value="rxk">嫌疑人像库<span class="type-count"></span></span>
+                            <span class="type-item" value="clk">嫌疑车辆库<span class="type-count"></span></span> -->
+                            <span class="type-item" value="person">目标嫌疑人<span class="type-count"></span></span>
+                            <span class="type-item" value="vehicle">目标嫌疑车<span class="type-count"></span></span>
+                            <span class="type-item" value="wfl">未分类<span class="type-count"></span></span>
+                            <span class="type-item" value="gc">过程图片<span id="gcMap" title="过程地图" class="type-item-map"></span><span class="type-count"></span></span>
+                        </div>
+                        <div class="list-title">图片列表</div>
+                        <div class="fit">
+                            <div class="fit img-list" id="imgList"></div>
+                        </div>
+                        <div class="list-title list-title-video">视频列表</div>
+                        <div class="video-list" id="videoList">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="fit inline" style="padding-right: 600px; margin-right: -600px;">
+                    <div class="fit case-centent">
+                        <div class="col-btn" title="收缩左侧列表" type="left"></div>
+                        <div class="col-btn col-btn-right" id="colBtn" title="展开右侧信息" type="right"></div>
+                        <div class="img-btns">
+                            <div class="rect-btn">
+                                <span class="type-item-btn" onclick="showRectAll(this);" ><span>显示目标</span></span>
+                                <span class="type-item-btn active" onclick="hideRectAll(this);" ><span>隐藏目标</span></span>
+                            </div>
+                            <div class="img-view-box fr" id="imgSplit">
+                                <span title="一分屏" class="img-view-option"></span>
+                                <span title="二分屏" class="img-view-option img-view-option2"></span>
+                                <span title="四分屏" class="img-view-option img-view-option4"></span>
+                            </div>
+                            <div class="img-view-box fr" id="viewType" style="display:none;">
+                                <span title="一分屏" value="1" class="img-view-option active"></span>
+                                <span title="二分屏" value="2" class="img-view-option img-view-option2"></span>
+                                <span title="四分屏" value="4" class="img-view-option img-view-option4"></span>
+                            </div>
+                        </div>
+                        <div class="fit">
+                            <div class="fit view-img-wrap" id="imgWrap">
+                                <div class="view-item">
+                                    <div class="view-div">
+                                        <div class="view-imgbox">
+                                            <div class="imgbox">
+                                                <img class="view-img" src="img/blank.png" onerror="imgErrorEvent.call(this);">
+                                                <div class="view-bg"></div>
+                                            </div>
+                                        </div>
+                                        <div class="img-btns">
+                                            <span class="img-btn icon-prev" onclick="moveImg(this)" title="上一条"></span>
+                                            <span class="img-btn-sep img-count">0/0</span>
+                                            <span class="img-btn icon-next" onclick="moveImg(this,true)" title="下一条"></span>
+                                            <span class="img-btn icon-enlarge" onclick="zoomFunc(this,true)" title="放大"></span>
+                                            <span class="img-btn icon-narrow" onclick="zoomFunc(this)" title="缩小"></span>
+                                            <span class="img-btn icon-resize" onclick="resizeImg(this)" title="原始尺寸"></span>
+                                            <span class="img-btn icon-fullscreen" onclick="openFull(this)" title="全屏"></span>
+                                            <span class="img-btn-sep">|</span>
+                                            <span class="img-btn icon-collect" onclick="collect(this)" title="收藏"></span>
+                                            <span class="img-btn icon-download" onclick="download(this)" title="下载"></span>
+                                            <span class="img-btn icon-fit-bz" id="imgBtnBZ" onclick="updateBZ(this)" title="显示标注信息"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="view-item">
+                                    <div class="view-div">
+                                        <div class="view-imgbox">
+                                            <div class="imgbox">
+                                                <img class="view-img" src="img/blank.png" onerror="imgErrorEvent.call(this);">
+                                                <div class="view-bg"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="img-btns">
+                                            <span class="img-btn icon-prev" onclick="moveImg(this)" title="上一条"></span>
+                                            <span class="img-btn-sep img-count">0/0</span>
+                                            <span class="img-btn icon-next" onclick="moveImg(this,true)" title="下一条"></span>
+                                            <span class="img-btn icon-enlarge" onclick="zoomFunc(this,true)" title="放大"></span>
+                                            <span class="img-btn icon-narrow" onclick="zoomFunc(this)" title="缩小"></span>
+                                            <span class="img-btn icon-resize" onclick="resizeImg(this)" title="原始尺寸"></span>
+                                            <span class="img-btn icon-fullscreen" onclick="openFull(this)" title="全屏"></span>
+                                            <span class="img-btn-sep">|</span>
+                                            <span class="img-btn icon-collect" onclick="collect(this)" title="收藏"></span>
+                                            <span class="img-btn icon-download" onclick="download(this)" title="下载"></span>
+                                            <span class="img-btn icon-fit-bz" id="imgBtnBZ" onclick="updateBZ(this)" title="显示标注信息"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="view-item">
+                                    <div class="view-div">
+                                        <div class="view-imgbox">
+                                            <div class="imgbox">
+                                                <img class="view-img" src="img/blank.png" onerror="imgErrorEvent.call(this);">
+                                                <div class="view-bg"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="img-btns">
+                                            <span class="img-btn icon-prev" onclick="moveImg(this)" title="上一条"></span>
+                                            <span class="img-btn-sep img-count">0/0</span>
+                                            <span class="img-btn icon-next" onclick="moveImg(this,true)" title="下一条"></span>
+                                            <span class="img-btn icon-enlarge" onclick="zoomFunc(this,true)" title="放大"></span>
+                                            <span class="img-btn icon-narrow" onclick="zoomFunc(this)" title="缩小"></span>
+                                            <span class="img-btn icon-resize" onclick="resizeImg(this)" title="原始尺寸"></span>
+                                            <span class="img-btn icon-fullscreen" onclick="openFull(this)" title="全屏"></span>
+                                            <span class="img-btn-sep">|</span>
+                                            <span class="img-btn icon-collect" onclick="collect(this)" title="收藏"></span>
+                                            <span class="img-btn icon-download" onclick="download(this)" title="下载"></span>
+                                            <span class="img-btn icon-fit-bz" id="imgBtnBZ" onclick="updateBZ(this)" title="显示标注信息"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="view-item">
+                                    <div class="view-div">
+                                        <div class="view-imgbox">
+                                            <div class="imgbox">
+                                                <img class="view-img" src="img/blank.png" onerror="imgErrorEvent.call(this);">
+                                                <div class="view-bg"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="img-btns">
+                                            <span class="img-btn icon-prev" onclick="moveImg(this)" title="上一条"></span>
+                                            <span class="img-btn-sep img-count">0/0</span>
+                                            <span class="img-btn icon-next" onclick="moveImg(this,true)" title="下一条"></span>
+                                            <span class="img-btn icon-enlarge" onclick="zoomFunc(this,true)" title="放大"></span>
+                                            <span class="img-btn icon-narrow" onclick="zoomFunc(this)" title="缩小"></span>
+                                            <span class="img-btn icon-resize" onclick="resizeImg(this)" title="原始尺寸"></span>
+                                            <span class="img-btn icon-fullscreen" onclick="openFull(this)" title="全屏"></span>
+                                            <span class="img-btn-sep">|</span>
+                                            <span class="img-btn icon-collect" onclick="collect(this)" title="收藏"></span>
+                                            <span class="img-btn icon-download" onclick="download(this)" title="下载"></span>
+                                            <span class="img-btn icon-fit-bz" id="imgBtnBZ" onclick="updateBZ(this)" title="显示标注信息"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="video-wrap fit">
+                                <object id="player" classid="CLSID:62CB3B7B-E727-4FEF-95CF-F51ABF0179A3"></object>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bz-wrap inline fit-height" style="width: 305px;">
+                    <div class="bz-box fit-height">
+                        <!-- <div class="case-header">标注信息</div> -->
+                        <div class="keyword-body fit">
+                            <div class="keyword-main inline-box font0 fit">
+                                <div class="keyword-left inline fit-height" id="navBox">
+                                    <div class="keyword-left-item active">基本信息</div>
+                                    <div class="keyword-left-item" type="person">人</div>
+                                    <div class="keyword-left-item" type="vehicle">车</div>
+                                    <div class="keyword-left-item">研判信息</div>
+                                </div>
+                                <div class="keyword-right inline fit" id="panelBox">
+                                    <div class="keyword-panel active"  id='infoDiv'>
+                                        <div class="bz-title">基本信息</div>
+                                        <div class="line-tab-box">
+                                        </div>
+                                        <div class="table-box mgb10">
+                                            <table class="w-table pdlr2-box">
+                                                <tr class="w-table-hidden">
+                                                    <td class="td-name-width"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">画面时间：</td>
+                                                    <td class="td-value" vtext="materialDate"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">北京时间：</td>
+                                                    <td class="td-value" vtext="actualStartTime"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">点位名称：</td>
+                                                    <td class="td-value" vtext="sxName">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">经度：</td>
+                                                    <td class="td-value" vtext="longitude">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">纬度：</td>
+                                                    <td class="td-value" vtext="latitude">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">监控类别：</td>
+                                                    <td class="td-value" vtext="sourceType">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">线路类别：</td>
+                                                    <td class="td-value" vtext="roadType">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">录入人：</td>
+                                                    <td class="td-value" vtext="USERNAME"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">录入单位：</td>
+                                                    <td class="td-value" vtext="materialDate123"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">公开范围：</td>
+                                                    <td class="td-value" vtext="securitystr"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="keyword-panel " id='personDiv'>
+                                        <div class="bz-title">人员信息</div>
+                                        <div class="per-tab-box">
+                                            <!-- <span class="type-item-btn" onclick="showRect(1,this);" ><span>显示目标</span></span>
+                                            <span class="type-item-btn active" onclick="hideRect(1,this);" ><span>关闭显示</span></span> -->
+                                        </div>
+                                        <div class="table-box mgb10">
+                                            <table class="w-table pdlr2-box">
+                                                <tr class="w-table-hidden">
+                                                    <td class="td-name-width"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">性别：</td>
+                                                    <td class="td-value" vtext="genderCode_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">体形：</td>
+                                                    <td class="td-value" vtext="bodyType_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">身高：</td>
+                                                    <td class="td-value" vtext="heightLowerLimit_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">年龄：</td>
+                                                    <td class="td-value" vtext="ageLowerLimit_v">
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="td-name">特殊人群：</td>
+                                                    <td class="td-value" vtext="memberTypeCode_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">头部特征：</td>
+                                                    <td class="td-value" vtext="facialFeature_v">
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="td-name">发型：</td>
+                                                    <td class="td-value" vtext="hairStyle_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">上身特征：</td>
+                                                    <td class="td-value" vtext="upBodyFeature_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">上身穿着：</td>
+                                                    <td class="td-value" vtext="coatStyle_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">上衣颜色：</td>
+                                                    <td class="td-value" vtext="coatColor_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">上衣特征：</td>
+                                                    <td class="td-value" vtext="coatFeature">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">下身特征：</td>
+                                                    <td class="td-value" vtext="downBodyFeature_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">下身穿着：</td>
+                                                    <td class="td-value" vtext="trousersStyle_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">下衣颜色：</td>
+                                                    <td class="td-value" vtext="trousersColor_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">鞋子款式：</td>
+                                                    <td class="td-value" vtext="shoesStyle_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">鞋子颜色：</td>
+                                                    <td class="td-value" vtext="shoesColor_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">嫌疑人姓名：</td>
+                                                    <td class="td-value" vtext="name">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">身份证号：</td>
+                                                    <td class="td-value" vtext="idNumber">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="keyword-panel"  id='vehicleDiv'>
+                                        <div class="bz-title">车辆信息</div>
+                                        <div class="veh-tab-box">
+                                            <!-- <span class="type-item-btn" onclick="showRect(2,this);" ><span>显示目标</span></span>
+                                            <span class="type-item-btn active" onclick="hideRect(2,this);" ><span>关闭显示</span></span> -->
+                                        </div>
+                                        <div class="table-box mgb10">
+                                            <table class="w-table pdlr2-box">
+                                                <tr class="w-table-hidden">
+                                                    <td class="td-name-width"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车辆号牌：</td>
+                                                    <td class="td-value" vtext="plateNo">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">号牌类型：</td>
+                                                    <td class="td-value" vtext="plateClass_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">号牌颜色：</td>
+                                                    <td class="td-value" vtext="plateColor_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车辆类型：</td>
+                                                    <td class="td-value" vtext="vehicleClass_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车辆品牌：</td>
+                                                    <td class="td-value" vtext="vehicleBrand_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车辆型号：</td>
+                                                    <td class="td-value" vtext="vehicleModel">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车身颜色：</td>
+                                                    <td class="td-value" vtext="vehicleColor_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车牌特征：</td>
+                                                    <td class="td-value" vtext="plateNoFeature_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">遮阳板：</td>
+                                                    <td class="td-value" vtext="sunvisor_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">天窗：</td>
+                                                    <td class="td-value" vtext="skyWindow_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车脸特征：</td>
+                                                    <td class="td-value" vtext="motorFaceFeature_v">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">车身特征：</td>
+                                                    <td class="td-value" vtext="motorBodyFeature_v">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="table-box">
+                                            <table class="w-table pdlr2-box">
+                                                <tr class="w-table-hidden">
+                                                    <td class="td-name-width"></td>
+                                                    <td></td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="keyword-panel"  id='checkDiv'>
+                                        <div class="bz-title">研判信息</div>
+                                        <div class="table-box mgb10">
+                                            <table class="w-table pdlr2-box">
+                                                <tr class="w-table-hidden">
+                                                    <td class="td-name-width"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">信息点：</td>
+                                                    <td class="td-value" vtext="infoPointCnt"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">超时点：</td>
+                                                    <td class="td-value" vtext="overTimePointCnt"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name" >落脚点：</td>
+                                                    <td class="td-value" vtext="locationPointCnt">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name" >落脚点地址：</td>
+                                                    <td class="td-value"  vtext="locationAddr">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td-name">其他信息：</td>
+                                                    <td class="td-value" vtext="judgeInfo"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="full-screen" id="fullScreen">
+    <div class="full-bg"></div>
+    <img src="img/showfile.jpg" class="full-img" id="fullImg">
+    <span class="full-close" onclick="hideFull()" title="关闭"></span>
+</div>
+</body>
+</html>

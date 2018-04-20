@@ -1,0 +1,148 @@
+
+
+/*表格*/
+.datagrid-wrap{
+    border-color: #bdbdbd;
+}
+.datagrid-row-selected{
+    background:#d9e5fa ;
+    color: #333;
+}
+.datagrid-header{
+    background:#e5e8ec ;
+    border-color: #ccc;
+    filter:none;
+}
+.datagrid-htable .datagrid-header-row{
+    height: 35px;
+}
+.datagrid-btable .datagrid-row{
+    height: 30px;
+}
+.datagrid-btable{
+    color: #333;
+}
+.datagrid td{
+    border-style: solid;
+}
+.datagrid-pager{
+    border-color: #ccc;
+}
+
+
+/*输入框*/
+.textbox{
+    border-radius:0;
+    border-color:#a9a9a9;
+}
+
+/*弹窗*/
+
+.window{
+    padding: 0;
+    border-radius:0;
+    overflow:visible;
+    filter:none;
+    border:1px solid #D3D3D3;
+}
+.window .panel-header{
+    padding: 0;
+    background: #F1F1F1;
+    border-bottom:1px solid #D3D3D3;
+}
+.window .window-body{
+    border:none;
+    border-bottom:1px solid #D3D3D3;
+    overflow:visible;
+    position:relative;
+    z-index:100;
+}
+.dialog-button{
+    background: #F9F9F9;
+    top:0;
+    padding:10px;
+    border:none;
+    font-size:0;
+}
+.window-shadow{
+    filter:none;
+    visibility:hidden;
+}
+.window .panel-title{
+    height: 33px;
+    line-height: 33px;
+    padding-left:15px;
+    color: #888989;
+    font-weight:bold;
+}
+.window .window-header .panel-tool{
+    right: 10px;
+    margin-top:-8px;
+}
+.dialog-button .l-btn{
+    border-radius:0;
+    padding:0 6px;
+    margin:0 0 0 10px;
+    filter:none;
+}
+.l-btn:focus{
+    outline:none;
+}
+
+/*message弹窗样式*/
+
+.messager-body{
+    padding-top: 20px;
+    white-space:nowrap;
+}
+.messager-body > div{
+    display:inline-block;
+    vertical-align:middle;
+    width:200px;
+    white-space:normal;
+}
+.messager-body .messager-icon{
+    padding:0;
+    float:none;
+    margin:0 20px;
+    width:32px;
+}
+.messager-button .l-btn{
+    position:relative;
+    width:auto;
+    padding:0 6px 0 24px;
+}
+.messager-button .l-btn:before{
+    content:'';
+    display:block;
+    position:absolute;
+    width:16px;
+    height:16px;
+    background:url('../img/delete.png') center no-repeat;
+    top:50%;
+    left:6px;
+    margin-top:-8px;
+}
+.messager-button .l-btn:first-child:before{
+    background-image:url('../img/right.png');
+}
+
+.question-title{
+    height:100%;
+    box-sizing:border-box;
+    font-size:0;
+    padding:20px 0 0 20px;
+}
+.icon-question{
+    display: inline-block;
+    background: url("../img/question.png") center no-repeat;
+    width: 34px;
+    height: 34px;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+.startP-text{
+    vertical-align:middle;
+    font-size:12px;
+}
+

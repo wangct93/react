@@ -2,10 +2,10 @@
  * Created by Administrator on 2017/12/14.
  */
 
-var wt = require('../../modules/util');
-var mysql = require('../../modules/mysql');
-var bqg = require('./biquge');
-var ld = require('./lingdian');
+const wt = require('../../modules/util');
+const mysql = require('../../modules/mysql');
+const bqg = require('./biquge');
+const ld = require('./lingdian');
 module.exports = {
     getListAndTotal,        //获取小说列表
     getBookInfo,        //获取小说信息

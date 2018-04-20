@@ -2,23 +2,24 @@
  * Created by Administrator on 2018/1/3.
  */
 
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var path = require('path');
-var session = require('express-session');
-var config = require('../config/serverConfig.json');
-var wt = require('../modules/util.js');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const path = require('path');
+const session = require('express-session');
+const config = require('../modules/config');
+const wt = require('../modules/util.js');
+
+const funcRouter = require('../routers/base');
 
 
-
-var bookRouter = require('../routers/book');
+const bookRouter = require('../routers/book');
 // var blogRouter = require('../routers/blogReact');
 // var chatRouter = require('../routers/chat');
-let indexRouter = require('../routers/blog');
+const indexRouter = require('../routers/blog');
 
-var app = express();
-var port = config.port || 8888;
+const app = express();
+const port = config.port || 8888;
 
 
 /**
@@ -31,18 +32,16 @@ app.set('view engine','ejs');
  * 静态资源处理
  * @type {*|Array}
  */
-var staticName = config.staticName || [];
+let staticName = config.staticName || [];
 if(!wt.isArray(staticName)){
     staticName = [staticName];
 }
-staticName.forEach(function(name){
+staticName.forEach(name => {
     app.use('/' + name,express.static(name));
 });
-// app.use(multer({ dest: path.resolve(__dirname, 'static/img')}).single('f'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
 app.use(session({
     secret:'wangct',
     name:'ssid',
@@ -57,16 +56,23 @@ app.use(session({
 /***********************/
 app.use('/',(req,res,next) => {
     console.log('请求地址：' + req.url);
+    let headers = config.responseHeaders;
+    for(let name in headers){
+        if(headers.hasOwnProperty(name)){
+            res.setHeader(name,headers[name]);
+        }
+    }
     next();
 });
 
-app.use('/book',bookRouter);
+app.use('/',funcRouter);
+
 app.use('/',indexRouter);
+app.use('/book',bookRouter);
 
 app.get('/favicon.ico',(req,res) => {
     res.send(null);
 });
-
 
 app.listen(port,() =>{
     console.log('the server is started on port '+ port +'!');

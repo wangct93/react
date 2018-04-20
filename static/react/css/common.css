@@ -28,6 +28,7 @@ img {
 }
 a {
   color: inherit;
+  cursor: pointer;
 }
 .center-area {
   width: 1000px;
@@ -132,4 +133,21 @@ a {
 }
 .font20 {
   font-size: 20px;
+}
+.fit-height {
+  height: 100%;
+  box-sizing: border-box;
+}
+.fit-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+.fit {
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+}
+.lt0 {
+  left: 0;
+  top: 0;
 }

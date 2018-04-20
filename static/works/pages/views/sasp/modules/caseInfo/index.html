@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>案件详情</title>
+    <link href="../../../../../../util/plugins/easyui/themes/gray/easyui.css" rel="stylesheet">
+    <link href="../../../../../../util/plugins/easyui/themes/icon.css" rel="stylesheet">
+    <link href="../../css/new_easyui.css" rel="stylesheet">
+    <link href="../../../../../../util/css/common.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="../../../../../../util/js/util.js"></script>
+    <script src="../../../../../../util/plugins/require/require.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.min.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.easyui.min.js"></script>
+    <script src="../common/js/drawMarkEcharts.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="content" id="content">
+        <div class="header">
+            <div class="pinBox"></div>
+            <span class="header-title">案件详情</span>
+        </div>
+        <div class="body">
+            <div class="casename-box">
+                案件名称：<span class="casename" id="casename"></span>
+                <div class="btnbox">
+                    <a class="w-btn icon-edit2" id="editBtn" style="display:none;" onclick="openEdit()">修改</a>
+                    <a class="w-btn icon-vyp" onclick="openVideoYp()">视频研判</a>
+                </div>
+            </div>
+            <div class="view-box clearfix">
+                <div class="view-left fl">
+                    <div class="imgbox fit" id="viewImgBox">
+                        <img class="zoom-ele" onerror="imgErrorEvent.call(this);">
+                    </div>
+                    <div class="video-box fit" id="videoBox">
+                        <object id="player"  classid="CLSID:62CB3B7B-E727-4FEF-95CF-F51ABF0179A3"></object>
+                        <video controls></video>
+                    </div>
+
+                </div>
+                <div class="view-right fl" id="viewFjList">
+                    <div class="view-item">
+                        <div class="view-header">
+                            <span class="view-title view-img">图片（<span class="view-count"></span>）</span>
+                        </div>
+                        <ul class="view-list" id="viewImgList">
+
+                        </ul>
+                    </div>
+                    <div class="view-item">
+                        <div class="view-header">
+                            <span class="view-title view-video">视频（<span class="view-count"></span>）</span>
+                        </div>
+                        <ul class="view-list" id="viewVideoList">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="case-btnbox">
+                <a class="w-btn w-btn-noborder isxz" id="attention" onclick="addAttention()"></a>
+                <a class="w-btn icon-cb w-btn-noborder isxz" onclick="addToCB()">加入串并</a>
+                <a class="w-btn icon-bd w-btn-noborder isxz" onclick="addCompare2()">加入比对</a>
+                <a class="w-btn icon-xc w-btn-noborder isxz" onclick="addXC();">案件协查</a>
+                <a class="w-btn icon-br w-btn-noborder isxz" onclick="targetBRFunc()">目标辨认</a>
+                <a class="w-btn icon-download w-btn-noborder ismodify" onclick="downloadFJ()">下载附件</a>
+                <a class="w-btn icon-export  w-btn-noborder ismodify" onclick="exportWord()">导出视频查看记录</a>
+                <a class="w-btn icon-fw w-btn-noborder fr"><span id="readerTimers"></span>次访问</a>
+            </div>
+            <div class="hr20"></div>
+            <div class="info-box">
+                <div class="info-header">
+                    <ul class="info-tabs" id="tabsList">
+                        <li class="">案件信息</li>
+                        <li>研判信息</li>
+                        <li>轨迹分析</li>
+                        <li>串并信息</li>
+                        <li>人像比对</li>
+                        <li>车辆比对</li>
+                        <li>破案信息</li>
+                        <li>案件记录</li>
+                    </ul>
+                </div>
+                <div class="case-panels" id="panels">
+                    <div class="case-panel" type="caseInfo" id="caseInfo">
+                        <div class="pdtb20 caseinfo-box">
+                            <div class="detail-title">基本信息</div>
+                            <div class="detail-box">
+                                <table class="info-table">
+                                    <tr class="tr-hidden">
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">刑专案件档案：</td>
+                                        <td style="padding-right:0;"><span class="form-value hand-text" onclick="openXZ(caseInfo.OLDCASEID)" vtext = "OLDCASEID"></span></td>
+                                        <td class="td-name">现勘编号：</td>
+                                        <td colspan="3"><span class="form-value hand-text" onclick="openXK(caseInfo.OLDCASEID)" vtext = "XKBH"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">视频号：</td>
+                                        <td colspan="5"><span class="form-value" vtext = "CASEVIDEOID"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">案件名称：</td>
+                                        <td colspan="5"><span class="form-value" vtext = "CASENAME"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">案件类别：</td>
+                                        <td colspan="5"><span class="form-value" vtext = "CATEGORIES"></span><span class="form-value" vtext = "PARENTCATEGORIES" filter="caseTypeFilter"></span><span class="form-value" vtext = "CHILDCATEGORIES" filter="caseTypeFilter"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">案件状态：</td>
+                                        <td colspan="5"><span class="form-value" vtext = "CASEINFOSTATUS"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="detail-title">发案信息</div>
+                            <div class="detail-box">
+                                <table class="info-table">
+                                    <tr class="tr-hidden">
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">发案时段：</td>
+                                        <td colspan="5"><span class="form-value" vtext="STRCASETIME"></span>&nbsp;-&nbsp;<span class="form-value" id="REQCOMPLETETIMESTR"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">发案区划：</td>
+                                        <td><span class="form-value" vtext = "CASEAREA"></span></td>
+                                        <td class="td-name">发案区域：</td>
+                                        <td colspan="3"><span class="form-value" vtext = "CASEREGION"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">发案场所：</td>
+                                        <td><span class="form-value" vtext = "CASEHAPPENPLACE"></span></td>
+                                        <td class="td-name">手段特点：</td>
+                                        <td colspan="3"><span class="form-value" vtext = "CASEMEANS"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">发案地点：</td>
+                                        <td><span class="form-value" vtext = "CASEPLACE" setTitle></span></td>
+                                        <td class="td-name">经纬度：</td>
+                                        <td colspan="3">
+                                            <span class="form-value" id="LONGITUDE" vtext ="LONGITUDE" style="vertical-align:3px;" filter="posFilter"></span>，<span id="LATITUDE" class="form-value" filter="posFilter" vtext ="LATITUDE" style="vertical-align:3px;"></span>
+                                            <i class="icon-pos" title="获取当前经纬度坐标" onclick="openPosWin(this)"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">简要案情：</td>
+                                        <td colspan="5"><div class="multi-value form-value" vtext="CNT"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">受害人：</td>
+                                        <td><span class="form-value" vtext="INJUREDPERSON"></span></td>
+                                        <td class="td-name">受害人电话：</td>
+                                        <td colspan="3"><span class="form-value" vtext="INJUREDPERSONPHONE"></span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">报案人：</td>
+                                        <td><span class="form-value" vtext="CASUALTYXM"></span></td>
+                                        <td class="td-name">报案人电话：</td>
+                                        <td colspan="3"><span class="form-value" vtext="CASUALTYLXDH"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">立案时间：</td>
+                                        <td><span class="form-value" vtext="ESTABLISHDATE"></span></td>
+                                        <td class="td-name">立案单位：</td>
+                                        <td colspan="3"><span class="form-value" vtext="ESTABLISHORG"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="detail-title">录入信息</div>
+                            <div class="detail-box">
+                                <table class="info-table">
+                                    <tr class="tr-hidden">
+                                        <td class="td-name"></td>
+                                        <td style="width:214px"></td>
+                                        <td class="td-name"></td>
+                                        <td style="width:240px"></td>
+                                        <td class="td-name" style="width:70px"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">视频主侦人：</td>
+                                        <td><span class="form-value" vtext="CASEZBR"></span></td>
+                                        <td class="td-name">视频辅侦人：</td>
+                                        <td><span class="form-value" vtext="CASEFBR"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">录入人：</td>
+                                        <td><span class="form-value" vtext="USERNAME"></span></td>
+                                        <td class="td-name">录入单位：</td>
+                                        <td><span class="form-value" vtext="MANAGEDDEPTNAME"></span></td>
+                                        <td class="td-name">录入时间：</td>
+                                        <td><span class="form-value" vtext="CREATEDATESTR"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="ypInfo">
+                        <div class="pdtb20 yp-box">
+                            <div class="detail-title">综合信息</div>
+                            <div class="detail-box">
+                                <table class="info-table" id="ypTable">
+                                    <tr>
+                                        <td class="td-name">关联度：</td>
+                                        <td class="form-value" vtext="RELATELEVEL"></td>
+                                        <td class="td-name">关联理由：</td>
+                                        <td class="form-value" vtext="RELATEREASON"></td>
+                                        <td class="td-name">清晰度：</td>
+                                        <td class="form-value" vtext="CLEARLEVEL"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">密级：</td>
+                                        <td class="form-value" vtext="SECURITYLEVEL"></td>
+                                        <td class="td-name">轨迹数：</td>
+                                        <td class="form-value" vtext="trajectoryCount"></td>
+                                        <td class="td-name">作案人数：</td>
+                                        <td class="form-value" vtext="personNCount"></td>
+                                    </tr>
+                                    <tr class="empty-to-hide">
+                                        <td class="td-name">嫌疑人：</td>
+                                        <td class="form-value" vtext="personName"></td>
+                                        <td class="td-name">嫌疑车：</td>
+                                        <td class="form-value" colspan="3" vtext="vehicleName"></td>
+                                    </tr>
+                                    <tr class="empty-to-hide">
+                                        <td class="td-name multi-name">信息点：</td>
+                                        <td colspan="5"><div class="multi-value form-value" vtext="INFOPOINT"></div></td>
+                                    </tr>
+                                    <tr class="empty-to-hide">
+                                        <td class="td-name multi-name">超时点：</td>
+                                        <td colspan="5"><div class="multi-value form-value" vtext="OVERTIMEPOINT"></div></td>
+                                    </tr>
+                                    <tr class="empty-to-hide">
+                                        <td class="td-name multi-name">落脚点：</td>
+                                        <td colspan="5"><div class="multi-value form-value" vtext="LOCATIONPOINT"></div></td>
+                                    </tr>
+                                    <tr class="empty-to-hide">
+                                        <td class="td-name multi-name">落脚点地址：</td>
+                                        <td colspan="5"><div class="multi-value form-value" vtext="LOCATIONADDR"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">视侦工作小结：</td>
+                                        <td colspan="5">
+                                            <div class="multi-value" id="gzxj" vtext="MEMO"></div>
+                                            <textarea id="gzxjText" class="edit-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr class="empty-to-hide">
+                                        <td class="td-name multi-name">其他信息：</td>
+                                        <td colspan="5"><div class="multi-value form-value" vtext="JUDGEINFO"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">审核状态：</td>
+                                        <td><span id="shState"></span></td>
+                                        <td class="td-name">审核人：</td>
+                                        <td><span id="shUser"></span></td>
+                                        <td class="td-name">审核时间：</td>
+                                        <td><span id="shTime"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="detail-title">目标嫌疑人（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="ypPerson" type="1"></div>
+                            <div class="detail-title">目标嫌疑车（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="ypVehicle" type="2"></div>
+                            <div class="detail-title">过程图片（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="ypGc" type="7"></div>
+                            <div class="detail-title">数据文档（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="ypWord" type="4"></div>
+                            <div class="detail-title">未分类附件（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="ypWfl" type="wfl"></div>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="trajectory">
+                        <div class="trajectory-box">
+                            <iframe frameborder="0" id="trajectoryIframe"></iframe>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="cbInfo">
+                        <div class="placeholder-text">本案件暂无串并信息</div>
+                        <div class="pdtb20 cb-box" id="cbBox">
+                            <div class="detail-title" id="cbInfoTitle">串并信息</div>
+                            <!-- <div class="detail-box">
+                                <table class="info-table" id="cbTable">
+                                    <tr class="tr-hidden">
+                                        <td class="td-name"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">串并编号：</td>
+                                        <td class="form-value" vtext="MERGEBH"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">串并标题：</td>
+                                        <td class="form-value" vtext="MERGETITLE"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">串并人：</td>
+                                        <td vtext="MERGEPERSONNAME" class="form-value"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">串并单位：</td>
+                                        <td vtext="MERGEORGNAME" class="form-value"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">串并时间：</td>
+                                        <td vtext="MERGETIMESTR" class="form-value"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">简要情况：</td>
+                                        <td class=""><div vtext="DETAIL" class="multi-value form-value" ></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">串并依据：</td>
+                                        <td class=""><div vtext='MERGECONDITION' class="multi-value form-value"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">分析意见：</td>
+                                        <td class=""><div vtext='MERGEOPINION' class="multi-value form-value"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">备注：</td>
+                                        <td class=""><div vtext='DESCRIPTION' class="multi-value form-value"></div></td>
+                                    </tr>
+                                </table>
+                            </div> -->
+                            <div class="detail-title">串并列表</div>
+                            <div class="cb-caselist">
+                                <iframe id="cbIframe" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="rxk">
+                        <div class="rxk-box pdtb20">
+                            <div class="detail-title">人像照片（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="rxBox"></div>
+                            <div class="detail-title">人像串并比对照片（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="rxCbBox"></div>
+                            <div class="detail-title">人像比中照片（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="rxBzBox">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="clk">
+                        <div class="clk-box pdtb20">
+                            <div class="detail-title">车辆照片（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="clBox"></div>
+                            <div class="detail-title">车辆串并比对照片（<span class="view-count"></span>）</div>
+                            <div class="detail-box" id="clCbBox"></div>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="breakCase">
+                        <div class="pdtb20 breakcase-box">
+                            <div class="detail-title">
+                                破案信息
+                            </div>
+                            <div class="detail-box">
+                                <table class="info-table" id="breakCaseTable">
+                                    <tr>
+                                        <td class="td-name">案件状态：</td>
+                                        <td>
+                                            <span class="form-value" vtext="CASEINFOSTATUS"></span>
+                                            <span class="form-value hide" vtext="CASEINFOSTATUSCODE"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <!-- 					                    <td class="td-name">视侦民警：</td>
+                                                                                <td>
+                                                                                    <span class="form-value" vtext="CASEZBR"></span>
+                                                                                </td>
+                                         -->
+                                        <td class="td-name">破案单位：</td>
+                                        <td>
+                                            <span class="form-value" vtext="CASEBADW"></span>
+                                            <span class="form-value hide" vtext="CASEBADWCODE"></span>
+                                        </td>
+                                        <td class="td-name">破案时间：</td>
+                                        <td>
+                                            <span class="form-value" vtext="CLOSEDDATE"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">发挥作用：</td>
+                                        <td colspan="5">
+                                            <span class="form-value" vtext="EFFECT" filter="effectFilter"></span>
+                                            <span class="form-value hide" vtext="EFFECT"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">作用描述：</td>
+                                        <td colspan="5">
+                                            <div class="multi-value form-value" vtext="VIDEOEFFECTDESC" filter="videoEffectDescFilter"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">破案情况：</td>
+                                        <td colspan="5">
+                                            <div class="multi-value form-value" class="multi-value" vtext="CASESOLVE"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="info-table hide" id="breakEditTable">
+                                    <tr>
+                                        <td class="td-name">案件状态：</td>
+                                        <td>
+                                            <div class="editable-text">
+                                                <input class="table-input" inputtype="combotree" field="CASEINFOSTATUSCODE" type="text" id="ajztInput">
+                                            </div>
+                                        </td>
+                                        <td class="td-name"></td>
+                                        <td>
+                                        </td>
+                                        <td class="td-name"></td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <!--  <td class="td-name">视侦民警：</td>
+                                         <td>
+                                             <div class="editable-text">
+                                                 <input class="form-value table-input mgr5 table-input-mj" id="breakSpmj" field="CASEZBR" type="text">
+                                                 <a class="icon-addbtn" onclick="addUser();"></a>
+                                             </div>
+                                         </td> -->
+                                        <td class="td-name">破案单位：</td>
+                                        <td>
+                                            <div class="editable-text">
+                                                <input class="table-input" inputtype="combotree" field="CASEBADWCODE" type="text" id="padwInput">
+                                            </div>
+                                        </td>
+                                        <td class="td-name">破案时间：</td>
+                                        <td>
+                                            <div class="editable-text">
+                                                <input class="table-input" inputtype="datetimebox" field="CLOSEDDATE" type="text" id="pasjInput">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name">发挥作用：</td>
+                                        <td colspan="5">
+                                            <div class="editable-text" id="effectBox">
+                                                <a class="radio-text active" value="-1">未知</a>
+                                                <span class="sep-text">|</span>
+                                                <a class="radio-text" value="0">基础</a>
+                                                <span class="sep-text">|</span>
+                                                <a class="radio-text" value="1">重要</a>
+                                                <span class="sep-text">|</span>
+                                                <a class="radio-text" value="2">突破</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">作用描述：</td>
+                                        <td colspan="5">
+                                            <div class="editable-text" style="position:relative;padding:2px 26px 2px 2px;">
+                                                <div class="zyms-box" id="zymsShowBox"></div>
+                                                <i class="zyms-add-icon" onclick="addEffectMS()"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-name multi-name">破案情况：</td>
+                                        <td colspan="5">
+                                            <div class="editable-text" style="position:relative;padding:2px 26px 2px 2px;">
+                                                <textarea class="form-value table-textarea" field="CASESOLVE"></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="detail-title">人员信息</div>
+                            <div class="pa-nav-box" id="paNavBox">
+                                <span class="pa-nav-item" type="0">未归案人员（<span class="pa-count">0</span>）</span>
+                                <span class="pa-nav-item" type="1">已归案人员（<span class="pa-count">0</span>）</span>
+                            </div>
+                            <div class="pa-panel" id="paPanel"></div>
+                        </div>
+                    </div>
+                    <div class="case-panel" type="history">
+                        <div class="history-box">
+                            <!-- <iframe id="historyIframe" frameborder="0"></iframe> -->
+                            <table id="historyTable"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>涉案视频</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <link href="../../../../util/plugins/easyui/themes/icon.css" rel="stylesheet">
+    <link href="../../../../util/plugins/easyui/themes/gray/easyui.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/icon.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script src="../../../../util/plugins/easyui/jquery.min.js"></script>
+    <script src="../../../../util/plugins/easyui/jquery.easyui.min.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+<div class="scroll-box fit">
+	<div class="container no-left">
+	    <div class="header">
+            <div class="fl" id="header">
+
+            </div>
+            <div class="header-item header-item-noicon fr dropdown-box" id="pnameBox">
+                <span id="cname"></span>
+                <div class="dropdown-menu">
+                    <iframe scrolling="no" frameborder="0" style="width:117px;height:100%;border:none;position:absolute;z-index:-1;top:0;left:-1px;filter:Alpha(opacity=0);" src="about:blank"></iframe>
+                    <ul class="dropdown-list">
+                        <li onclick="openUserInfo()" class="vertical-center">
+                            <span class="dropdown-menu-item-icon icon-change"></span>
+                            <span class="dropdown-menu-item-text">信息修改</span>
+                        </li>
+                        <li onclick="logOut()" class="vertical-center">
+                            <span class="dropdown-menu-item-icon icon-back"></span>
+                            <span class="dropdown-menu-item-text">退出系统</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+	    	<div class="search-box fr hide" id="searchBox">
+	    		<input id="searchInput" class="search-input" type="text" placeholder="请输入关键词">
+	    		<i class="search-icon" id="searchBtn"></i>
+	    	</div>
+	    	<a class="icon-fullscreen fr" id="fullScreenBtn" title="全屏"></a>
+	    </div>
+	    <div class="fit inline-box">
+	    	<div class="left-box menuBox">
+	            <div class="menu-header" id="leftFitBtn"></div>
+	            <div class="fit">
+	                <div class="accordion-box" id="left">
+	                </div>
+	            </div>
+	        </div>
+	        <div class="right-box fit">
+			    <div class="center-header" id="centerMenu">
+			    	<div class="video-nav">
+			    		<div class="remind-box">
+				        	<span>工作提醒</span>
+				        	<span class="remain-count" id="remainCount">1</span>
+				        	<div class="remind-bg">
+				        		<div class="remind-main">
+					        		<p class="remind-text">
+					        			采录审核（<a class='notifymsg' href="javascript:void(0)" id="review_pic">0</a>）
+			    					</p>
+			    					<p class="remind-text">
+			    						串并审核（<a class='notifymsg' href="javascript:void(0)" id="review_merge">0</a>）
+			    					</p>
+			    					<p class="remind-text">
+					        			破案审核（<a class='notifymsg' href="javascript:void(0)" id="review_solve">0</a>）
+			    					</p>
+			    					<p class="remind-text">
+					        			人像审核（<a class='notifymsg' href="javascript:void(0)" id="review_person">0</a>）
+			    					</p>
+					        	</div>
+				        	</div>
+				        	
+				        </div>
+				        <div class="vnav-box"></div>
+			    	</div>
+			    	    	
+			        <div class="center-first-nav"></div>
+			        <div class="center-second-nav"></div>		        
+			    </div>
+			    <div id="frameBox" class="frameBox fit">
+			   	 	<div class="loading" id="loading"></div>       
+			    </div>
+			</div>
+	    </div>
+	</div>
+</div>
+<!-- 登录 -->
+	<div id="loginWin" class="login-fit">
+	    <div class="login">
+	        <div class="closeBtn" onclick="hideWin()" ></div>
+	        <form class="login-form">
+	            <div class="inputBox">
+	                <input type="text" id="username" name="username" placeholder="请输入用户名">
+	                <span class="input-icon icon-user"></span>
+	                <div class="input-close">
+	                	<i class="input-close-icon"></i>
+	                </div>
+	            </div>
+	            <div class="inputBox">
+	                <input type="password" id="password" name="password" placeholder="请输入密码">
+	                <span class="input-icon icon-password"></span>
+	                <div class="input-close">
+	                	<i class="input-close-icon"></i>
+	                </div>
+	            </div>
+	            <div class="btnBox">
+	                <a id="loginBtn" class="loginBtn mgr26" onclick="login()"></a>
+	                <a id="certloginBtn" class="loginBtn zLoginBtn" onclick="forwardLogin()"></a>
+	            </div>
+	        </form>
+	    </div>
+	    <div class="insulate"></div>
+	</div>
+</body>
+</html>

@@ -3,23 +3,52 @@
  */
 
 
-$(()=>{
-    $('#box').bind('paste',(e) => {
-        e = e.originalEvent;
-        clipboardData = e.clipboardData;
-        let item = clipboardData.items[0];
-        let a = clipboardData;
-        if (clipboardData && clipboardData.items[0].type.indexOf('image') > -1) {
-            var that = this,
-                reader =  new FileReader();
-            file = clipboardData.items[0].getAsFile();//读取e.clipboardData中的数据：Blob对象
 
-            reader.onload = function (e) { //reader读取完成后，xhr上传
-                console.log(reader.result);
+wt.DOMReady(() => {
+    $('#file').change(e => {
+        let files = e.target.files;
+        if(files.length){
+            let formData = new FormData();
+            for(let i = 0;i < files.length;i++){
+                formData.append(this.name + '_' + i,files[i]);
             }
-            reader.readAsDataURL(file);//获取base64编码
-        }else{
-            console.log(clipboardData.getData('text'));
+            $.ajax({
+                url:'/test',
+                type:'post',
+                data:formData,
+                processData:false,
+                contentType:false,
+                success(data){
+                    console.log(data);
+                },
+                error(err){
+                    console.log(err);
+                }
+            })
         }
+
     })
+    $.ajax({
+        url:'/test',
+        type:'post',
+        data:{
+            a:1
+        },
+        success(data){
+            console.log(data);
+        },
+        error(er){
+            console.log(er);
+        }
+    });
+
+
 });
+
+
+function aa(name){
+    name = 1;
+    console.log(arguments[0]);
+}
+
+aa(4);

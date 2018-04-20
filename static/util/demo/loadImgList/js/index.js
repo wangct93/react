@@ -3,14 +3,16 @@
  */
 
 
-var list;
-var loadImg = new wt.LoadImgList({
-    imgLoad:function(img){
-        console.log(111);
-    }
-});
-wt.DOMReady(function(){
-    list = wt.toArray(qsAll('.imgbox img'));
-    loadImg.add(list);
+
+
+$(() => {
+    var list = wt.toArray(qsAll('.imgbox img'));
+    var loadImg = new wt.LoadImgList({
+        imgLoad:function(img){
+            console.log(111);
+        },
+        list,
+        interval:3000
+    });
     loadImg.load();
-});
+})

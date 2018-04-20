@@ -1,0 +1,38 @@
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    border: 1px solid #ccc;
+}
+
+
+.bg-row{
+    display: flex;
+}
+.bg-cell{
+    height: 30px;
+    width: 30px;
+    background-color: #000;
+}
+
+.tcs-div{
+    background-color: #a6b1cc;
+}
+
+.food-div{
+    background-color: red;
+}
+
+.info-box{
+    padding: 20px;
+}
+
+.score-box,
+.alert-info{
+    margin-top: 20px;
+}
+

@@ -1,0 +1,164 @@
+/*比对窗口*/
+.compare-box{
+    position: fixed;
+    right: 0;
+    top:0;
+    z-index:11;
+    user-select:none;
+    display:none;
+}
+.compare-btn{
+    background: #3B5997 url('../img/c_right.png') 28px center no-repeat;
+    width: 14px;
+    line-height: 16px;
+    white-space:normal;
+    font-size: 12px;
+    color: #fff;
+    padding: 10px 16px 10px 10px;
+    cursor: pointer;
+    position:relative;
+    z-index:99;
+}
+.compare-count{
+    position:absolute;
+    right:0;
+    top:2px;
+    display:inline-block;
+    text-align:center;
+    width:21px;
+    height:13px;
+    line-height:13px;
+    line-height: 15px\9;
+    color:#fff;
+    background:url('../img/roung_bg.png') center no-repeat;
+}
+.compare-show > .compare-btn{
+    background-image:url('../img/c_left.png')
+}
+.compare-body{
+    position: absolute;
+    top: 0;
+    left:0;
+    margin-right: 34px;
+    width: 370px;
+    border: 1px solid #ddd;
+    display: none;
+    background-color:#fff;
+    z-index:98;
+    opacity:0;
+    filter:Alpha(opacity=0);
+}
+.compare-show >  .compare-body{
+    display: block;
+}
+.compare-title{
+    font-size: 14px;
+    color: #000;
+    font-weight: bold;
+    height: 28px;
+    line-height: 28px;
+    line-height: 30px\9;
+    border-bottom: 1px solid #ddd;
+    padding-left: 10px;
+    background-color: #E0E0E0;
+}
+.compare-list,
+.compare-recommond{
+    max-height:284px;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+.compare-recommond{
+    max-height:160px;
+}
+.compare-btnbox{
+    padding: 5px 10px;
+    border-top: 1px solid #ddd;
+}
+.compare-item{
+    border-top: 1px dashed #ddd;
+    padding: 5px 10px;
+}
+.compare-item:first-child{
+    border-top: none;
+}
+.compare-item > .fit{
+    padding:0 90px 0 10px;
+    margin-right: -80px;
+}
+.compare-imgbox{
+    width: 60px;
+    height: 60px;
+}
+.compare-imgbox > img{
+    width: 100%;
+    height: 100%;
+}
+.compare-text{
+    line-height: 20px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.hand-text{
+    color:#0D52F8;
+    cursor:pointer;
+}
+.hand-text:hover{
+    text-decoration:underline;
+}
+.compare-remove{
+    width: 20px;
+    height: 20px;
+    background: url('../img/close.png') center no-repeat;
+    cursor: pointer;
+}
+.compare-remove:hover{
+    background-color: #f1f1f1;
+}
+.compare-btnbox > .w-btn{
+    /* background-color:#335fc0; */
+    background-color:#f70;
+    color:#fff;
+    border-color:#cc5f00;
+}
+.compare-btnbox > .w-btn:hover{
+    /* background-color:#4b7aec; */
+    background-color:#f90;
+}
+.compare-clear{
+    font-size: 12px;
+    line-height: 26px;
+    cursor: pointer;
+}
+.compare-clear:hover{
+    text-decoration:underline;
+}
+.compare-pagin{
+    height: 30px;
+    border-top: 1px solid #ddd;
+}
+.compare-pagin > table{
+    float: right;
+}
+.compare-recommond .fit{
+    padding-right:140px;
+    margin-right: -130px;
+}
+.compare-recommond .w-btn{
+    margin: 17px 0 0 0;
+    background-image:url('../img/add.png');
+}
+.compare-recommond .disabled{
+    background: #eee;
+    cursor: default;
+    padding:0 14px;
+    color:#ccc;
+}
+.compare-recommond .disabled:hover{
+    border-color:#d3d3d3;
+}
+.inline-box > div{
+    display:inline-block;
+    vertical-align:top;
+}

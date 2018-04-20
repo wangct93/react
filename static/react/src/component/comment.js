@@ -30,7 +30,7 @@ export default class Comment extends Component{
                 }
             </ul>
             <div className="reply-box">
-                <div className="input-box" ref="input" contentEditable={true}></div>
+                <div className="input-box" ref="input" contentEditable={true}/>
                 <div className="reply-btn-box">
                     <a className="reply-btn" onClick={this.submit.bind(this)}>评论</a>
                 </div>
@@ -115,14 +115,14 @@ class Item extends Component{
             <div className="content">{content}</div>
             <div className="actions">
                 <a className="c-btn text-btn" onClick={changeReplyState.bind(this)}>
-                    <i className="iconfont icon-arrow-top"></i>
+                    <i className="iconfont icon-arrow-top"/>
                     <span>回复</span>
                 </a>
             </div>
             <div className="reply-box" style={{
                 display:reply ? 'block' : 'none'
             }}>
-                <div className="input-box" ref="input" contentEditable={true}></div>
+                <div className="input-box" ref="input" contentEditable={true}/>
                 <div className="reply-btn-box">
                     <a className="text-btn" onClick={changeReplyState.bind(this)}>取消</a>
                     <a className="reply-btn" onClick={submit.bind(this)}>评论</a>

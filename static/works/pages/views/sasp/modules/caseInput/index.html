@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link href="../../../../../../util/plugins/easyui/themes/default/easyui.css" rel="stylesheet">
+    <link href="../../../../../../util/plugins/easyui/themes/icon.css" rel="stylesheet">
+    <link href="font/iconfont.css" rel="stylesheet" >
+    <link href="../../../../../../util/css/common.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="../../../../../../util/js/util.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.min.js"></script>
+    <script src="../../../../../../util/plugins/easyui/jquery.easyui.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="content">
+        <ul class="nav-list" id="navList">
+            <li>1 录入信息</li>
+            <li>2 上传附件</li>
+            <li>3 目标分类</li>
+            <li>4 结构化标注</li>
+            <li>5 条件设置</li>
+            <li>6 小结与封面</li>
+            <li>7 发布</li>
+        </ul>
+        <div class="w-panel-box" id="panelBox">
+            <div class="w-panel info-panel">
+                <div class="title">基本信息</div>
+                <div class="info-box">
+                    <table class="info-table">
+                        <tr class="tr-hidden">
+                            <td class="td-name"></td>
+                            <td class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>案件编号</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>案件名称</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>信息类别</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>案件类别</td>
+                            <td class="td-value">
+                                <input type="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>案件状态</td>
+                            <td class="td-value">
+                                <input type="text"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="title">发案信息</div>
+                <div class="info-box">
+                    <table class="info-table">
+                        <tr class="tr-hidden">
+                            <td class="td-name"></td>
+                            <td class="td-value"></td>
+                            <td class="td-name"></td>
+                            <td class="td-value"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>发案时段</td>
+                            <td class="td-value" colspan="3">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>发案区划</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                            <td class="td-name"><span class="color-red">*</span>发案区域</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>发案场所</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                            <td class="td-name"><span class="color-red">*</span>发案手段</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>发案地点</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                            <td class="td-name"><span class="color-red">*</span>经纬度</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>简要案情 </td>
+                            <td class="td-value" colspan="3">
+                                <textarea class="td-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>受害人</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                            <td class="td-name"><span class="color-red">*</span>受害人电话</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>报案人</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                            <td class="td-name"><span class="color-red">*</span>报案人电话</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-name"><span class="color-red">*</span>立案时间</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                            <td class="td-name"><span class="color-red">*</span>立案单位</td>
+                            <td class="td-value">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="w-panel upload-panel">
+                <ul class="fj-list" id="uploadFjList"></ul>
+                <div class="btn-box">
+                    <a class="w-btn w-btn-noicon" id="uploadBtn">继续上传</a>
+                    <input multiple type="file" name="file" class="hide" id="uploadInput" />
+                </div>
+            </div>
+            <div class="w-panel classify-panel" func="initClassify" id="classIfyPanel">
+                <div class="title">
+                    <span class="title-text">图片列表</span>
+                    <div class="btn-box">
+                        <a class="w-btn">反选</a>
+                        <a class="w-btn">全选</a>
+                        <a class="w-btn">重置</a>
+                    </div>
+                </div>
+                <div class="fj-box">
+                    <ul class="fj-list" id="imgFjList"></ul>
+                </div>
+                <div class="title">
+                    <span>视频列表</span>
+                </div>
+                <div class="fj-box">
+                    <ul class="fj-list" id="videoFjList"></ul>
+                </div>
+                <div class="alert-info">
+                    <div class="alert-info-content">
+                        <i class="iconfont icon-cha"></i>
+                        <span>将附件拖动至下面指定区域进行分类</span>
+                    </div>
+                </div>
+                <ul class="drop-list" id="dropList">
+                    <li type="1">
+                        <div class="iconfont-box">
+                            <i class="iconfont icon-zuobiaofill"></i>
+                        </div>
+                        <span class="drop-num"></span>
+                        <p>目标嫌疑人</p>
+                    </li>
+                    <li type="2">
+                        <div class="iconfont-box">
+                            <i class="iconfont icon-zuobiaofill"></i>
+                        </div>
+                        <span class="drop-num"></span>
+                        <p>目标嫌疑车</p>
+                    </li>
+                    <li type="3">
+                        <div class="iconfont-box">
+                            <i class="iconfont icon-zuobiaofill"></i>
+                        </div>
+                        <span class="drop-num"></span>
+                        <p>视频片段</p>
+                    </li>
+                    <li type="4">
+                        <div class="iconfont-box">
+                            <i class="iconfont icon-zuobiaofill"></i>
+                        </div>
+                        <span class="drop-num"></span>
+                        <p>过程图片</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-panel">
+                <div class="bz-btn">
+                    <img src="img/bz_btn.jpg">
+                </div>
+            </div>
+            <div class="w-panel config-panel">
+                <div class="title">
+                    <span>清晰度（针对整个案件图片）</span>
+                </div>
+                <div class="config-box">
+                    <div class="config-item">清晰唯一可辨</div>
+                    <div class="config-item">清晰唯一不可辨</div>
+                    <div class="config-item">模糊</div>
+                </div>
+                <div class="title">
+                    <span>关联度（案件图片与嫌疑人的关联程度）</span>
+                </div>
+                <div class="config-box">
+                    <div class="config-item">确定关联</div>
+                    <div class="config-item">可能关联</div>
+                    <div class="config-item">其他</div>
+                </div>
+                <div class="title">
+                    <span>公开范围（保密：7天自动解锁）</span>
+                </div>
+                <div class="config-box">
+                    <div class="config-item">公开</div>
+                    <div class="config-item">保密</div>
+                </div>
+            </div>
+            <div class="w-panel">
+                <div class="title">
+                    <span>设置封面</span>
+                </div>
+                <div class="fm-box">
+                    <ul class="fj-list" id="fmFjList"></ul>
+                </div>
+                <div class="title">
+                    <span>视侦工作小结</span>
+                </div>
+                <div class="fm-textarea-box">
+                    <textarea></textarea>
+                </div>
+            </div>
+            <div class="w-panel">
+
+            </div>
+        </div>
+    </div>
+    <div class="footer" id="footer">
+        <a class="w-btn w-btn-noicon hide" sep="-1">上一步</a>
+        <a class="w-btn w-btn-noicon" sep="1">下一步</a>
+        <a class="w-btn w-btn-noicon fabu-btn hide" toIndex="6">发布</a>
+    </div>
+</div>
+</body>
+</html>

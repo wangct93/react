@@ -1,0 +1,31 @@
+{
+  "index":"static/book/index.html",
+  "noSessionUrls":["/","/login"],
+  "cloud":{
+    "AppId": "1256164624",
+    "SecretId": "AKIDlLm23q0hlbCZjhywCE0Wnoa6uUs6oqQs",
+    "SecretKey": "MTLxINDm5B4h39zZuymLfjeKkuoSqyqS",
+    "Bucket":"ycc",
+    "Region":"ap-beijing"
+  },
+  "port":8000,
+  "staticName":"static",
+  "cryPtoKey":"wangct",
+  "nosql":true,
+  "mysql":{
+    "host":"localhost",
+    "port":"3306",
+    "user":"root",
+    "password":"123456",
+    "database":"library"
+  },
+  "mongodb":{
+    "db":"wang"
+  },
+  "responseHeaders":{
+    "Access-Control-Allow-Origin":"*",
+    "content-type":"text/plain;charset=utf-8"
+  },
+  "allowAddress":"172.16.66.14",
+  "uploadDir":"static/img"
+}

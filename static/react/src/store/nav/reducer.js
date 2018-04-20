@@ -14,6 +14,10 @@ let defaultState = {
         {
             title:'博客',
             path:'/blog'
+        },
+        {
+            title:'作品',
+            path:'/works'
         }
     ]
 };

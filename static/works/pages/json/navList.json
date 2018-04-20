@@ -1,0 +1,22 @@
+[
+  {
+    "name":"1",
+    "url":"views/sasp/index.html"
+  },
+  {
+    "name":"2",
+    "url":"views/sasp/modules/caseInfo/index.html"
+  },
+  {
+    "name":"3",
+    "url":"views/sasp/modules/videoJudge/index.html"
+  },
+  {
+    "name":"4",
+    "url":"views/sasp/modules/caseCompare/index.html"
+  },
+  {
+    "name":"5",
+    "url":"views/sasp/modules/caseInput/index.html"
+  }
+]

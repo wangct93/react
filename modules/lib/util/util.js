@@ -107,7 +107,7 @@ function extend() {
         deep = target;
         target = arguments[i++] || {};
     }
-    if(!(isPlainObj(target) || isArray(target))){
+    if(isUndefined(target) || isNumber(target) || isString(target) || isBoolean(target)){
         target = {};
     }
     for(;i < length;i++){
@@ -202,19 +202,21 @@ class Queue{
             limit:1,
             interval:10,
             _runCount:0,
+            list:[],
             result:[],
             getItem(){
-                let {list = []} = this;
+                let {list} = this;
                 return list.shift();
             },
             check(item){
-                return item != null;
+                return item !== undefined;
             }
         };
         extend(this,defaultOption,option);
     }
     start(){
-        for(let i = this._runCount;i < this.limit;i++){
+        let {_runCount,limit} = this;
+        for(let i = _runCount;i < limit;i++){
             this._runCount++;
             this._exec();
         }
@@ -222,7 +224,7 @@ class Queue{
     _exec(){
         let item = this.getItem();
         execFunc.call(this,this.next);
-        if(item == null){
+        if(item === undefined){
             this._runCount--;
             if(this._runCount === 0){
                 execFunc.call(this,this.success,this.result);
@@ -237,6 +239,12 @@ class Queue{
         }else{
             this._exec();
         }
+    }
+    addItem(items){
+        if(!isArray(items)){
+            items = [items];
+        }
+        this.list.push(...items);
     }
 }
 
@@ -280,11 +288,12 @@ function Promise(fn){
  * 等所有promise异步执行后调用回调
  * @returns {Promise}
  */
-Promise.all = function(){
-    var ary = [];
-    for(var i = 0,len = arguments.length;i < len;i++){
-        ary.push(arguments[i]);
-    }
+Promise.all = function(ary){
+    // var ary = [];
+    // for(var i = 0,len = arguments.length;i < len;i++){
+    //     ary.push(arguments[i]);
+    // }
+    var len = ary.length;
     return new Promise(function(cb){
         var result = [];
         var getFunc = function(promise,index){
@@ -352,6 +361,7 @@ function execFunc(){
         return fn.apply(this,ary);
     }
 }
+
 //将类数组对象转化为数组
 function toArray(nodeList){
     if(nodeList instanceof Array){
