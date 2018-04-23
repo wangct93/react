@@ -12,6 +12,9 @@ const wt = require('../modules/util');
 const cloud = require('../modules/cloud');
 const formidable = require('formidable');
 const iconv = require('iconv-lite');
+const mime = require('mime');
+const config = require('../modules/config');
+const cloudConfig = config.cloud;
 
 module.exports = router;
 
@@ -35,6 +38,61 @@ router.get('/loadRemote',(req,res) => {
     });
 });
 
+/**
+ * 解决浏览器跨域加载数据
+ */
+router.post('/imageOCR',(req,res) => {
+    let {headers} = req;
+    let contentType = headers['content-type'].split(';')[0];
+    let {AppId,wxBucket,SecretID} = cloudConfig;
+    let authorization = `a=${AppId}&b=${wxBucket}&k=${SecretID}&e=0&t=[currentTime]&r=${+new Date()}&u=0&f=123`;
+
+    if(contentType === 'multipart/form-data'){
+        let form = formidable.IncomingForm();
+        form.uploadDir = path.resolve(__dirname,'../temp');
+        form.parse(req,(err,fields,files) => {
+
+        });
+    }else{
+        let {url} = req.body;
+
+        request({
+            url:'http://recognition.image.myqcloud.com/ocr/general',
+            method:'post',
+            headers:{
+
+            },
+            form:{
+                appid:AppId,
+                bucket:wxBucket,
+                url
+            }
+        },(err,qres,data) => {
+
+        });
+    }
+});
+
+/**
+ * 下载本地或远程文件
+ */
+router.get('/downloadFile',(req,res) => {
+    let {query} = req;
+    let filePath = query.path;
+    let fileName = path.basename(filePath);
+    if(/^http/.test(filePath)){
+        let fileType = mime.lookup(filePath);
+        res.header('content-type',fileType);
+        res.header('Content-Disposition','attachment;filename=' + fileName);
+        request(filePath).pipe(res);
+    }else{
+        res.download(filePath,fileName);
+    }
+});
+
+/**
+ * 上传文件到云端
+ */
 router.post('/uploadFileToCloud',(req,res) => {
     let form = formidable.IncomingForm();
     form.uploadDir = path.resolve(__dirname,'../temp');

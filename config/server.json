@@ -6,7 +6,8 @@
     "SecretId": "AKIDlLm23q0hlbCZjhywCE0Wnoa6uUs6oqQs",
     "SecretKey": "MTLxINDm5B4h39zZuymLfjeKkuoSqyqS",
     "Bucket":"ycc",
-    "Region":"ap-beijing"
+    "Region":"ap-beijing",
+    "wxBucket":"ocr"
   },
   "port":8000,
   "staticName":"static",
