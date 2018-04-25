@@ -567,38 +567,6 @@ var map = {
                             SOCIETYCOUNT:Math.floor(Math.random() * max)
                         };
                     }
-                    // $.ajax({
-                    //     url:'/appCase/cameraAction!getVideoCount.do',
-                    //     type:'post',
-                    //     async:false,
-                    //     data:{
-                    //         areaCode:data.code
-                    //     },
-                    //     success:function(ajaxData){
-                    //         var config = {
-                    //             510181:1118,
-                    //             510131:271,
-                    //             510183:392,
-                    //             5101:1781
-                    //         };
-                    //         var xlCount = config[data.code];
-                    //         if(xlCount){
-                    //             wt.extend(ajaxData,{
-                    //                 WHITECOUNT:xlCount,
-                    //                 TOTALCOUNT:data.TWCOUNT + xlCount + data.SUBWAYCOUNT + data.SOCIETYCOUNT
-                    //             });
-                    //         }
-                    //         spData = ajaxData;
-                    //     },
-                    //     error:function(){
-                    //         spData = {
-                    //             TWCOUNT:0,
-                    //             WHITECOUNT:0,
-                    //             SUBWAYCOUNT:0,
-                    //             SOCIETYCOUNT:0
-                    //         }
-                    //     }
-                    // });
                     return '<div style="position:relative;z-index:1;padding:10px 20px;color: #fff;font-size: 14px;line-height:24px;"><div class="tooltip-bg fit"></div><div style="text-align:center">' + data.name + '</div><div>天网视频：'+ areaSpData.TWCOUNT +'</div>' + '<div>雪亮视频：'+ areaSpData.WHITECOUNT +'</div>' + '<div>地铁视频：'+ areaSpData.SUBWAYCOUNT +'</div>' + '<div>社会视频：'+ areaSpData.SOCIETYCOUNT +'</div></div>';
                 }
             }

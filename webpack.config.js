@@ -5,8 +5,8 @@ let path = require('path');
 let webpack = require('webpack');
 
 
-// let src = 'react/src/index.js';
-let src = 'works/echarts/src/index.js';
+let src = 'react/src/index.js';
+// let src = 'works/echarts/src/index.js';
 // let src = 'react/pages/novel/src/index.js';
 
 

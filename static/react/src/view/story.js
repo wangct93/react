@@ -63,7 +63,7 @@ const ViewNav = ({list}) => {
     return <nav className="view-btn-list">
         {
             list.map(({path,iconCls},i) => {
-                return <NavLink key={i} to={path}><i className={`iconfont ${iconCls}`}></i></NavLink>
+                return <NavLink key={i} to={path}><i className={`iconfont ${iconCls}`}/></NavLink>
             })
         }
     </nav>
